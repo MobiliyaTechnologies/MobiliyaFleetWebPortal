@@ -1,0 +1,456 @@
+<div>
+    <div class="container-fluid">
+        <ngx-loading [show]="loading"></ngx-loading>
+        <div class="row">
+            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 color-3-class">
+                <div class="padding-10 ">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-7 col-xl-7 col-lg-7">
+                            <div class="font-bold">{{selectedFilter.roleName}}</div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="float-right ">
+                                    <div [matMenuTriggerFor]="filter">
+                                        <img class="cursorClass" src="./assets/images/filter.png" matTooltip="Filter User By Role">
+                                    </div>
+                                    <mat-menu #filter="matMenu">
+                                            <div class="font-bold">
+                                                Filter By
+                                            </div>
+                                            <div class="cursorClass" (click)="filterUser({'roleName':'All users','roleId':-1})">
+                                                All Users
+                                            </div>
+                                            <div class="cursorClass" *ngFor="let r of roles" (click)="filterUser(r);">
+                                                {{ r.roleName }}
+                                            </div>
+                                    </mat-menu>
+                                </div>
+                            <div class="float-right">
+                                    <img class="cursorClass mr-10" src="/assets/images/add.png" matTooltip="Add User" (click)="addUserStart()"/>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="common-margin-top row">
+                        <input id="search" name="search" value="search" class="form-control search-box" placeholder="Search" [(ngModel)]="model.searchCriteria" style="text-transform: lowercase;">
+                    </div>
+                    <div class="row v-scroll-class" id="style-scroll">
+                        <div class="col-sm-12" [ngClass]="(selectedUser == 'home'? 'selected-nav-item' : 'nav-item')">
+                            <div class="row common-margin-top common-user-block" *ngFor="let item of userList | roleFilter:selectedFilter | searchUserFilter:model.searchCriteria" (click)="selectedItemForClass=item; getUserDetails(item.id);" [ngClass]="(selectedItemForClass===item)?'selected-user-class':'common-user-class'">
+                                <div class="col-sm-12">
+                                    <div class="cursorClass">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="circle-margin">
+                                                    <div id="circle2" class="circle" name="circle">
+                                                        <div class="circle-text">
+                                                            {{item.firstName.charAt(0).toUpperCase()}}{{item.lastName.charAt(0).toUpperCase()}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-9 user-name-padding">
+                                                <div>
+                                                    {{item.firstName}}&nbsp;{{item.lastName}}
+                                                </div>
+                                                <div class="field-label-class role-name-class" *ngIf="item.roleName">
+                                                    {{item.roleName}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               </div> 
+            </div>
+            <div class="col-sm-9 col-md-9 col-xl-9 col-lg-9 color-9-class">
+                <div *ngIf="!addForm">
+                    <div class="padding-10 user-details-view" style=" background:#ffffff;" *ngIf="selectedItem">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div id="circle2" class="circle2" name="circle2">
+                                            <div class="circle-text" *ngIf="selectedItem.firstName">
+                                                {{selectedItem.firstName.charAt(0).toUpperCase()}}{{selectedItem.lastName.charAt(0).toUpperCase()}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="font-bold common-margin-top"> {{selectedItem.firstName}}&nbsp;{{selectedItem.lastName}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" *ngIf="!editForm"></div>
+                            <div class="col-sm-2" *ngIf="!editForm">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <img class="cursorClass" [ngClass]="(userList.length<=0? ['disabled'] : '')" src="/assets/images/edit.png" matTooltip="Edit User" (click)="editForm=true; startEdit();" />
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <img class="cursorClass" [ngClass]="(userList.length<=0? ['disabled'] : '')" src="/assets/images/delete.png" matTooltip="Delete User" (click)="openModal(template1)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" *ngIf="editForm">
+                                <button mat-raised-button (click)="saveUser();" class="ml-10 float-right mat-elevation-z4 common-btn-class theme-button">
+                                    Save
+                                </button>
+                                <button mat-raised-button (click)="cancelEdit();" class="float-right mat-elevation-z4 common-btn-class">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div *ngIf="!editForm">
+                            <div class="padding-10">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                Name
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 ">
+                                                {{selectedItem.firstName}}&nbsp;{{selectedItem.lastName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                Email Id
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.email}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                Role
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="selectedItem.roleName">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.roleName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="padding-10">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                Mobile Number
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.mobileNumber}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" >
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                No. of Fleets
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.fleetCount}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" >
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                No. of Vehicles
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.vehicleCount}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="padding-10" *ngIf="selectedItem.roleId===driverRoleId">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                License Number
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.licenseNumber}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit form section-->
+                        <div *ngIf="editForm">
+                            <div class="padding-10">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-md-12 col-xl-12 col-lg-12 floatCenter">
+                                                <mat-form-field class="">
+                                                    <input matInput placeholder="Name" [(ngModel)]="selectedItem.name" [formControl]="name" required>
+                                                    <mat-error *ngIf="name.invalid">{{getErrorMessage('name',selectedItem.name)}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <input class='non-editable' matInput placeholder="Email Id" [(ngModel)]="selectedItem.email" [formControl]="email" readonly required>
+                                                    <mat-error *ngIf="email.invalid">{{getErrorMessage('email',selectedItem.name)}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                Role
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="selectedItem.roleName">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.roleName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="padding-10">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <input matInput placeholder="Mobile Number" minlength="10" maxlength="13" [(ngModel)]="selectedItem.mobileNumber"  [formControl]="mobileNumber" required>
+                                                    <mat-error *ngIf="mobileNumber.invalid">{{getErrorMessage('mobilenumber',selectedItem.name)}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" *ngIf="selectedItem.fleetCount">
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                No. of Fleets
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.fleetCount}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" *ngIf="selectedItem.vehicleCount">
+                                        <div class="row">
+                                            <div class="col-sm-12 field-label-class">
+                                                No. of Vehicles
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                {{selectedItem.vehicleCount}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="addForm">
+                    <div class="padding-10 user-details-view" style=" background:#ffffff;" *ngIf="selectedItem">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="font-bold add-user-label"> Add New User</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-sm-6"></div> -->
+                            <div class="col-sm-6">
+                                <button  mat-raised-button (click)="addUser(); " class="ml-10 float-right mat-elevation-z4 common-btn-class theme-button">
+                                    Add
+                                </button>
+                                <button  mat-raised-button (click)="cancelAdd();" class="float-right mat-elevation-z4 common-btn-class">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <form #addFormComp="ngForm">
+                            <div class="padding-10">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-md-12 col-xl-12 col-lg-12 floatCenter">
+                                                <mat-form-field class="">
+                                                    <input matInput placeholder="Name" [(ngModel)]="addUserModel.name" name="name" [formControl]="name" required>
+                                                    <mat-error *ngIf="name.invalid">{{getErrorMessage('name',selectedItem.name)}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <input matInput placeholder="Email Id" [(ngModel)]="addUserModel.email" name="email" [formControl]="email"  required>
+                                                    <mat-error *ngIf="email.invalid">{{getErrorMessage('email',selectedItem.name)}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field>
+                                                    <mat-select [(ngModel)]="addUserModel.roleId" name="roleName" [formControl]="roleName" placeholder="Role Name" required>
+                                                        <mat-option *ngFor="let r of roles" [value]="r.id" >
+                                                            {{ r.roleName }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="roleName.invalid">{{getErrorMessage('roleName',"")}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="padding-10">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <input matInput placeholder="Mobile Number" name="mobileNumber"  minLength="10" maxlength="13" [formControl]="mobileNumber" [(ngModel)]="addUserModel.mobileNumber" required>
+                                                    <mat-error *ngIf="mobileNumber.invalid">{{getErrorMessage('mobilenumber',selectedItem.name)}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="col-sm-4" *ngIf="currentRole.toLowerCase()==='super admin' &&addUserModel.roleId===tenantRoleId">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <input matInput placeholder="Company Name" name="tenantCompanyName" [formControl]="tenantCompanyName" [(ngModel)]="addUserModel.tenantCompanyName" required>
+                                                    <mat-error *ngIf="tenantCompanyName.invalid">{{getErrorMessage('tenantCompanyName',selectedItem.name)}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="col-sm-4" *ngIf="currentRole.toLowerCase()==='super admin' && addUserModel.roleId!=tenantRoleId && addUserModel.roleId!=fleetRoleId">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <mat-select [(ngModel)]="addUserModel.tenantId"  [formControl]="tenantCompanyName" name="tenantCompanyName" placeholder="Select Tenant" required>
+                                                        <mat-option *ngFor="let tenant of tenantUserList " [value]="tenant.tenantId">
+                                                            {{ tenant.firstName}}&nbsp;{{tenant.lastName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="!(!tenantUserList ||  tenantUserList.length<=0) &&tenantCompanyName.invalid">{{getErrorMessage('tenantCompanyName',"")}}</mat-error>
+                                                </mat-form-field>
+                                                <label class="mat-error custom-error" *ngIf="!tenantUserList ||  tenantUserList.length<=0">No tenant available</label> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" *ngIf="currentRole.toLowerCase()==='super admin' && addUserModel.roleId==fleetRoleId">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <mat-select [(ngModel)]="addUserModel.tenantId" (change)="getFleetList(addUserModel.tenantId)" [formControl]="tenantCompanyName" name="tenantCompanyName" placeholder="Select Tenant" required>
+                                                        <mat-option *ngFor="let tenant of tenantUserList " [value]="tenant.tenantId">
+                                                            {{ tenant.firstName}}&nbsp;{{tenant.lastName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="tenantCompanyName.invalid">{{getErrorMessage('tenantCompanyName',"")}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="col-sm-4" *ngIf="addUserModel.roleId==driverRoleId && (currentUserInfo && (currentUserInfo.currentRole.toLowerCase()=='super admin'||currentUserInfo.currentRole.toLowerCase()=='tenant admin'))">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <mat-select [(ngModel)]="addUserModel.fleetId" (change)="filterVehicles(addUserModel.fleetId)" [formControl]="tenantFleetName" name="tenantFleetName" placeholder="Select Fleet" required>
+                                                        <mat-option *ngFor="let fleet of fleetList " [value]="fleet.id">
+                                                            {{ fleet.fleetName}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="!(!fleetList ||  fleetList.length<=0)&&tenantFleetName.invalid">{{getErrorMessage('tenantFleetName',"")}}</mat-error>
+                                                </mat-form-field>
+                                                <label class="mat-error custom-error" *ngIf="!fleetList ||  fleetList.length<=0">No fleet available</label>    
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="col-sm-4" *ngIf="addUserModel.roleId===driverRoleId" [ngClass]="(addUserModel.roleId==driverRoleId && (currentUserInfo && (currentUserInfo.currentRole.toLowerCase()=='super admin'||currentUserInfo.currentRole.toLowerCase()=='tenant admin')))?'' :''">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <mat-select [(ngModel)]="addUserModel.vehicleId" name="vehicleName" placeholder="Vehicle Name">
+                                                        <mat-option *ngFor="let v of vehicleList" [value]="v.id">
+                                                                &nbsp;&nbsp;{{v.brandName}}&nbsp;{{v.model}}({{v.registrationNumber}})
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <label class="mat-error custom-error" *ngIf="!vehicleList ||  vehicleList.length<=0">No vehicles available</label>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" *ngIf="addUserModel.roleId===driverRoleId" [ngClass]="(addUserModel.roleId==driverRoleId && (currentUserInfo && (currentUserInfo.currentRole.toLowerCase()=='super admin'||currentUserInfo.currentRole.toLowerCase()=='tenant admin')))?'mt-20' :''">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <mat-form-field class="login-input-text">
+                                                    <input matInput placeholder="License Number" name="licenseNumber" [formControl]="licenseNumber" [(ngModel)]="addUserModel.licenseNumber" required >
+                                                    <mat-error *ngIf="licenseNumber.invalid">{{getErrorMessage('licenseNumber',"")}}</mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #template1>
+    <div class="modal-header">
+                <h4 class="modal-title">Confirmation</h4>
+                <button type="button" class="close" (click)="modalRef.hide()">&times;</button>
+    </div>
+    <div class="modal-body">
+            Are you sure you want to delete the User ?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="modalRef.hide();deleteUser(selectedItem.id)" >Delete</button>
+    </div>
+</ng-template>

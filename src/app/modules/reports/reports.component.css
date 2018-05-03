@@ -1,0 +1,19 @@
+.custom-error{
+    font-size: 75%;
+    margin-top: -1.54167em;
+    top: calc(100% - 1.66667em);
+}
+
+.table-bordered th, .table-bordered td { border-bottom: 1px solid #ddd!important }
+
+.example-container{
+    width:100%;
+    background: #ffffff;
+}
+.mt-20{
+    margin-top: 20px;
+}
+
+.modal-lg{
+    min-width:  900px!important;
+}

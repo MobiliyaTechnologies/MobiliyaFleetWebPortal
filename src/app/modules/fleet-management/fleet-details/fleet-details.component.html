@@ -1,0 +1,148 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="padding-10 user-details-view" style=" background:#ffffff;" >
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="font-bold add-user-label">{{selectedItem.fleetName}}</div>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2 mt-10">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img class="cursorClass" src="/assets/images/edit.png" matTooltip="Edit Fleet" (click)="navigateToEdit();" />
+                </div>
+                <div class="col-sm-6">
+                    <img class="cursorClass" src="/assets/images/delete.png" matTooltip="Delete Fleet" *ngIf="!(currentUserInfo && currentUserInfo.currentRole=='fleet admin')" (click)="openModal(template1)" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="padding-15">
+         <div class="row">
+            <div class="col-sm-12">
+                Owner Details
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12 field-label-class">
+                        Owner Name
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        {{fleetOwner.firstName}}&nbsp;{{fleetOwner.lastName}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12 field-label-class">
+                        Email Id
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{fleetOwner.email}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12 field-label-class">
+                        Mobile Number
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{fleetOwner.mobileNumber}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="padding-15">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-4 font-bold"> 
+                        Assigned Vehicles
+                    </div>
+                    <div class="col-sm-4 ">
+                    </div>
+                    
+                    <div class="col-sm-4">
+                        <div class="common-margin-top">
+                            <input id="search" name="search" value="search" class="form-control search-box" placeholder="Search" [(ngModel)]="searchCriteria" style="text-transform: lowercase;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-15">
+                    <div class="col-sm-12">
+                        <div class="example-container mat-elevation-z8">
+                            <mat-table #table [dataSource]="selectedVehicleList | vehicleFleetSearch: searchCriteria">
+                                <span *ngIf="selectedVehicleList.length<=0"> No Data Available</span>
+                                <!--- Note that these columns can be defined in any order.
+                                    The actual rendered columns are set as a property on the row definition" -->
+
+                                <ng-container matColumnDef="#">
+                                <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+                                <mat-cell *matCellDef="let item"> {{selectedVehicleList.indexOf(item) + 1 }}  </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="vehicleModel">
+                                <mat-header-cell *matHeaderCellDef>Vehicle Model </mat-header-cell>
+                                <mat-cell *matCellDef="let item"> {{item.model}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="vehicleRegNo">
+                                <mat-header-cell *matHeaderCellDef> Vehicle Reg. No </mat-header-cell>
+                                <mat-cell *matCellDef="let item"> {{item.registrationNumber}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="OwnerName">
+                                <mat-header-cell *matHeaderCellDef> Owner Name </mat-header-cell>
+                                <mat-cell *matCellDef="let item"> {{item.ownerName}} </mat-cell>
+                                </ng-container>
+
+                                <ng-container matColumnDef="connectedDongle">
+                                <mat-header-cell *matHeaderCellDef> Connected Dongle </mat-header-cell>
+                                <mat-cell *matCellDef="let item"> {{item.deviceName}} </mat-cell>
+                                </ng-container>
+
+                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                            </mat-table>
+                            <mat-paginator #paginator
+                                            [pageSize]="10"
+                                            [pageSizeOptions]="[5, 10, 20]"
+                                            [showFirstLastButtons]="true">
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #template1>
+    <div class="modal-header">
+                <h4 class="modal-title">Confirmation</h4>
+                <button type="button" class="close" (click)="modalRef.hide()">&times;</button>
+    </div>
+    <div class="modal-body">
+            Are you sure you want to delete the fleet ?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="modalRef.hide();deleteFleet(selectedItem.id);" >Delete</button>
+    </div>
+</ng-template>

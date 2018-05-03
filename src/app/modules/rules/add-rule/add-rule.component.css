@@ -1,0 +1,182 @@
+.uploadStyling {
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 10px;
+}
+
+::ng-deep .mat-tab-labels {
+    justify-content: center;
+    display:none;
+}
+
+
+::ng-deep .mat-tab-header {
+    display: none!important;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+    .common-btn-class {
+    border-radius: 25px;
+}
+
+.theme-button {
+    background-image: -webkit-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    color: #ffffff;
+}
+
+.noteStyling {
+    color: rgba(134, 134, 134, 1);
+    margin-top: 5%;
+}
+
+.formatStyling {
+    color: rgba(134, 134, 134, 1);
+    margin-top: 2%;
+}
+
+.box__dragndrop {
+    display: none;
+}
+
+.demo-tab-content {
+    padding: 16px;
+}
+
+.rule_heading {
+    font-weight: bold;
+    font-size: 22px;
+    padding-left: 5%;
+    padding-top: 3%;
+}
+
+.darkGrey {
+    color: rgba(166, 178, 173, 1);
+}
+
+.padding21 {
+    padding-top:21px;
+}
+
+.headingSpeed {
+    font-weight: bold;
+    padding-bottom: 20px;
+    font-size: 18px;
+}
+
+.fontSize16 {
+    font-size: 18px;
+}
+
+.boldClass {
+    font-weight:bold;
+}
+
+.colorGrey {
+    color:rgba(166, 178, 173, 1);
+}
+
+.ruleNameTypeStyle {
+    color: rgba(134, 134, 134, 1);
+}
+
+.paddingForRadio {
+    padding: 15px;
+    padding-left: 0px;
+}
+
+.padding_top_3 {
+    margin: 2%;
+    margin-bottom: 0%;
+}
+
+.common-btn-class {
+    border-radius: 25px;
+}
+
+.prevNextBtn[disabled] {
+    width: 100%;
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    margin-top: 16%;
+    padding-left: 10%;
+    padding-right: 10%;
+    color: #000;
+}
+
+hr {
+    border-top: 1px solid rgba(229, 229, 229, 1);
+}
+
+.user-details-view {
+    margin-top: 16px;
+    background: #ffffff;
+    min-height: 85vh;
+}
+
+.padding-class {
+    padding-right: 120px;
+    padding-left: 120px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.mat-tab-header, .mat-tab-nav-bar {
+    border-bottom: none!important;
+}
+
+.prevNextBtn {
+    width: 100%;
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    margin-top: 16%;
+    padding-left: 10%;
+    padding-right: 10%;
+    color:#fff;
+}
+
+agm-map {
+    height: 500px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width:700px;
+
+}
+
+.marginTop50 {
+    margin-top:50%;
+}
+
+mat-slider {
+    width: 300px;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color:none!important; 
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    min-width: 300px;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+}
+
+.widthClass {
+    width: auto!important;
+}
+
+.mat-form-field-infix {
+    display: block;
+    position: relative;
+    flex: auto;
+    min-width: 0;
+    width: auto !important;
+}

@@ -1,0 +1,102 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="padding-10 user-details-view" style=" background:#ffffff;" >
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="font-bold add-user-label">{{selectedItem.deviceName}}</div>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img class="cursorClass" src="/assets/images/edit.png" matTooltip="Edit Device" (click)="navigateToEdit();" />
+                </div>
+                <div class="col-sm-6">
+                    <img class="cursorClass" src="/assets/images/delete.png" matTooltip="Delete Device" (click)="openModal(template1)" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="padding-10">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12 field-label-class">
+                        Device Id
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        {{selectedItem.deviceName}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12 field-label-class">
+                        Serial No
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{selectedItem.serialNo}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12 field-label-class">
+                        Device Type
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{selectedItem.deviceType}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="padding-10">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12 field-label-class">
+                        Hardware Version
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{selectedItem.hardwareVersion}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12 field-label-class">
+                        Firmware Version
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{selectedItem.protocolVersion}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #template1>
+    <div class="modal-header">
+                <h4 class="modal-title">Confirmation</h4>
+                <button type="button" class="close" (click)="modalRef.hide()">&times;</button>
+    </div>
+    <div class="modal-body">
+            Are you sure you want to delete the Device ?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="modalRef.hide();deleteDevice(selectedItem.id)" >Delete</button>
+    </div>
+</ng-template>

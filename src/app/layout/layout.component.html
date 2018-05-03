@@ -1,0 +1,108 @@
+
+<div class=" container-fluid"   >
+    <div class=" row "  style="min-height: 60px;background-color:  rgba(246, 246, 246, 1);"  >
+        <div class="col-md-7 col-lg-7 col-xl-7 col-sm-1 logoClass">
+            Mobiliya Fleet Management
+        </div>
+        <div class="col-md-5 col-lg-5 col-xl-5 col-sm-6">
+            <div  class="username-class">
+                <img src="./assets/images/person-dummy.png" alt=""  style="height: 60px; "class="rounded-circle  img-thumbnail">
+                <span  class="" [matMenuTriggerFor]="menuPerson">{{name}}
+                    <img style="padding-left:10px !important;" src="./assets/images/dropdown.png" />
+                </span>
+            </div>
+            <div  style="float: right; padding:  10px; position:relative; ">
+                <img (click)="redirectToNotifications()" style="" src="./assets/images/notification.png"/>
+                <mat-icon style="padding-right: 20px;"></mat-icon>
+                <span class="toolbar-verticle-line">&nbsp;</span>
+                <span class="button__badge" *ngIf="notifications.length>0">{{notifications.length}}</span>
+            </div>
+            <mat-menu #menuPerson="matMenu">
+                <button mat-menu-item (click)="logout()">
+                        <span>Logout</span>
+                </button>
+            </mat-menu>
+        </div>
+       </div>
+</div>
+<mat-divider></mat-divider>
+<mat-sidenav-container  style="min-height: 90vh; background-color:  #E9EDF0 !important;" >
+    <section>Main</section>
+    <mat-sidenav #sidenav style="min-height:100%; " class="example-sidenav" mode="side" opened="true"
+        [fixedInViewport]="options.value.fixed">
+
+        <div style="min-height: 90vh">
+
+            <div *ngIf="userInfo && userInfo.currentRole=='tenant admin' " class="" [ngClass]="(selectedMenu == 'home'? 'selected-nav-item' : 'nav-item')" style="padding: 10px 30px; width: 120px !important;" >
+                <div class="">
+                    <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/dashboard.png" (click)="sideNavIcon('/dashboard/home','home'); selectedMenu = 'home'" [ngClass]="(selectedMenu == 'home'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')"/>
+                </div>
+                <div class="">
+                    <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/home','home'); selectedMenu = 'home'" [ngClass]="(selectedRoute == '/dashboard/home'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Dashboard"| translate}}</p>
+                </div>
+            </div>
+
+            <div [ngClass]="(selectedMenu == 'users'? 'selected-nav-item' : 'nav-item')" style="padding: 10px 30px; width: 120px !important;">
+                <div class="">
+                    <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/users.png" (click)="sideNavIcon('/dashboard/list-users','users'); selectedMenu = 'users'" [ngClass]="(selectedMenu == 'users'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')" />
+                </div>
+                <div class="">
+                    <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/list-users','users'); selectedMenu = 'users'" [ngClass]="(selectedRoute == '/dashboard/users'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Users"| translate}}</p>
+                </div>
+            </div>
+
+            <div *ngIf="userInfo && (userInfo.currentRole=='tenant admin' || userInfo && userInfo.currentRole=='fleet admin')" [ngClass]="(selectedMenu == 'fleet'? 'selected-nav-item' : 'nav-item')" style="padding: 10px 30px; width: 120px !important;">
+                <div class="">
+                    <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/fleet.png" (click)="sideNavIcon('/dashboard/fleets','fleet'); selectedMenu = 'fleet'" [ngClass]="(selectedMenu == 'fleet'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')" />
+                </div>
+                <div class="">
+                    <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/fleets','fleet'); selectedMenu = 'fleet'" [ngClass]="(selectedRoute == '/dashboard/fleets'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Fleet"| translate}}</p>
+                </div>
+            </div>
+
+            <div *ngIf="userInfo && (userInfo.currentRole=='tenant admin' || userInfo && userInfo.currentRole=='fleet admin')  " class="" [ngClass]="(selectedMenu == 'vehicle'? 'selected-nav-item' : 'nav-item')" style="padding: 10px 30px; width: 120px !important;">
+                <div class="">
+                    <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/vehicle.png" (click)="sideNavIcon('/dashboard/vehicle','vehicle'); setSelected('vehicle');" [ngClass]="(selectedMenu == 'vehicle'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')" />
+                </div>
+                <div class="">
+                    <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/vehicle','vehicle'); selectedMenu = 'vehicle'" [ngClass]="(selectedRoute == '/dashboard/vehicle'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Vehicle"| translate}}</p>
+                </div>
+            </div>
+
+            <div *ngIf="userInfo && (userInfo.currentRole=='tenant admin' || userInfo && userInfo.currentRole=='super admin')" [ngClass]="(selectedMenu == 'devices'? 'selected-nav-item' : 'nav-item')" (click)="selectedMenu = 'devices'" style="padding: 10px 30px; width: 120px !important;">
+                <div class="">
+                    <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/devices.png" (click)="sideNavIcon('/dashboard/devices','devices'); selectedMenu = 'devices'" [ngClass]="(selectedMenu == 'devices'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')" />
+                </div>
+                <div class="">
+                    <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/devices','devices'); " [ngClass]="(selectedRoute == '/dashboard/devices'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Devices"| translate}}</p>
+                </div>
+            </div>
+
+
+            <div *ngIf="userInfo && (userInfo.currentRole=='tenant admin' || userInfo && userInfo.currentRole=='fleet admin')  " class="" [ngClass]="(selectedMenu == 'rules'? 'selected-nav-item' : 'nav-item')" style="padding: 10px 30px; width: 120px !important;">
+                <div class="">
+                    <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/rules.png" (click)="sideNavIcon('/dashboard/rules','rules'); selectedMenu = 'rules'" [ngClass]="(selectedMenu == 'rules'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')" />
+                </div>
+                <div class="">
+                    <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/rules','rules'); selectedMenu = 'rules'" [ngClass]="(selectedRoute == '/dashboard/rules'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Rules"| translate}}</p>
+                </div>
+            </div>
+
+            <div *ngIf="userInfo && (userInfo.currentRole=='tenant admin' || userInfo && userInfo.currentRole=='super admin')  " class="" [ngClass]="(selectedMenu == 'reports'? 'selected-nav-item' : 'nav-item')" style="padding: 10px 30px; width: 120px !important;">
+                    <div class="">
+                        <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/reports.png" (click)="sideNavIcon('/dashboard/reports','reports');" [ngClass]="(selectedMenu == 'reports'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')" />
+                    </div>
+                    <div class="">
+                        <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/reports','reports'); selectedMenu = 'reports'" [ngClass]="(selectedRoute == '/dashboard/reports'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Reports"| translate}}</p>
+                    </div>
+                </div>
+            <mat-divider></mat-divider>
+            <mat-divider></mat-divider>
+        </div>
+
+
+    </mat-sidenav>
+    <mat-sidenav-content  [formGroup]="options"  style="min-height: 100vh"  style="background: #E9EDF0 !important; ">
+        <router-outlet id="containerWindow"></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

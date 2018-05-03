@@ -1,0 +1,357 @@
+<div class="row common-margin-top">
+
+    <div class="row tripName boldClass">
+        {{tripDetails.tripName}}
+    </div>
+
+    <agm-map [latitude]="28.7041"
+             [longitude]="77.1025" [zoom]="2">
+        <agm-marker *ngFor="let coordinate of coordinatesStartEnd"
+                    [latitude]="coordinate.lat"
+                    [longitude]="coordinate.lng" [iconUrl]="icon"></agm-marker>
+        <agm-polyline [visible]="true"
+                      [strokeWeight]="3" [strokeColor]="'#1F3DA7'">
+            <agm-polyline-point *ngFor="let coordinate of coordinates"
+                                [latitude]="coordinate.lat"
+                                [longitude]="coordinate.lng">
+
+            </agm-polyline-point>
+        </agm-polyline>
+
+    </agm-map>
+    <div class="row width_100 margin_top_negative_five">
+        <div class="col-md-1 col-sm-1 col-lg-1 col-xl-1">
+        </div>
+        <div class="col-md-3 col-sm-3 col-xl-3 col-lg-3 width_100 box_styling margin_left_4">
+            <div class="">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    Start Location
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{tripDetails.startLocation}}
+                </div>
+            </div>
+            <div class="">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    End Location
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{tripDetails.endLocation}}
+                </div>
+            </div>
+            </div>
+        <div class="col-md-3 col-sm-3 col-xl-3 col-lg-3 width_100 box_styling">
+            <div class="">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    Start Date/Time
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{tripDetails.startTime}}
+                </div>
+            </div>
+            <div class="marginSecond">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    End Date/Time
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{tripDetails.endTime}}
+                </div>
+            </div>
+        </div>
+            <div class="col-md-3 col-sm-3 col-xl-3 col-lg-3 width_100 box_styling">
+                <div class="">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    Start Odometer
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{tripDetailsOfVehicleZero.Odometer}}
+                </div>
+                </div>
+                <div class="marginSecond">
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    End Odometer
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{endOdometer}}
+                </div>
+                    </div>
+            </div>
+            <div class="col-md-1 col-sm-1 col-lg-1 col-xl-1">
+            </div>
+            <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12 tripName boldClass">
+                Vehicle Parameter
+            </div>
+
+            <div class="row width_100 margin_left_accordion">
+                <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12"  style="margin-bottom:5%;margin-left:2.5%;">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                Engine Faults
+                            </mat-expansion-panel-header>
+                            <div class="row yellow-box">
+
+                                <div class="col-md-1 col-lg-1 col-sm-1 col-xl-1">
+                                    <img src="./assets/images/alert.png" class="alert-icon">
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="boldClass row code-color font-size-18">
+                                        Code {{FaultSPN}}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8 col-lg-8 col-sm-8 col-xl-8">
+                                    {{FaultDescription}}
+                                </div>
+
+
+
+                            </div>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                Engine Condition
+                            </mat-expansion-panel-header>
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">RPM</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{rpm}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Vehicle Speed</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{vehicleSpeed}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Pct Load</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{pctLoad}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Pct Torque</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{pctTorque}}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Drv Pct Torque</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">NA</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Engine Crankcase Pressure</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{engineCrankcasePressure}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Engine Intake Manifold Pressure</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{engineIntakeManifoldTemp}}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                Vehicle Information
+                            </mat-expansion-panel-header>
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Engine Serial Number</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{tripDetailsOfVehicleZero.EngineSerialNo}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Engine VIN</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{tripDetailsOfVehicleZero.EngineVIN}}</div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                Powertrain Pressure and Temperature Information
+                            </mat-expansion-panel-header>
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Oil Temperature</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{oilTemp}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">AirIntake Temperature</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{airIntakeTemperature}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Ambient Temperature</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{ambientTemp}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Oil Pressure</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{oilPressure}}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Barometric Pressure</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{barometricPressure}}</div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                Emission System
+                            </mat-expansion-panel-header>
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Total No. of Active Regeneration</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{totalNoOfActiveRegenerations}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Total No. of Passive Regeneration</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{totalNoOfPassiveRegenerations}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">SCR Inlet</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{scrInletNox}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">SCR Outlet</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{scrOutletNox}}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">DPF Pressure</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1 boldClass style-data-value2">{{dpfPressureDifferential}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">DPF Soot</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{dpfSootLoad}}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">DPF Outlet</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{dpfOutletTemp}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">DPF Inlet</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{dpfInletTemp}}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">DPF Ash</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{dpfAshLoad}}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+
+        </div>
+
+
+
+</div>
+

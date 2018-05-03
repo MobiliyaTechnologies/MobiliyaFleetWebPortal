@@ -1,0 +1,60 @@
+<div *ngIf="!noTrip">
+    <div class="row common-margin-top" *ngFor="let item of tripList">
+
+        <div class="row box_design width_100" [ngClass]="(selectedTripForColourChange ===item.commonId)?'box_design_selected':'box_design_unselected'" (click)="openTripDetailsDialog(item.commonId)">
+
+            <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12 tripName boldClass">
+                {{item.tripName}}
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xl-6 col-lg-6 width_100">
+
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    Start Location
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{item.startLocation}}
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    End Location
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{item.endLocation}}
+                </div>
+
+            </div>
+            <div class="col-md-6 col-sm-6 col-xl-6 col-lg-6 width_100">
+
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    Start Date/Time
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{item.startTime}}
+                </div>
+                <br>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
+                    End Date/Time
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                    {{item.endTime}}
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+    </div>
+
+<div *ngIf="noTrip">
+    <div class="row box_design_selected">
+        <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12 tripName boldClass">
+           No Trips So Far.
+        </div>
+
+    </div>
+    </div>

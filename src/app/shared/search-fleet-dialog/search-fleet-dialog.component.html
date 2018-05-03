@@ -1,0 +1,37 @@
+<p>
+    Select Fleets
+</p>
+
+<!--<li> <input type="checkbox" checked><span class="align_class">All Vehicles</span></li>-->
+<!--<li> <input type="checkbox"><span class="align_class">{{item.fleetName}}</span></li>-->
+<!--<input id="search" name="search" class="form-control search-box" placeholder="Search Fleets" [(ngModel)]="model.searchCriteria" style="text-transform: lowercase;">-->
+<!--<mat-checkbox>All Vehicles</mat-checkbox>
+<div *ngFor="let item of fleetList | fleetSearchFilter:model.searchCriteria">
+
+    <mat-checkbox>{{item.fleetName}}</mat-checkbox>
+</div>-->
+<!--<mat-form-field class=" mat-elevation-z8  dashboard-checkbox">-->
+<!--<mat-form [(ngModel)]="checkedFleetList" name="fleets" (change)="getSelectedFleetsOf()" multiple
+            [disabled]="disableSelect">
+    <mat-checkbox *ngFor="let item of fleetList" [value]="fleetList._id">{{item.fleetName}}</mat-checkbox>
+</mat-form>-->
+<!--</mat-form-field>-->
+<!--<mat-form-field class=" mat-elevation-z8  dashboard-checkbox">
+    <mat-select placeholder="Vehicles" [(ngModel)]="selectedVehicles" name="vehicle" (change)="getSelectedVehiclesOf()" multiple
+                [disabled]="disableSelect">
+        <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle._id">{{vehicle.plate_no}}</mat-option>
+    </mat-select>
+</mat-form-field>-->
+
+
+<input id="search" name="search" class="form-control search-box" placeholder="Search Fleets" [(ngModel)]="model.searchCriteria" style="text-transform: lowercase;">
+<mat-option style="margin-bottom:-5%; margin-top:10%;">
+    <mat-checkbox [(ngModel)]="defaultChecked" class="mat-option-text">All Vehicles</mat-checkbox>
+</mat-option>
+<mat-option *ngFor="let item of fleetList | fleetSearchFilter:model.searchCriteria">
+    <mat-checkbox  [value]="item.id" (click)="changeDefaultToFalse()" (change)="getSelectedVehiclesOf(item.id)" multiple>{{item.fleetName}}</mat-checkbox>
+</mat-option>
+<mat-dialog-actions>
+    <button mat-button type="submit" (click)="sendData()">Select</button>
+    <button mat-button type="button" mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

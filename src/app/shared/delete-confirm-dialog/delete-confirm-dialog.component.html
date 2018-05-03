@@ -1,0 +1,26 @@
+<div class="container" style="min-width:800px">
+  <div class="row">
+    <div class="col-md-11 col-xl-11 col-sm-6 ">
+      <h4 md-dialog-title>Delete {{ data.title }}</h4>
+    </div>
+    <div class="col-md-1 col-xl-1 col-sm-6">
+      <button mat-icon-button (click)="onCancel()">
+        <mat-icon aria-label="icon-button with a cancel icon">cancel</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-xl-12 ">
+      <div mat-dialog-content>
+        <p>{{data.content}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class=" offset-md-8 offset-xl-8  col-md-4 col-xl-4 col-sm-12">
+      <div mat-dialog-actions style="float:right; width:100% ">
+            <button mat-button [mat-dialog-close]="data" cdkFocusInitial>DELETE</button>
+            <button mat-button (click)="onCancel()">CANCEL</button>
+      </div>
+    </div>
+  </div>

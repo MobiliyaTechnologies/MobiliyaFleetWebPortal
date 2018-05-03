@@ -1,0 +1,33 @@
+.padding-10 {
+    padding: 10px;
+}
+
+.common-btn-class {
+    border-radius: 25px;
+}
+
+.theme-button {
+    background-image: -webkit-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    color: #ffffff;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.user-details-view {
+    margin-top: 16px;
+    background: #ffffff;
+    min-height: 85vh;
+}
+
+.add-user-label {
+    padding: 5%;
+}
+
+.ml-10{
+    margin-left: 10px;
+}

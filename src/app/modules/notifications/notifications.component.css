@@ -1,0 +1,15 @@
+.bold-font{
+    font-weight: bold;
+}
+.setSmallerSize {
+    font-size:10px;
+}
+.padding-notif{
+    padding: 20px 40px;
+}
+.mt-10{
+    margin-top:10px;
+}
+.alert-width{
+    width: 50px;
+}

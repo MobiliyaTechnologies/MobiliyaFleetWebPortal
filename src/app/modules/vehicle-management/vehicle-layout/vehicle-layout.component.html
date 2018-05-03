@@ -1,0 +1,68 @@
+<div>
+    <div class="container-fluid height-class">
+        <ngx-loading [show]="loading"></ngx-loading>
+        <div class="row">
+            <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 color-3-class" style="min-height: 100vh;">
+                <div class="padding-10 ">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-7 col-xl-7 col-lg-7">
+                            <div class="font-bold">
+                                All Vehicles
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2">
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="/assets/images/add.png" class="cursorClass"  matTooltip="Add Vehicle" (click)="navigateToAdd()" />
+                                </div>
+                                <div class="col-sm-4" *ngIf="currentRole == 'tenant admin'">
+                                    <img src="./assets/images/filter.png" class="cursorClass"  matTooltip="Filter Vehicle by Fleet" (click)="openDialog()" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="common-margin-top row">
+
+                        <input id="search" name="search" class="form-control search-box" placeholder="Search Vehicles" [(ngModel)]="model.searchCriteria" style="text-transform: lowercase;">
+                    </div>
+
+                    <div class="row v-scroll-class" id="style-scroll">
+                        <div class="col-sm-12" [ngClass]="(selectedUser == 'home'? 'selected-nav-item' : 'nav-item')">
+                            <div class="row common-user-block">
+                                <div class="col-sm-12">
+                                    <div class="row common-margin-top common-user-block" *ngFor="let item of vehicleList | vehicleSearchFilter:model.searchCriteria" [ngClass]="(selectedItemForClass===item.registrationNumber)?'selected-user-class':'common-user-class'" (click)="navigateToDetails(item.registrationNumber);" style="border-bottom: 0.5px solid rgba(229, 229, 229, 1);">
+                                            <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+
+                                                <div class="row vehicle-name-styling">
+                                                    {{item.registrationNumber}}
+                                                </div>
+                                                <div class="field-label-class role-name-class">
+                                                    <div class="row vehicle-detail-styling">
+                                                        <div class="col-md-6 col-lg-6 col-sm-6 col-xl-6">
+                                                            {{item.brandName}}
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-6 col-sm-6 col-xl-6">
+                                                            {{item.fleetName}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-9 col-md-9 col-xl-9 col-lg-9 color-9-class">
+                <router-outlet id="containerWindow"></router-outlet>
+            </div>
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,192 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="padding-10 user-details-view" style=" background:#ffffff;">
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+
+            <div class="row">
+
+                <div class="col-sm-9">
+                    <div class="font-bold margin-top-8 add-user-label">Edit Vehicle</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-5"></div>
+        <div class="col-sm-3">
+            <button mat-raised-button (click)="saveVehicleDetails();" class="mat-elevation-z4 theme-button common-btn-class">
+                Save
+            </button>
+            <button mat-raised-button (click)="cancelEdit();" class="mat-elevation-z4 common-btn-class">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <mat-divider></mat-divider>
+    <form #addFormComp="ngForm">
+        <div class="padding-10">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <mat-form-field>
+                                <input matInput placeholder="Brand Name" [(ngModel)]="selectedVehicleToReturn.brandName" name="brandName" [formControl]="brandName">
+                                <mat-error *ngIf="brandName.invalid">{{getErrorMessage('brandName',selectedVehicleToReturn.brandName)}}</mat-error>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field>
+                                <input matInput placeholder="Model Name" [(ngModel)]="selectedVehicleToReturn.model" name="modelName" [formControl]="modelName">
+                                <mat-error *ngIf="modelName.invalid">{{getErrorMessage('modelName',selectedVehicleToReturn.modelName)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field>
+                                <input matInput placeholder="Color" [(ngModel)]="selectedVehicleToReturn.color" name="color" [formControl]="color">
+                                <mat-error *ngIf="color.invalid">{{getErrorMessage('color',selectedVehicleToReturn.color)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field>
+                                <input matInput placeholder="Year Of Manufacture" [(ngModel)]="selectedVehicleToReturn.yearOfManufacture" name="yearOfManufacture" [formControl]="yearOfManufacture">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <mat-form-field>
+                                <mat-select placeholder="Fuel Type" [(ngModel)]="selectedVehicleToReturn.fuelType" name="fuelType" [formControl]="fuelType">
+                                    <mat-option *ngFor="let r of fuelTypeList" [value]="r.fuelType">
+                                        {{ r.fuelType}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field>
+                                <input matInput placeholder="Registration Number" [(ngModel)]="selectedVehicleToReturn.registrationNumber" name="registrationNumber" [formControl]="registrationNumber" required>
+                                <mat-error *ngIf="registrationNumber.invalid">{{getErrorMessage('registrationNumber',selectedVehicleToReturn.registrationNumber)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="selectedVehicleToReturn.deviceId" name="deviceId" [formControl]="deviceId" [disabled]="!enableAddDevice" placeholder="Device Name">
+                                    <mat-option *ngFor="let r of deviceIdList" [value]="r.id">
+                                        {{r.deviceName}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="selectedVehicleToReturn.geoFencing" name="geoFencing" [formControl]="geoFencing" [disabled]="!enableAddGeoFence" placeholder="Geofencing">
+                                    <mat-option *ngFor="let r of RuleList" [value]="r._id">
+                                        {{r.ruleName}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="padding-10">
+            <div class="row">
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="row">
+
+                    <div class="col-sm-9">
+                        <div class="font-bold assign-details-label"> Assign Details</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="padding-10">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4" *ngIf="this.currentRole != 'fleet admin'">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field>
+
+                                <mat-select [(ngModel)]="selectedVehicleToReturn.fleetId" name="fleetId" [formControl]="fleetId" [disabled]="!enableAddFleet" (change)="onFleetChange(selectedVehicleToReturn.fleetId);" placeholder="Fleet Name">
+                                    <mat-option *ngFor="let r of AssignFleetList" [value]="r.id">
+                                        {{r.fleetName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="selectedVehicleToReturn.userId" name="userId" [formControl]="userId" [disabled]="!enableAddVehicle" placeholder="Driver Name">
+                                    <mat-option *ngFor="let r of AssignDriverList" [value]="r.id">
+                                        {{r.firstName}} {{r.lastName}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </form>
+
+</div>

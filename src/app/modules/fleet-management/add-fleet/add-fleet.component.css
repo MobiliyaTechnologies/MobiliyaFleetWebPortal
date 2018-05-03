@@ -1,0 +1,65 @@
+.padding-15 {
+    padding: 15px;
+}
+
+.common-btn-class {
+    border-radius: 25px;
+}
+
+.theme-button {
+    background-image: -webkit-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    color: #ffffff;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.user-details-view {
+    margin-top: 16px;
+    background: #ffffff;
+    min-height: 85vh;
+}
+
+.add-user-label {
+    padding: 15px;
+}
+
+.search-box {
+    border-radius: 1.25rem;
+}
+
+input#search {
+    background-image: url('/assets/images/search.png');
+    background-repeat: no-repeat;
+    text-indent: 20px;
+    background-position: 94% 50%;
+}
+
+input#search:focus {
+    background-image: none;
+}
+
+.modelLabel{
+        color: rgba(0, 153, 204, 1);
+        cursor:pointer; 
+}
+
+.mt-15{
+    margin-top: 15px;
+}
+
+.margin-0{
+    margin: 0px !important;
+}
+
+.disabled{
+    opacity:0.4;
+    pointer-events: None;
+}
+.ml-10{
+    margin-left: 10px;
+}

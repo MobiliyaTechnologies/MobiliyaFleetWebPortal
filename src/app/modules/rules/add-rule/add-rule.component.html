@@ -1,0 +1,387 @@
+﻿<div class="user-details-view">
+
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6 rule_heading">
+            New Rule
+        </div>
+        <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2">
+
+        </div>
+        <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 padding_top_3">
+            <button mat-raised-button (click)="addRule();" class="mat-elevation-z4 theme-button common-btn-class" [disabled]="saveButton == false">
+                Save
+            </button>
+            <button mat-raised-button (click)="navigateToDetails();" class="mat-elevation-z4 common-btn-class">
+                Cancel
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="padding-class">
+        <mat-tab-group class="demo-tab-group" #matgroup>
+            <mat-tab label="Step 1">
+                <div class="demo-tab-content">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                            <div class="row ruleNameTypeStyle" style="padding-top:5%">
+
+                            </div>
+                            <div class="row">
+                                <mat-form-field>
+                                    <input matInput placeholder="Rule Name" [(ngModel)]="addRuleVariable.rulename" name="rulename" [formControl]="rulename" required>
+                                    <mat-error *ngIf="rulename.invalid">{{getErrorMessage('rulename',addRuleVariable.rulename)}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-lg-8 col-xl-8">
+                            <div class="row ruleNameTypeStyle">
+                                Rule Type
+                            </div>
+                            <div class="row paddingForRadio">
+                                <mat-radio-group>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xl-6 col-lg-6">
+                                            <mat-radio-button value="1" (click)="updateRadioBtnValue(1)">Speed</mat-radio-button>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xl-6 col-lg-6">
+                                            <mat-radio-button value="2" (click)="updateRadioBtnValue(2)">Location</mat-radio-button>
+                                        </div>
+
+                                    </div>
+                                </mat-radio-group>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Step 2">
+
+                <div *ngIf="radioBtnValue ==1" class="demo-tab-content">
+
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                            Assign to
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6" *ngIf="this.currentRole != 'fleet admin'">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="addSpeed.fleetName" name="fleetName" (change)="onFleetChange(addSpeed.fleetName, 1);" [formControl]="fleetName" placeholder="Fleet Name">
+                                    <mat-option *ngFor="let r of AssignFleetList" [value]="r.id">
+                                        {{r.fleetName}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="addSpeed.vehicleName" name="vehicleName" [formControl]="vehicleName" (change)="setVehicleNm(vehicleName)" placeholder="Vehicle Name" required>
+                                    <mat-option *ngFor="let r of AssignVehicleList" [value]="r.id">
+                                        {{r.registrationNumber}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    Drag the slider to set speed limit
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+
+                        <mat-slider class="example-full-width"
+                                    [max]="200"
+                                    [min]="0"
+                                    [step]="5"
+                                    [thumb-label]="speedValue"
+                                    [(ngModel)]="speedValue"
+                                    (input)='changeSpeedValue($event)'></mat-slider>
+                    </div>
+                </div>
+
+                <div *ngIf="radioBtnValue ==2" class="demo-tab-content">
+                    <div>
+                        <div>
+                            <mat-radio-group>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xl-6 col-lg-6">
+                                        <mat-radio-button value="1" (click)="updateGeoFenceChoice(1)">Individual Geo fencing</mat-radio-button>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xl-6 col-lg-6">
+                                        <mat-radio-button value="2" (click)="updateGeoFenceChoice(2)">Group Geo fencing</mat-radio-button>
+                                    </div>
+                                </div>
+
+
+                            </mat-radio-group>
+
+                            <div *ngIf="geoFenceChoice ==1">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                        <div class="row">
+                                            <mat-form-field>
+                                                <input matInput placeholder="Longitude" [(ngModel)]="addRuleVariable.longitude" name="longitude" [formControl]="longitude" required>
+                                                <mat-error *ngIf="longitude.invalid">{{getErrorMessage('longitude',addRuleVariable.longitude)}}</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                        <div class="row">
+                                            <mat-form-field>
+                                                <input matInput placeholder="Latitude" [(ngModel)]="addRuleVariable.latitude" name="latitude" [formControl]="latitude" required>
+                                                <mat-error *ngIf="latitude.invalid">{{getErrorMessage('latitude',addRuleVariable.latitude)}}</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                        <div class="row">
+                                            <mat-form-field>
+                                                <input matInput placeholder="Radius" [(ngModel)]="addRuleVariable.radius" name="radius" [formControl]="radius" required>
+                                                <mat-error *ngIf="radius.invalid">{{getErrorMessage('radius',addRuleVariable.radius)}}</mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4" *ngIf="this.currentRole != 'fleet admin'">
+                                        <div class="row">
+                                            <mat-form-field>
+                                                <mat-select [(ngModel)]="addRuleVariable.fleetName" name="fleetName" (change)="onFleetChange(addRuleVariable.fleetName, 2);" [formControl]="fleetName" placeholder="Fleet Name">
+                                                    <mat-option *ngFor="let r of AssignFleetList" [value]="r.id">
+                                                        {{r.fleetName}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
+                                        <div class="row">
+                                            <mat-form-field>
+                                                <mat-select [(ngModel)]="addRuleVariable.vehicleName" name="vehicleName" [formControl]="vehicleName" placeholder="Vehicle Name" required>
+                                                    <mat-option *ngFor="let r of AssignVehicleList" [value]="r.id">
+                                                        {{r.registrationNumber}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="geoFenceChoice ==2">
+                                <label style="width:100%">
+                                    <input type="file" name="upgradeFile" style="display: none;" id="upgradeFile" [(ngModel)]="upgradeFile" (click)='onFileClickUpload($event)'
+                                           (change)='onClickFile($event)' [formControl]="uploaderValidator" accept=".xls" required>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+                                            <div class="row uploadStyling">
+                                                Upload List of addresses
+                                            </div>
+                                            <div> &nbsp;{{file_name}}</div>
+                                            <input type="hidden" value={{size}} name="size" />
+
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+                                            <div class="row">
+                                                <br />
+                                            </div>
+                                            <mat-icon matSuffix>{{'attach_file'}}</mat-icon>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row noteStyling">
+                                        (Note: Only xls files accepted)
+                                    </div>
+                                    <div class="row formatStyling">
+                                        (Format: Columns to be entered as longitude, latitude, radius)
+                                    </div>
+
+
+                                </label>
+                                <div id="progress" *ngIf='showProgress'>
+                                    <div id="bar" style="height:8px"></div>
+                                </div>
+                                <div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </mat-tab>
+
+            <mat-tab label="Step 3">
+
+                <div *ngIf="radioBtnValue ==1" class="demo-tab-content">
+                    <div class="row headingSpeed">
+                        {{addRuleVariable.rulename}} will set the following details -
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+                            <div class="row fontSize16 boldClass">
+                                Vehicle Name
+                            </div>
+                            <div class="row colorGrey fontSize16">
+                                {{this.vN}}
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+                            <div class="row fontSize16 boldClass">
+                                Speed Value
+                            </div>
+                            <div class="row colorGrey fontSize16">
+                                {{speedValue}}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+                <div *ngIf="radioBtnValue ==2 && geoFenceChoice ==2 && step3 ==1 " class="demo-tab-content">
+                    <div class="row" *ngIf="this.currentRole != 'fleet admin'">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+                                Select a Fleet
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6" >
+                                <mat-form-field class="widthClass">
+                                    <mat-select [(ngModel)]="addRuleVariable.fleetName" name="fleetName" [formControl]="fleetName" (change)="selectFleet(addRuleVariable.fleetName);" placeholder="Fleet Name">
+                                        <mat-option *ngFor="let r of AssignFleetList" [value]="r.id">
+                                            {{r.fleetName}}
+                                        </mat-option>
+                                    </mat-select>
+
+                                </mat-form-field>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    
+
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 padding21">
+                            Longitude
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 padding21">
+                            Latitude
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 padding21">
+                            Radius
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4 padding21">
+                            Select Vehicle
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 padding21">
+                            Delete
+                        </div>
+
+                    </div>
+
+                    <div class="row darkGrey" *ngFor="let item of multipleGeofence ">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 padding21">
+                            {{item.longitude}}
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 padding21">
+                            {{item.latitude}}
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 padding21">
+                            {{item.radius}}
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">
+
+                            <div class="row">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+                                    <mat-form-field>
+                                        <mat-select name="vehicleName" [formControl]="vehicleName" (change)="setVehicleValue(multipleGeofence.indexOf(item), vehicleName)" placeholder="Vehicle Name">
+                                            <mat-option *ngFor="let r of AssignVehicleList" [value]="r.id">
+                                                {{r.registrationNumber}}
+                                            </mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1">
+                            <img src="/assets/images/delete.png" (click)="deleteEntry(multipleGeofence.indexOf(item))" style="margin-top:52%" />
+                        </div>
+
+                    </div>
+
+                </div>
+                <div *ngIf="radioBtnValue ==2 && geoFenceChoice ==1" class="demo-tab-content">
+                    <div class="row">
+                        <div class="row">
+                            <agm-map [latitude]="12.972442" [longitude]="77.580643" [zoom]="2">
+                                <div>
+                                    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                                    <agm-circle [latitude]="lat" [longitude]="lng" [radius]="rad"></agm-circle>
+
+                                </div>
+                            </agm-map>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-tab>
+        </mat-tab-group>
+
+        <br />
+        <br />
+        <div class="row padding-class">
+            <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3">
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+                        <button mat-raised-button (click)="selectPrevious(matgroup)" *ngIf="step3!=1" class="mat-elevation-z4 common-btn-class" [disabled]="matgroup.selectedIndex == 0">
+                            Previous
+                        </button>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+
+                        <button mat-raised-button (click)="selectNext(matgroup)" *ngIf="step3==0" class="mat-elevation-z4 common-btn-class" [disabled]="radioBtnValue == 0 || addRuleVariable.rulename==null || latlngrad == false">
+                            Next
+                        </button>
+
+                        <button mat-raised-button (click)="addRule()" *ngIf="step3==1" class="mat-elevation-z4 theme-button track-history-button common-btn-class">
+                            Done and Save
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3">
+            </div>
+        </div>
+    </div>
+
+
+</div>

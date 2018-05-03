@@ -1,0 +1,173 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="padding-10 user-details-view" style=" background:#ffffff;">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="font-bold add-user-label"> {{selectedItem.deviceName}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <button mat-raised-button (click)="saveDevice(); " class="ml-10 float-right mat-elevation-z4 common-btn-class theme-button">
+                Save
+            </button>
+            <button mat-raised-button (click)="cancelEdit();" class="float-right mat-elevation-z4 common-btn-class">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <mat-divider></mat-divider>
+    <form #addFormComp="ngForm">
+
+        <div class="padding-10">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-md-12 col-xl-12 col-lg-12 floatCenter">
+                            <mat-form-field class="">
+                                <input disabled="true" class="non-editable" matInput placeholder="Device Id" [(ngModel)]="selectedItem.deviceName" name="adapterId" [formControl]="adapterId" readonly required>
+                                <mat-error *ngIf="adapterId.invalid">{{getErrorMessage('adapterId',selectedItem.adapterId)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Serial No" [(ngModel)]="selectedItem.serialNo" name="serialNo" [formControl]="serialNo" required>
+                                <mat-error *ngIf="serialNo.invalid">{{getErrorMessage('serialNo',selectedItem.serialNo)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field>
+                                <input matInput placeholder="Device Type" [(ngModel)]="selectedItem.deviceType" name="dongleType" [formControl]="dongleType" required>
+                                <mat-error *ngIf="dongleType.invalid">{{getErrorMessage('dongleType',selectedItem.dongleType)}}</mat-error>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="padding-10">
+            <div class="row">
+                <!--<div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Hardware Type" name="hardwareType" minLength="10" [formControl]="hardwareType" [(ngModel)]="selectedItem.hardwareType" required>
+                                <mat-error *ngIf="hardwareType.invalid">{{getErrorMessage('hardwareType',selectedItem.hardwareType)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Hardware Version" name="hardwareVersion" [formControl]="hardwareVersion" [(ngModel)]="selectedItem.hardwareVersion" required>
+                                <mat-error *ngIf="hardwareVersion.invalid">{{getErrorMessage('hardwareVersion',selectedItem.hardwareVersion)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Firmware Version" name="firmwareVersion" [formControl]="firmwareVersion" [(ngModel)]="selectedItem.protocolVersion" required>
+                                <mat-error *ngIf="firmwareVersion.invalid">{{getErrorMessage('firmwareVersion',selectedItem.firmwareVersion)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="padding-10">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Vehicle Reg No" name="vehicleRegNo" minLength="10" [formControl]="hardwareType" [(ngModel)]="selectedItem.hardwareType" required>
+                                <mat-error *ngIf="hardwareType.invalid">{{getErrorMessage('hardwareType',selectedItem.hardwareType)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Hardware Version" name="hardwareVersion" [formControl]="hardwareVersion" [(ngModel)]="selectedItem.hardwareVersion" required>
+                                <mat-error *ngIf="hardwareVersion.invalid">{{getErrorMessage('hardwareVersion',selectedItem.hardwareVersion)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Firmware Version" name="firmwareVersion" [formControl]="firmwareVersion" [(ngModel)]="selectedItem.firmwareVersion" required>
+                                <mat-error *ngIf="firmwareVersion.invalid">{{getErrorMessage('firmwareVersion',selectedItem.firmwareVersion)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="padding-10">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Hardware Type" name="hardwareType" minLength="10" [formControl]="hardwareType" [(ngModel)]="selectedItem.hardwareType" required>
+                                <mat-error *ngIf="hardwareType.invalid">{{getErrorMessage('hardwareType',selectedItem.hardwareType)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Hardware Version" name="hardwareVersion" [formControl]="hardwareVersion" [(ngModel)]="selectedItem.hardwareVersion" required>
+                                <mat-error *ngIf="hardwareVersion.invalid">{{getErrorMessage('hardwareVersion',selectedItem.hardwareVersion)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <mat-form-field class="login-input-text">
+                                <input matInput placeholder="Firmware Version" name="firmwareVersion" [formControl]="firmwareVersion" [(ngModel)]="selectedItem.firmwareVersion" required>
+                                <mat-error *ngIf="firmwareVersion.invalid">{{getErrorMessage('firmwareVersion',selectedItem.firmwareVersion)}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+    </form>
+
+</div>

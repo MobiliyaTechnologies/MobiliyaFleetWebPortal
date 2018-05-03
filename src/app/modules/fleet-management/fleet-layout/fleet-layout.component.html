@@ -1,0 +1,78 @@
+<div>
+
+    <div class="container-fluid">
+        <ngx-loading [show]="loading"></ngx-loading>
+        <div class="row">
+            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 color-3-class">
+                <div class="padding-10 ">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-7 col-xl-7 col-lg-7">
+                            <div class="font-bold">All Fleets</div>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="row">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                    <img class="cursorClass" *ngIf="!(currentUserInfo && currentUserInfo.currentRole=='fleet admin')" src="/assets/images/add.png" matTooltip="Add Fleet" (click)="navigateToAdd()" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="common-margin-top row">
+                        <input id="search" name="search" value="search" class="form-control search-box" placeholder="Search" [(ngModel)]="model.searchCriteria" style="text-transform: lowercase;">
+                    </div>
+
+                    <div class="row v-scroll-class" id="style-scroll">
+                        <div *ngIf="fleetList.length>1"class="col-sm-12" [ngClass]="(selectedUser == 'home'? 'selected-nav-item' : 'nav-item')">
+                            <div class="row common-margin-top common-user-block" *ngFor="let item of fleetList | searchFleetFilter:model.searchCriteria" (click)=" navigateToDetails(item.id);" [ngClass]="(selectedItemForClass===item.id)?'selected-user-class':'common-user-class'">
+
+                                <div class="col-sm-12">
+                                    <div class="cursorClass">
+                                        <div class="row">
+                                            <div class="col-sm-12 user-name-padding">
+                                                <div>
+                                                    {{item.fleetName}}
+                                                </div>
+                                                <div class="field-label-class">
+                                                    {{item.deviceType}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="fleetList.length<=1" class="col-sm-12" [ngClass]="(selectedUser == 'home'? 'selected-nav-item' : 'nav-item')">
+                                <div class="row common-margin-top common-user-block" *ngFor="let item of fleetList " (click)=" navigateToDetails(item.id);" [ngClass]="(selectedItemForClass===item.id)?'selected-user-class':'common-user-class'">
+    
+                                    <div class="col-sm-12">
+                                        <div class="cursorClass">
+                                            <div class="row">
+                                                <div class="col-sm-12 user-name-padding">
+                                                    <div>
+                                                        {{item.fleetName}}
+                                                    </div>
+                                                    <div class="field-label-class">
+                                                        {{item.deviceType}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-9 col-md-9 col-xl-9 col-lg-9 color-9-class">
+                <router-outlet id="containerWindow"></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

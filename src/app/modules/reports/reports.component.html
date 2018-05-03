@@ -1,0 +1,158 @@
+<div class="container"> 
+  <ngx-loading [show]="loading"></ngx-loading>
+
+	<div class="row mt-20">
+		<div class="col-sm-2" *ngIf="currentUserInfo.currentRole.toLowerCase()=='super admin'">
+      <mat-form-field class="login-input-text">
+          <mat-select [(ngModel)]="selectReportModel.tenantId" (change)="onTenantChange();" name="tenantId" placeholder="Select Tenant" required>
+              <mat-option *ngFor="let item of tenantList" [value]="item.tenantId">
+                  {{ item.firstName }}&nbsp;{{item.lastName}}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+      <label class="mat-error custom-error" *ngIf="!tenantList ||  tenantList.length<=0">No tenant available</label> 
+    </div>
+    <div class="col-sm-2" *ngIf="currentUserInfo.currentRole.toLowerCase()=='super admin'||currentUserInfo.currentRole.toLowerCase()=='tenant admin' ">
+        <mat-form-field class="login-input-text">
+            <mat-select [(ngModel)]="selectReportModel.fleetId" (change)="onFleetChange(selectReportModel.fleetId);"  name="fleetId" placeholder="Select Fleet" required>
+                <mat-option *ngFor="let item of fleetList" [value]="item.id">
+                    {{ item.fleetName }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <label class="mat-error custom-error" *ngIf="!fleetList ||  fleetList.length<=0">No fleet available</label> 
+    </div>
+    <div class="col-sm-2" *ngIf="currentUserInfo.currentRole.toLowerCase()!='driver' ">
+        <mat-form-field class="login-input-text">
+            <mat-select [(ngModel)]="selectReportModel.vehicleId" (change)="onVehicleChange(selectReportModel.vehicleId);" name="vehicleId" placeholder="Select Vehicle" required>
+                <mat-option *ngFor="let item of vehicleList" [value]="item.id">
+                    {{item.brandName}}&nbsp;{{item.model}}({{item.registrationNumber}})
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <label class="mat-error custom-error" *ngIf="!vehicleList ||  vehicleList.length<=0">No vehicle available</label> 
+    </div>
+    <div class="col-sm-4" >
+    </div>
+    <div class="col-sm-2">
+        <mat-form-field class="login-input-text">
+            <input matInput type="text" bsDaterangepicker  placeholder="Select Range" name="dateRange" (bsValueChange)="onValueChange($event)" [minDate]="minDate"
+            [maxDate]="maxDate" [(ngModel)]="bsRangeValue" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" required>
+        </mat-form-field>
+    </div>
+	</div>
+
+	<div class="row mt-20">
+		  <div class="col-sm-12 example-container mat-elevation-z8">
+          <div class="table-responsive">
+          <table class="table" id="example">
+              <thead>
+                  <tr class="tableHeadPad" *ngIf="displayedColumns">
+                      <th class="borderRightGreyClass reportTableHeadWidth">Adapter Data</th>
+                      <th class="">{{displayedColumns[0]}}</th>
+                      <th class="">{{displayedColumns[1]}}</th>
+                      <th class="">{{displayedColumns[2]}}</th>
+                      <th class="">{{displayedColumns[3]}}</th>
+                      <th class="">{{displayedColumns[4]}}</th>
+                      <th class="">{{displayedColumns[5]}}</th>
+                      <th class="">{{displayedColumns[6]}}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td><b>Truck Data</b></td>
+                      <td colspan="7"></td>
+                  </tr>
+                  <!-- <tr>
+                      <td class="borderRightGreyClass"><div>Truck Odometer<img class="floatRight cursorClass" src="/assets/images/graph.png"  (click)="openModal(template,'mileage');getGraphData('mileage')" ></div>Max per day</td>
+                      <td class=" wrapWord">{{vehicleParams[0]}}</td>
+                      <td class=" wrapWord">{{vehicleParams[0]}}</td>
+                      <td class=" wrapWord">{{vehicleParams[0]}}</td>
+                      <td class=" wrapWord">{{vehicleParams[0]}}</td>
+                      <td class=" wrapWord">{{vehicleParams[0]}}</td>
+                      <td class=" wrapWord">{{vehicleParams[0]}}</td>
+                      <td class=" wrapWord">{{vehicleParams[0]}}</td>
+                  </tr> -->
+                  
+                  <tr>
+                      <td class="borderRightGreyClass"><div>Engine Distance<img class="floatRight cursorClass" src="/assets/images/graph.png"  (click)="openModal(template,'mileage');getGraphData('mileage')" ></div>Max/day</td>
+                      <td class=" wrapWord" *ngIf="reportData[0] && reportData[0].maxDistance">{{reportData[0].maxDistance}}</td>
+                      <td class=" wrapWord" *ngIf="reportData[1] && reportData[1].maxDistance">{{reportData[1].maxDistance}}</td>
+                      <td class=" wrapWord" *ngIf="reportData[2] && reportData[2].maxDistance">{{reportData[2].maxDistance}}</td>
+                      <td class=" wrapWord" *ngIf="reportData[3] && reportData[3].maxDistance">{{reportData[3].maxDistance}}</td>
+                      <td class=" wrapWord" *ngIf="reportData[4] && reportData[4].maxDistance">{{reportData[4].maxDistance}}</td>
+                      <td class=" wrapWord" *ngIf="reportData[5] && reportData[5].maxDistance">{{reportData[5].maxDistance}}</td>
+                      <td class=" wrapWord" *ngIf="reportData[6] && reportData[6].maxDistance">{{reportData[6].maxDistance}}</td>
+                  </tr>
+                  
+                  <tr>
+                        <td class="borderRightGreyClass"><div>Vehicle Speed<img class="floatRight cursorClass" src="/assets/images/graph.png" (click)="openModal(template,'speed');"></div>Avg/day </td>
+                        <td class=" wrapWord"*ngIf="reportData[0] && reportData[0].speedAvg">{{reportData[0].speedAvg}}</td>
+                        <td class=" wrapWord"*ngIf="reportData[1] && reportData[1].speedAvg">{{reportData[1].speedAvg}}</td>
+                        <td class=" wrapWord"*ngIf="reportData[2] && reportData[2].speedAvg">{{reportData[2].speedAvg}}</td>
+                        <td class=" wrapWord"*ngIf="reportData[3] && reportData[3].speedAvg">{{reportData[3].speedAvg}}</td>
+                        <td class=" wrapWord"*ngIf="reportData[4] && reportData[4].speedAvg">{{reportData[4].speedAvg}}</td>
+                        <td class=" wrapWord"*ngIf="reportData[5] && reportData[5].speedAvg">{{reportData[5].speedAvg}}</td>
+                        <td class=" wrapWord"*ngIf="reportData[6] && reportData[6].speedAvg">{{reportData[6].speedAvg}}</td>
+                    </tr>
+                  <tr>
+                      <td class="borderRightGreyClass"><div>Engine RPM<img class="floatRight cursorClass" src="/assets/images/graph.png" (click)="openModal(template,'rpm');"></div>Avg/day </td>
+                      <td class=" wrapWord"*ngIf="reportData[0] && reportData[0].rpmAvg">{{reportData[0].rpmAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[1] && reportData[1].rpmAvg">{{reportData[1].rpmAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[2] && reportData[2].rpmAvg">{{reportData[2].rpmAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[3] && reportData[3].rpmAvg">{{reportData[3].rpmAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[4] && reportData[4].rpmAvg">{{reportData[4].rpmAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[5] && reportData[5].rpmAvg">{{reportData[5].rpmAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[6] && reportData[6].rpmAvg">{{reportData[6].rpmAvg}}</td>
+                  </tr>
+                  
+                  <tr>
+                      <td class="borderRightGreyClass"><div>Intake Air Temperature</div>Avg/day while rpm >1000</td>
+                      <td class=" wrapWord"*ngIf="reportData[0] && reportData[0].airIntakeTempratureAvg">{{reportData[0].airIntakeTempratureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[1] && reportData[1].airIntakeTempratureAvg">{{reportData[1].airIntakeTempratureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[2] && reportData[2].airIntakeTempratureAvg">{{reportData[2].airIntakeTempratureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[3] && reportData[3].airIntakeTempratureAvg">{{reportData[3].airIntakeTempratureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[4] && reportData[4].airIntakeTempratureAvg">{{reportData[4].airIntakeTempratureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[5] && reportData[5].airIntakeTempratureAvg">{{reportData[5].airIntakeTempratureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[6] && reportData[6].airIntakeTempratureAvg">{{reportData[6].airIntakeTempratureAvg}}</td>
+                  </tr>
+
+                  <tr>
+                      <td class="borderRightGreyClass">
+                          <div>Intake Air Pressure</div>Avg/day
+                      </td>
+                      <td class=" wrapWord"*ngIf="reportData[0] && reportData[0].airIntakePressureAvg">{{reportData[0].airIntakePressureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[1] && reportData[1].airIntakePressureAvg">{{reportData[1].airIntakePressureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[2] && reportData[2].airIntakePressureAvg">{{reportData[2].airIntakePressureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[3] && reportData[3].airIntakePressureAvg">{{reportData[3].airIntakePressureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[4] && reportData[4].airIntakePressureAvg">{{reportData[4].airIntakePressureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[5] && reportData[5].airIntakePressureAvg">{{reportData[5].airIntakePressureAvg}}</td>
+                      <td class=" wrapWord"*ngIf="reportData[6] && reportData[6].airIntakePressureAvg">{{reportData[6].airIntakePressureAvg}}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+</div>
+
+<ng-template #template >
+    <div class="min-width-modal" >
+            <div class="modal-header">
+                    <h4 class="modal-title">{{selectedParamGraph}}</h4>
+                    <button type="button" class="close" (click)="modalRef.hide()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div style="text-align: center; width: 100%">
+                        <iframe style=" width: 100%"  id="iframeId" height="600" src="https://app.powerbi.com/reportEmbed?reportId=7e7dcdf9-e84a-4d52-a427-e1ea0a15aa90" frameborder="0" allowFullScreen="true" #iframe></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+        </div>
+    </div>
+</ng-template>

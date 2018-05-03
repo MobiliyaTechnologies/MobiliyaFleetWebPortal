@@ -1,0 +1,189 @@
+.left-align {
+    text-align: left;
+}
+
+.common-btn-class {
+    border-radius: 25px;
+}
+
+.theme-button {
+    background-image: -webkit-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    color: #ffffff;
+}
+
+
+.color-3-class {
+    background-color: #F7FAF9;
+}
+
+.height-class {
+    min-height: 100vh;
+}
+
+.color-9-class {
+    background-color: rgba(236, 239, 238, 1);
+}
+
+.add-button {
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    border-radius: 20px;
+    margin-top: 16%;
+    padding-left: 10%;
+    padding-right: 10%;
+    width: 100%;
+    color:white;
+}
+
+.cancel-button {
+    border-radius: 20px;
+    margin-top: 16%;
+    padding-left: 10%;
+    padding-right: 10%;
+    width: 100%;
+    margin-left: -15%;
+}
+
+
+.selected-user-class {
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+    color: #fff;
+}
+
+.padding-bottom {
+    padding-bottom: 2%;
+}
+
+.common-user-class {
+    background: #FFFFFF;
+}
+
+.title-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 2%;
+}
+
+
+.padding-10 {
+    padding: 10px;
+}
+
+.padding-left-8 {
+    padding-left: 8px!important;
+}
+
+.padding-8 {
+    padding: 8px;
+    padding-left: 0px;
+}
+
+.paddingClass {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 8px
+}
+
+
+.common-user-block {
+    border-radius: 5px;
+}
+
+.common-btn-class {
+    border-radius: 25px;
+}
+
+.common-margin-top {
+    margin-top: 10px
+}
+
+.mat-form-field-infix {
+    padding: .4375em 0;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.margin-top-8 {
+    margin-top: 8%;
+}
+
+.margin-top-5 {
+    margin-top: 5%;
+}
+
+.margin-top-50 {
+    margin-top: 50%;
+}
+
+.boldClass {
+    font-weight: bold;
+}
+
+.color-grey {
+    color: rgba(166, 178, 173, 1);
+}
+
+.code-color {
+    color: rgba(255, 51, 51, 1);
+}
+
+
+.color-platinum {
+    color: rgba(229, 229, 229, 1);
+}
+
+
+.add-user-label {
+    padding: 5%;
+    font-size:20px;
+}
+
+.assign-details-label {
+    padding-top: 5%;
+    padding-bottom: 2%;
+    padding-left: 1.3%;
+}
+
+
+.row-padding-top-left {
+    padding-top: 2%;
+    padding-left: 3%;
+}
+
+.style-data-name {
+    padding-bottom: 2%;
+    font-size: 14px;
+}
+
+
+.style-data-value {
+    padding-bottom: 3%;
+    font-size: 16px;
+}
+
+.font-size-22 {
+    font-size: 22px;
+}
+
+
+hr {
+    border-top: 1px solid rgba(229, 229, 229, 1);
+}
+
+.font-size-18 {
+    font-size: 18px;
+}
+
+.user-details-view {
+    margin-top: 16px;
+    background: #ffffff;
+    min-height: 85vh;
+}
+

@@ -1,0 +1,58 @@
+.mt-20{
+    margin-top:20px;
+}
+
+.fleetsClass {
+    background-image: -webkit-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+}
+
+.vehicleClass {
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+}
+.usersClass {
+    background-image: -webkit-linear-gradient(45deg, rgba(47, 194, 192, 1) 0%, rgba(75, 231, 151, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(47, 194, 192, 1) 0%, rgba(75, 231, 151, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(47, 194, 192, 1) 0%, rgba(75, 231, 151, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(47, 194, 192, 1) 0%, rgba(75, 231, 151, 1) 100%);
+}
+.driversClass {
+    background-image: -webkit-linear-gradient(60deg, rgba(255, 62, 153, 1) 0%, rgba(255, 163, 90, 1) 100%);
+background-image: -moz-linear-gradient(60deg, rgba(255, 62, 153, 1) 0%, rgba(255, 163, 90, 1) 100%);
+background-image: -o-linear-gradient(60deg, rgba(255, 62, 153, 1) 0%, rgba(255, 163, 90, 1) 100%);
+background-image: linear-gradient(60deg, rgba(255, 62, 153, 1) 0%, rgba(255, 163, 90, 1) 100%);
+}
+
+.imageClass{
+    padding: 10%;
+}
+.content {
+    padding: 20px 30px;
+    background: #ffffff;
+}
+.numberClass{
+    font-size: 28px;
+}
+.advanced-pie-legend-wrapper{
+    display:none !important;
+}
+
+.label{
+    font-weight: bold;
+}
+
+.rightSelect{
+    width:150px; float:right;
+}
+.optionClass{
+    color: #ffffff;
+}
+
+.margin-chart{
+    margin: 100px -75px;
+}

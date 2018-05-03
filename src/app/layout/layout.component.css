@@ -1,0 +1,197 @@
+.disabled{
+    opacity:0.3;
+    pointer-events:none;
+}
+.username-class {
+    float: right;
+    margin-right:5%;
+    color: rgba(69, 69, 83, 1) !important;
+}
+.logOutBtn {
+    position: absolute;
+    margin-top: 10%;
+}
+
+li span {
+    background-color: #E9EDF0 !important;
+    color: #3e4146 !important;
+}
+.example-spacer {
+    flex: 0.87 0.5 auto;
+}
+.example-spacer-profile {
+    flex: 0.04 ;
+}
+.example-spacer-img {
+    flex: 0.2 0.2 auto;
+}
+.toolbar-verticle-line{
+    border-left: gainsboro; 
+    border-left-width: 0.75px; 
+    border-left-style:solid; 
+    height: 100%;
+    padding-right: 10px;
+    
+}
+.toolbar-verticle-line-logo{
+    border-left: #eaecee; 
+    border-left-width: 0.75px; 
+    border-left-style:solid; 
+    height: 100%;
+    padding-left: 10px;
+
+}
+.example-container-side-nav {
+    position: absolute;
+    top: 60px;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    min-width: 4px;
+}
+.menu-item-custom{
+    font-size: smaller;
+}
+
+.example-sidenav {
+    
+    display: flex;
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /*width: 200px;*/
+    /*background: #0C2B35;*/
+}
+
+.example-header {
+    position: fixed;
+    color:white;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.example-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.example-is-mobile .example-toolbar {
+    position: fixed;
+    /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+    z-index: 2;
+}
+
+h1.example-app-name {
+    margin-left: 8px;
+    color:white;
+    font-size: x-large;
+}
+
+
+.example-sidenav-container {
+    /*   When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+         causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+    flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+    /*   When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+         `<body>` to be our scrolling element for mobile layouts. */
+    flex: 1 0 auto;
+}
+
+mat-list-item{
+    color:white;
+    background-color:#204C67;
+}
+
+
+.navbar-list-item-style{
+    /*color:white;*/
+    font-size: small !important;
+    font-weight: bold !important;
+}
+.navbar-list-item-selected-style {
+    color: #ffffff;
+    font-size: small !important;
+    font-weight: bold !important;
+    
+}
+.navbar-list-inner-item-style{
+    color:white;
+    font-size: small !important;
+    font-weight: bold !important;
+    padding-left: 20px;
+}
+
+.navbar-list-icon-style{
+    color:white !important;
+}
+.navbar-list-icon-selected-style{
+    color:#0099cc !important;
+}
+
+
+.navbar-list-item-style-tab{
+    color:white;
+    font-size: small !important;
+    font-weight: bold !important;
+    background-color: #204C67;
+}
+.navbar-list-item-style-tab{
+    color:#0099cc;
+    font-size: small !important;
+    font-weight: bold !important;
+    background-color: #204C67;
+}
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+mat-icon{
+    color:white !important;
+}
+
+.inner-list-background{
+    background: #188ED4;
+}
+
+.image-align-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.text-align-center{
+    text-align:center;
+}
+.nav-item-padding {
+    padding: 20px 30px;
+    width: 120px !important;
+}
+
+.selected-nav-item {
+    background-image: -webkit-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -moz-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: -o-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+    background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
+}
+
+.button__badge {
+    background-color: #fa3e3e;
+    border-radius: 2px;
+    color: white;
+    padding: 1px 3px;
+    font-size: 10px;
+    position: absolute;
+    top: 12px;
+    margin-left: 15px;
+  }
+
+  .logoClass{
+      margin-top: 15px;
+      font-weight: bold;
+  }

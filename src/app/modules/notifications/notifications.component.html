@@ -1,0 +1,27 @@
+<div class="container-fluid padding-notif">
+  <h3>Alert Messages</h3>
+  <ngx-loading [show]="loading"></ngx-loading>
+  <div *ngIf="notifications.length>0">
+        <div class="row mt-10" *ngFor="let item of notifications" >
+            <div class="col-md-1">
+                <img class="alert-width" src="/assets/images/alert-2x.png" />
+            </div>
+            <div class="col-md-11">
+                <div class="row bold-font" *ngIf="item.vehicleRegNo">{{item.vehicleRegNo}}&nbsp;({{item.Time | date:'medium'}})</div>
+                <div class="row bold-font" *ngIf="!item.vehicleRegNo">{{item.vehicleId}}&nbsp;({{item.Time | date:'medium'}})</div>
+                <div class="row" *ngIf="item.isInside">
+                    Vehicle is near the destination.
+                </div>
+                <div class="row" *ngIf="item.isSpeedExceeded">
+                    Vehicle crossed speed limit.
+                </div>
+            </div>
+        </div>
+  </div>
+  
+  <div class="row" *ngIf="notifications.length==0">
+        <div class="col-md-12">
+            No notifications available.
+        </div>
+  </div>
+  </div>
