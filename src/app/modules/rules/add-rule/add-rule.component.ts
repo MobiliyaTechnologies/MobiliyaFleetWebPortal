@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { concat } from 'rxjs/operator/concat';
 import { ToastrService } from 'ngx-toastr';
+declare var Microsoft: any;
 import { RestService } from '../../../services/rest-service/rest-service.service';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import * as XLSX from 'xlsx';
-import { MatTableDataSource, MatSort } from '@angular/material';
 type AOA = any[][];
 
 @Component({
@@ -15,9 +15,9 @@ type AOA = any[][];
 })
 
 export class AddRuleComponent implements OnInit {
-
+    @ViewChild('myMap') myMap;
+    map: any;
     displayedColumns = ['longitude', 'latitude', 'radius'];
-    @ViewChild(MatSort) sort: MatSort;
     vehicleName = new FormControl('', [Validators.required]);
     fleetName = new FormControl('', [Validators.required]);
     ruleName = new FormControl('', [Validators.required]);
@@ -81,7 +81,24 @@ export class AddRuleComponent implements OnInit {
         this.currentRole = this.currentUserInfo.currentRole;
         this.Id = this.currentUserInfo.id;
         this.getFleetList();
+        //var _that = this;
+        //setTimeout(() => {
+        //    _that.map = new Microsoft.Maps.Map(_that.myMap.nativeElement, {
+        //        credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
+        //    });
+        //}, 1000);
+        //this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
+        //    credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
+        //});
+    }
 
+    ngAfterViewInit() {
+        var _that = this;
+        setTimeout(() => {
+            _that.map = new Microsoft.Maps.Map(_that.myMap.nativeElement, {
+                credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
+            });
+        }, 1000);
     }
 
     /* Function to check if radius, longitude, latitude and vehicle are correct*/
@@ -188,6 +205,39 @@ export class AddRuleComponent implements OnInit {
 
     }
 
+    setPushpin = function (lat, lng) {
+        var pushPin = { 'latitude': lat, 'longitude': lng };
+
+        var pin = new Microsoft.Maps.Pushpin(pushPin, {
+            icon: '../../../assets/images/stop1.png'
+        });
+
+        //var backgroundColor = new Microsoft.Maps.Color(10, 0, 0, 0)
+        //var borderColor = new Microsoft.Maps.Color(150, 200, 0, 0);
+        ////Earth's mean radius in KM is 6371km.
+        //var circlePoints = new Array();
+        //var lat1 = (lat * Math.PI) / 180;
+        //var long1 = (lng * Math.PI) / 180;
+        ////var d = radius / 3956;
+        //var d = 100 / 3956;
+        //d = 100;
+        //var p2 = new Microsoft.Maps.Location(0, 0);
+        //for (var x = 0; x <= 360; x += 5) {
+        //    var brng = x * Math.PI / 180;
+        //    console.log("brng", brng);
+        //    p2.latitude = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(brng));
+        //    p2.longitude = ((long1 + Math.atan2(Math.sin(brng) * Math.sin(d) * Math.cos(lat1), Math.cos(d) - Math.sin(lat1) * Math.sin(p2.latitude))) * 180) / Math.PI;
+        //    p2.latitude = (p2.latitude * 180) / Math.PI;
+        //    console.log("p2", p2);
+        //    circlePoints.push(p2);
+        //}
+        this.map.entities.push(pin);
+        this.map.setView({ center: pushPin });
+        //console.log("Circle points", circlePoints);
+        //var polygon = new Microsoft.Maps.Polygon(circlePoints, { fillColor: backgroundColor, strokeColor: borderColor, strokeThickness: 0 });
+        //this.map.entities.push(polygon);
+    }
+
     /*Function to navigate to the next step*/
     selectNext(el) {
         if (this.radioBtnValue == 1 && this.speedLimitMustBeSet == 1) {
@@ -215,6 +265,10 @@ export class AddRuleComponent implements OnInit {
                     .then(() => {
                         this.lat = parseFloat(this.addRuleVariable.latitude);
                         this.lng = parseFloat(this.addRuleVariable.longitude);
+                        this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
+                            credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
+                        });
+                        this.setPushpin(this.lat, this.lng);  
                         this.rad = parseFloat(this.addRuleVariable.radius);
                         this.latlngrad = true;
                         el.selectedIndex += 1;

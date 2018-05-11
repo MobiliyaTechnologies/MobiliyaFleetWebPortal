@@ -134,7 +134,7 @@ setDeviceAndDriverName(vehicleList){
             }
             else if(resp && !(resp.type==0)){
                 this.loading = false;
-                this.toastr.error('Error getting fleet owner info');
+                //this.toastr.error('Error getting fleet owner info');
             }
         }, error => {
             this.loading = false;
@@ -181,7 +181,7 @@ setDeviceAndDriverName(vehicleList){
                 }
                 else if(resp && resp.length == 0){
                     this.loading=false;
-                    this.toastr.pop("Unable to delete fleet. Please try again later.");
+                    //this.toastr.pop("Unable to delete fleet. Please try again later.");
                 }
 
           }, error => {

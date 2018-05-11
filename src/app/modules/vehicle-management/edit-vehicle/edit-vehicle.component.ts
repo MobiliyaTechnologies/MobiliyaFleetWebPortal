@@ -64,7 +64,6 @@ export class EditVehicleComponent implements OnInit {
         this.getVehicleDetails(this.vehicleId);
         this.getDeviceList();
         this.getFleetList();
-        //this.getUserList();
         this.getRulesList();
   }
 
@@ -73,7 +72,7 @@ export class EditVehicleComponent implements OnInit {
         return new Promise((resolve, reject) => {
             if (this.registrationNumber.invalid || this.brandName.invalid
                 || this.modelName.invalid || this.yearOfManufacture.invalid
-                || this.deviceId.invalid || this.color.invalid) {
+                || this.deviceId.invalid) {
 
                 if (this.registrationNumber.invalid) {
                     this.registrationNumber.markAsTouched();
@@ -92,9 +91,7 @@ export class EditVehicleComponent implements OnInit {
                 if (this.deviceId.invalid) {
                     this.deviceId.markAsTouched();
                 }
-                if (this.color.invalid) {
-                    this.color.markAsTouched();
-                }
+               
                 reject('failure');
             } else {
                 resolve('success');
@@ -129,12 +126,12 @@ export class EditVehicleComponent implements OnInit {
                         this.selectedVehicleToReturn.deviceId = this.selectedvehicle.deviceId;
                         this.getDeviceDetails(this.selectedvehicle.deviceId);
                     } 
-                    if (this.currentRole != "fleet admin") {
-                        if (this.selectedvehicle.fleetId != null) {
+
+                    if (this.selectedvehicle.fleetId != null) {
                             this.selectedVehicleToReturn.fleetId = this.selectedvehicle.fleetId;
                             this.getUserList(this.selectedVehicleToReturn.fleetId);
-                        }
                     }
+                  
                     if (this.selectedvehicle.userId != null) {
                         this.selectedVehicleToReturn.userId = this.selectedvehicle.userId;
                         this.getDriverDetails(this.selectedvehicle.userId);
@@ -371,7 +368,6 @@ export class EditVehicleComponent implements OnInit {
                 this.toastr.error('Error deleting data');
             });
     }
-
 
     /*Function to get details of allocated driver and add to the unassigned drivers*/
     getDriverDetails = function (userId) {

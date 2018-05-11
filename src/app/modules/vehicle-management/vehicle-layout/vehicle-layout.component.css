@@ -10,6 +10,12 @@
     min-height: 100vh;
 }
 
+#myMap {
+    width: 64.5vw;
+    height: 65vh;
+    margin-left: 1%;
+    position: relative;
+}
 .color-9-class {
     background-color: rgba(236, 239, 238, 1);
 }

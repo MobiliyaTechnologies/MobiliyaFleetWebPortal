@@ -70,18 +70,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
             if (localStorage.getItem('selectedMenu')){
                this.selectedMenu=localStorage.getItem('selectedMenu');
             }
-            //for superadmin fetching all reports URI
-            if(this.userInfo && this.userInfo.currentRole && this.userInfo.currentRole.toLowerCase()=='super admin'){
-                if(this.userInfo.Tenant && this.userInfo.Tenant.id){
-                    this.getReportsOfTenant(this.userInfo.Tenant.id);
-                }
-            }
-            //For other users
-            else{
-                if(this.userInfo && this.userInfo.Tenant && this.userInfo.Tenant.id){
-                    this.getReportsOfTenant(this.userInfo.Tenant.id);
-                }
-            }
 
             /**
              * Notifications handling
@@ -117,21 +105,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
              */
         } catch (err) {
         }
-    }
-
-    /**
-     * Fetching report APIs of tenant
-     */
-    getReportsOfTenant=function(tenantId){
-        this.restService.makeCall('Users', 'GET', '/reports/' + tenantId, {})
-            .subscribe(resp => {
-                if (resp.body && resp.body.data) {
-                    this.reportUrls = resp.body.data;
-                    localStorage.setItem('reportUrls',JSON.stringify(this.reportUrls));
-                }
-            }, error => {
-                this.toastr.error('Error getting Report Urls');
-            });
     }
 
     /**Called on page destroy */

@@ -1,5 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+declare var Microsoft: any;
 import { SearchFleetDialogComponent } from '../../../shared/search-fleet-dialog/search-fleet-dialog.component';
 import { RestService } from '../../../services/rest-service/rest-service.service';
 import { AgmCoreModule } from '@agm/core';
@@ -10,6 +11,8 @@ import { AgmCoreModule } from '@agm/core';
     styleUrls: ['./vehicle-trip-history-details.component.css']
 })
 export class VehicleTripHistoryDetailsComponent implements OnInit {
+    @ViewChild('myMap') myMap;
+    map: any;
     public loading = false;
     public icon = "../../../assets/images/stop1.png"
     tripId: any;
@@ -52,6 +55,7 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
     coordinatesStart: any = {};
     tripDetailsOfVehicleAtEnd: any;
     latitude: any;
+    tripCommonId: any;
     longitude: any;
     tripDetailsLength: number;
     model: any;
@@ -71,6 +75,13 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
         this.getVehicleTripHistory();
     }
 
+    ngAfterViewInit() {
+        this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
+            credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc',
+            zoom: 10
+            });
+    }
+
     /*Function to get Trip History for a particular Vehicle*/
     getVehicleTripHistory = function() {
         this.tripId = this.data.selectedTripForDetailsId;
@@ -83,13 +94,17 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
             .subscribe(resp => {
                 if (resp.body && resp.body.data) {
                     this.tripDetails = resp.body.data;
+                    this.tripCommonId = this.tripDetails.commonId;
+                    console.log("this.tripDetails", this.tripDetails);
                     this.vehicleId = this.tripDetails.vehicleId;
-                    if (this.tripDetails.locationDetails.length != 0) {
+                    if (this.tripDetails.locationDetails.length != 0 && this.tripDetails.locationDetails.length>2) {
                         this.latitude = parseFloat(this.tripDetails.locationDetails[0].latitude);
                         this.longitude = parseFloat(this.tripDetails.locationDetails[0].longitude);
+                        this.getCoordinates(this.tripDetails);
                     }
                    
-                    this.getCoordinates(this.tripDetails);
+                    
+                    
                     this.getVehicleTripHistoryDetails(this.vehicleId);
 
                 } else {
@@ -107,7 +122,7 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
         this.tripId = this.data.selectedTripForDetailsId;
         this.tenantId = this.data.tenantIdDetails;
         this.model = {};
-        var URL = '/' + this.tenantId + '/vehicleHistory?vehicleId=' + vehicleId + '&order=asc';
+        var URL = '/' + this.tenantId + '/vehicleHistory?vehicleId=' + vehicleId + '&order=asc&tripId=' + this.tripCommonId + '&limit=0';
         this.tripDetailsOfVehicleZero.EngineSerialNo = "NA";
         this.tripDetailsOfVehicleZero.EngineVIN = "NA";
         this.tripDetailsOfVehicleZero.Odometer = "NA";
@@ -116,6 +131,7 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
             .subscribe(resp => {
                 if (resp.body && resp.body.data) {
                     this.tripDetailsOfVehicle = resp.body.data;
+                    console.log("this.tripDetailsOfVehicle", this.tripDetailsOfVehicle);
                     this.tripDetailsOfVehicleZero = this.tripDetailsOfVehicle[0].data;
                     this.FaultSPN = this.tripDetailsOfVehicleZero.FaultSPN;
                     this.FaultDescription = this.tripDetailsOfVehicleZero.FaultDescription;
@@ -134,7 +150,13 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
     vehicleDataToBeDisplayed = function(tripDetailsOfVehicle) {
         this.loading = true;
         this.tripDetailsLength = tripDetailsOfVehicle.length;
-        this.incrementBy = Math.floor((this.tripDetailsLength) / 10);
+        if (this.tripDetailsLength > 10) {
+            this.incrementBy = Math.floor((this.tripDetailsLength) / 10);
+        }
+        else {
+            this.incrementBy = 1;
+        }
+        
         this.tripDetailsOfVehicleAtStart = tripDetailsOfVehicle[0];
         this.tripDetailsOfVehicleAtEnd = tripDetailsOfVehicle[this.tripDetailsLength - 1];
         this.endOdometer = this.tripDetailsOfVehicleAtEnd.data.Odometer;
@@ -221,11 +243,22 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
                 this.latitudeValue = parseFloat(tripDetails.locationDetails[i].latitude);
                 this.longitudeValue = parseFloat(tripDetails.locationDetails[i].longitude);
                 if (i == 0 || i == (tripDetails.locationDetails.length - 1)) {
-                    this.coordinatesStartEnd.push({ "lat": parseFloat(tripDetails.locationDetails[i].latitude), "lng": parseFloat(tripDetails.locationDetails[i].longitude) });
+                    this.coordinatesStartEnd.push({ "latitude": parseFloat(tripDetails.locationDetails[i].latitude), "longitude": parseFloat(tripDetails.locationDetails[i].longitude) });
                 }
-                this.coordinates.push({ "lat": parseFloat(tripDetails.locationDetails[i].latitude), "lng": parseFloat(tripDetails.locationDetails[i].longitude) });
+                this.coordinates.push({ "latitude": parseFloat(tripDetails.locationDetails[i].latitude), "longitude": parseFloat(tripDetails.locationDetails[i].longitude) });
             }
-
+            console.log("this.map", this.map);
+            var line = new Microsoft.Maps.Polyline(this.coordinates, {
+                strokeColor: 'black',
+                strokeThickness: 3 
+            });
+            var pinStart = new Microsoft.Maps.Pushpin(this.coordinates[0]);
+            var pinEnd = new Microsoft.Maps.Pushpin(this.coordinates[this.coordinates.length-1]);
+            //Add the polyline to map
+            this.map.entities.push(pinStart);
+            this.map.entities.push(pinEnd);
+            this.map.entities.push(line);
+            this.map.setView({ center: this.coordinates[0]});
         }
     }
 

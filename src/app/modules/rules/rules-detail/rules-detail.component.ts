@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestService } from '../../../services/rest-service/rest-service.service';
 import { ToastrService } from 'ngx-toastr';
+declare var Microsoft: any;
 
 @Component({
   selector: 'app-rules-detail',
@@ -9,13 +10,15 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./rules-detail.component.css']
 })
 export class RulesDetailComponent implements OnInit {
+    @ViewChild('myMap') myMap;
+    map: any;
     tenantId: any;
     lat: any;
     lng: any;
     rad: any;
     selectedItemForClass: any = {};
     displaySpeedDetails = false;
-    displayGeofenceDetails = false;
+    displayGeofenceDetails = true;
     selectedItem: any = {};
     currentRole: any;
     model: any;
@@ -38,18 +41,18 @@ export class RulesDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-      
         this.currentUserInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.tenantId = this.currentUserInfo.Tenant.id;
         this.getRuleInformation(this.selectedItem._id);
     }
+
+
 
     /*Function to get details of a particular rule by id*/
     getRuleInformation = function (id) {
         this.loading = true;
         this.model = {};
         var URL = '/' + this.tenantId + '/rules/' + id;
-        console.log(URL);
         this.restService.makeCall('trip', 'GET', URL, this.model)
             .subscribe(resp => {
                 if (resp.body && resp.body.data) {
@@ -64,7 +67,16 @@ export class RulesDetailComponent implements OnInit {
                         this.displayGeofenceDetails = true;
                         this.lat = parseFloat(this.selectedItem.latitude);
                         this.lng = parseFloat(this.selectedItem.longitude);
-                        this.rad = parseFloat(this.selectedItem.radius);
+                        var pushPin = { 'latitude': this.lat, 'longitude': this.lng };
+                        this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
+                            credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
+                        });
+                        
+                        var pin = new Microsoft.Maps.Pushpin(pushPin);
+                      
+                        this.map.entities.push(pin);
+                        this.map.setView({ center: pushPin });
+                        this.rad = parseFloat(this.selectedItem.radius); 
                     }
                 
                 } else {

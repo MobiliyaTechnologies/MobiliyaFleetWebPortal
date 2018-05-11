@@ -336,17 +336,9 @@
 
                 </div>
                 <div *ngIf="radioBtnValue ==2 && geoFenceChoice ==1" class="demo-tab-content">
-                    <div class="row">
-                        <div class="row">
-                            <agm-map [latitude]="12.972442" [longitude]="77.580643" [zoom]="2">
-                                <div>
-                                    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-                                    <agm-circle [latitude]="lat" [longitude]="lng" [radius]="rad"></agm-circle>
-
-                                </div>
-                            </agm-map>
+                        <div class="row" >
+                            <div id='myMap' #myMap style='width: 47vw!important;height: 60vh!important;margin-left: 1%; position: relative;'></div>
                         </div>
-                    </div>
                 </div>
 
             </mat-tab>

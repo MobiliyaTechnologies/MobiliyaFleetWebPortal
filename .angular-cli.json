@@ -31,11 +31,11 @@
                 "../node_modules/@swimlane/ngx-charts/release/index.css",
                 "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
             ],
-            "scripts": [
-                "../node_modules/jquery/dist/jquery.min.js",
-                "../node_modules/web-animations-js/web-animations.min.js",
-                "../node_modules/core-js/client/shim.min.js"
-            ],
+          "scripts": [
+            "../node_modules/jquery/dist/jquery.min.js",
+            "../node_modules/web-animations-js/web-animations.min.js",
+            "../node_modules/core-js/client/shim.min.js"
+          ],
             "environmentSource": "environments/environment.ts",
             "environments": {
                 "dev": "environments/environment.ts",

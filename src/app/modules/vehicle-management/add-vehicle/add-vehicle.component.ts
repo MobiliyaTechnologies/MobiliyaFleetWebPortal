@@ -49,7 +49,6 @@ export class AddVehicleComponent implements OnInit {
         this.currentRole = this.currentUserInfo.currentRole;
         this.getDeviceList();
         this.getFleetList();
-        //this.getUserList();
         this.getRulesList();
   }
 
@@ -58,7 +57,7 @@ export class AddVehicleComponent implements OnInit {
         return new Promise((resolve, reject) => {
             if (this.registrationNumber.invalid || this.brandName.invalid
                 || this.modelName.invalid || this.yearOfManufacture.invalid
-                || this.deviceId.invalid || this.color.invalid) {
+                || this.deviceId.invalid) {
 
                 if (this.registrationNumber.invalid) {
                     this.registrationNumber.markAsTouched();
@@ -77,9 +76,7 @@ export class AddVehicleComponent implements OnInit {
                 if (this.deviceId.invalid) {
                     this.deviceId.markAsTouched();
                 }
-                if (this.color.invalid) {
-                    this.color.markAsTouched();
-                }
+                
                 reject('failure');
             } else {
                 resolve('success');

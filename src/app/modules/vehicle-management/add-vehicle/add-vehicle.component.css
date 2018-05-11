@@ -2,6 +2,10 @@
     text-align: left;
 }
 
+.ml-10 {
+    margin-left: 10px;
+}
+
 .common-btn-class {
     border-radius: 25px;
 }

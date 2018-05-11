@@ -137,10 +137,10 @@ export class LoginComponent implements OnInit {
                         }
                         //tenant admin naviagation on login
                         else if(item.roleName.toLowerCase()==='tenant admin'){
-                            localStorage.setItem('selectedMenu','users');
+                            localStorage.setItem('selectedMenu','home');
                             userInfo.currentRole = item.roleName;
                             self.setLocalStorage(userInfo);
-                            self.router.navigate(['dashboard/list-users']);
+                            self.router.navigate(['dashboard/home']);
                         }
                         //superadmin navigation on login
                         else{
@@ -165,6 +165,10 @@ export class LoginComponent implements OnInit {
                         if (resp.body && resp.body.data) {
                             this.loading = false;
                             this.userInfo = resp.body.data;
+                            // fetching all reports URI
+                            if(this.userInfo.Tenant && this.userInfo.Tenant.id){
+                                this.getReportsOfTenant(this.userInfo.Tenant.id);
+                            }
                             this.getCurrentUserRole(this.userInfo);
 
                             this.name = this.userInfo.firstName + ' ' + this.userInfo.lastName;
@@ -183,6 +187,20 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    /**
+     * Fetching report APIs of tenant
+     */
+    getReportsOfTenant=function(tenantId){
+        this.restService.makeCall('Users', 'GET', '/reports/' + tenantId, {})
+            .subscribe(resp => {
+                if (resp.body && resp.body.data) {
+                    this.reportUrls = resp.body.data;
+                    localStorage.setItem('reportUrls',JSON.stringify(this.reportUrls));
+                }
+            }, error => {
+                this.toastr.error('Error getting Report Urls');
+            });
+    }
 
     loginUser(): void {
         let loginModel:any={};

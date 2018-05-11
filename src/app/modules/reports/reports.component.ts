@@ -105,6 +105,8 @@ export class ReportsComponent implements OnInit {
     reqObj.no_of_days=this.dayCount;
     reqObj.vehicleId=this.selectReportModel.vehicleId;
     let filter="";
+    let newStartDate=reqObj.startDate.split('T');
+    reqObj.startDate=newStartDate[0]+"T00:00:00.00Z";
     filter="?startDate="+reqObj.startDate+"&no_of_days="+reqObj.no_of_days+"&vehicleId="+reqObj.vehicleId;
     this.restService.makeCall('trip', 'GET', '/' +this.selectReportModel.tenantId + '/reports'+filter, reqObj)
         .subscribe(resp => {

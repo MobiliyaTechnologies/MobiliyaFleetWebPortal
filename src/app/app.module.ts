@@ -21,6 +21,7 @@ import { NgxGaugeModule } from 'ngx-gauge';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule, AlertModule } from 'ngx-bootstrap';
 import { ShareSocketDataService } from "./services/share-socket-data.service";
+import { ShareComponentDataService } from "./services/common-service/share-component-data.service";
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -231,6 +232,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         SetNewPasswordService,
         RestService,
         ShareSocketDataService,
+        ShareComponentDataService,
        {
             provide: HTTP_INTERCEPTORS,
             useClass: CommonHttpInterceptor,

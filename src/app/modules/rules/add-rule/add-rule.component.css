@@ -21,6 +21,13 @@
     border-radius: 25px;
 }
 
+
+.MicrosoftMap {
+    position: relative;
+    width: 48vw!important;
+    height: 100vh;
+}
+
 .theme-button {
     background-image: -webkit-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
     background-image: -moz-linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);

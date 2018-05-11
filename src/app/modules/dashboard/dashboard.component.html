@@ -1,89 +1,91 @@
-<div class="container"> 
-	<div class="row mt-20">
-		<div class="col-sm-3">
-			<div class="row " style="margin:0px !important;">
-				<div class="col-sm-5 vehicleClass imageClass" style="">
-					<img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto; width:85%;" src="/assets/images/vehicle_dashboard.png"/>
-				</div>
-				<div class="col-sm-7 content">
-					<div>
-						<div class="numberClass">{{count.vehicles}}</div>
-						<div>Vehicles</div>
+<div class="container-fluid"> 
+	<div class="padding-20">
+		<div class="row mt-20">
+			<div class="col-sm-3">
+				<div class="row " style="margin:0px !important;">
+					<div class="col-sm-5 vehicleClass imageClass" style="">
+						<img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto; width:85%;" src="/assets/images/vehicle_dashboard.png"/>
 					</div>
-				</div> 
+					<div class="col-sm-7 content">
+						<div>
+							<div class="numberClass">{{count.vehicles}}</div>
+							<div>Vehicles</div>
+						</div>
+					</div> 
+				</div>
+				
 			</div>
-			
+			<div class="col-sm-3">
+				<div class="row" style="margin:0px !important;">
+					<div class="col-sm-5 fleetsClass imageClass" style="">
+						<img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto; width:85%;" src="/assets/images/fleet_dashboard.png"/>
+					</div>
+					<div class="col-sm-7 content">
+						<div>
+							<div class="numberClass">{{count.fleets}}</div>
+							<div>Fleets</div>
+						</div>
+					</div> 
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="row" style="margin:0px !important;">
+					<div class="col-sm-5 usersClass imageClass" style="">
+						<img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto; width:85%;" src="/assets/images/users_dashboard.png"/>
+					</div>
+					<div class="col-sm-7 content">
+						<div>
+							<div class="numberClass">{{count.users}}</div>
+							<div>Users</div>
+						</div>
+					</div> 
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="row" style="margin:0px !important;">
+					<div class="col-sm-5 driversClass imageClass" style="">
+						<img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto; width:85%;" src="/assets/images/users_dashboard.png"/>
+					</div>
+					<div class="col-sm-7 content">
+						<div>
+							<div class="numberClass">{{count.drivers}}</div>
+							<div>Drivers</div>
+						</div>
+					</div> 
+				</div>
+			</div>	
 		</div>
-		<div class="col-sm-3">
-			<div class="row" style="margin:0px !important;">
-				<div class="col-sm-5 fleetsClass imageClass" style="">
-					<img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto; width:85%;" src="/assets/images/fleet_dashboard.png"/>
-				</div>
-				<div class="col-sm-7 content">
-					<div>
-						<div class="numberClass">{{count.fleets}}</div>
-						<div>Fleets</div>
-					</div>
-				</div> 
-			</div>
-		</div>
-		<div class="col-sm-3">
-			<div class="row" style="margin:0px !important;">
-				<div class="col-sm-5 usersClass imageClass" style="">
-					<img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto; width:85%;" src="/assets/images/users_dashboard.png"/>
-				</div>
-				<div class="col-sm-7 content">
-					<div>
-						<div class="numberClass">{{count.users}}</div>
-						<div>Users</div>
-					</div>
-				</div> 
-			</div>
-		</div>
-		<div class="col-sm-3">
-			<div class="row" style="margin:0px !important;">
-				<div class="col-sm-5 driversClass imageClass" style="">
-					<img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto; width:85%;" src="/assets/images/users_dashboard.png"/>
-				</div>
-				<div class="col-sm-7 content">
-					<div>
-						<div class="numberClass">{{count.drivers}}</div>
-						<div>Drivers</div>
-					</div>
-				</div> 
-			</div>
-		</div>	
-	</div>
-
-	<div class="row mt-20">
+	
+		<div class="row mt-20">
 			<div class="col-sm-6">
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-sm-12">
 						<span class="label">Odometer Report</span>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-sm-12">
 						<div style="text-align: center; width: 100%">
-							<iframe style=" width: 100%"  id="iframeId1" height="600" src="https://app.powerbi.com/reportEmbed?reportId={{mileageReportId}} | safe" frameborder="0" allowFullScreen="true" #iframe></iframe>
+							<iframe class="iframe-class" style=" width: 100%; height:100%; "  id="iframeId1"  src="https://app.powerbi.com/reportEmbed?reportId={{mileageReportId}} | safe" frameborder="0" allowFullScreen="true" #iframe></iframe>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-sm-12">
 						<span class="label">Faults</span>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-sm-12">
 						<div style="text-align: center; width: 100%">
-								<iframe style=" width: 100%"  id="iframeId2" height="600" src="https://app.powerbi.com/reportEmbed?reportId={{faultReportId}} | safe" frameborder="0" allowFullScreen="true" #iframe></iframe>
+								<iframe class="iframe-class" style=" width: 100%; height:100%;"  id="iframeId2" src="https://app.powerbi.com/reportEmbed?reportId={{faultReportId}} | safe" frameborder="0" allowFullScreen="true" #iframe></iframe>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </div>
