@@ -10,9 +10,16 @@ export class VehicleSearchFilterPipe implements PipeTransform {
         if (!items) return [];
         if (!searchText) return items;
         searchText = searchText.toLowerCase();
-        return items.filter(it => {
-            return (it.registrationNumber.toLowerCase().includes(searchText));
-        });
+        if(items){
+            if(items['data'])
+                return items['data'].filter(it => {
+                    return (it.registrationNumber.toLowerCase().includes(searchText));
+                });
+            else
+                return items.filter(it => {
+                    return (it.registrationNumber.toLowerCase().includes(searchText));
+                });
+        }
     }
 
 

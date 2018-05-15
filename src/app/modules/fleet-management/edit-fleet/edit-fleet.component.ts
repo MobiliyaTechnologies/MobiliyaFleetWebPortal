@@ -33,7 +33,7 @@ export class EditFleetComponent implements OnInit {
   fleetList:any=[];
   selection = new SelectionModel(true, []);
   selectedFleet:string;
-
+  searchCriteria:any;
   selectedVehicleList=new MatTableDataSource();
   displayedColumns = ['select','#', 'vehicleModel', 'vehicleRegNo', 'OwnerName','connectedDongle'];
   @ViewChild(MatPaginator) paginator: MatPaginator;

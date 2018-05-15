@@ -30,10 +30,10 @@ export class AddFleetComponent implements OnInit {
     currentRole = "";
     addFleetModel: any = {};
     fleetOwnerRoleId="";
-
+    userList : any=[];
     //Default vehicle list
     vehicleList=[{"id":"25a50932-0bb4-41d5-87b8-7e394b78ed15","brandName":"Audi","model":"S7","fuelType":"Petrol","registrationNumber":"MH12MG9845","geoFencing":null,"yearOfManufacture":"2018","color":"White","userId":"8c4a9dda-4f19-4c7c-9609-9b7e6c72cc15","deviceId":null,"fleetId":null,
-    "isDeleted":0,"status":"Active","createdAt":"2018-03-27T03:22:51.129Z","updatedAt":"2018-03-27T03:22:51.129Z"},{"id":"5cc3705d-1692-4739-9b4a-c0d515c798a6","brandName":"Audi","model":"X10","fuelType":"Diesel","registrationNumber":"MH12MG8864","geoFencing":"GeoFence 02","yearOfManufacture":"2018","color":null,"userId":null,"deviceId":"bc313a62-fdf9-4e66-8c22-a84c91f60aa4","fleetId":null,"isDeleted":0,"status":"Active","createdAt":"2018-04-03T11:24:37.169Z","updatedAt":"2018-04-03T11:24:37.169Z"},{"id":"879729fb-ff84-4db8-8115-84f492b06f33","brandName":"Audi","model":"X10","fuelType":"Diesel","registrationNumber":"MH12MG8832","geoFencing":"GeoFence 02","yearOfManufacture":"2018","color":null,"userId":null,"deviceId":"bc313a62-fdf9-4e66-8c22-a84c91f60aa4","fleetId":null,"isDeleted":0,"status":"Active","createdAt":"2018-04-03T10:04:52.328Z","updatedAt":"2018-04-03T10:04:52.328Z"}];
+    "isDeleted":0,"status":"Active","createdAt":"2018-03-27T03:22:51.129Z","updatedAt":"2018-03-27T03:22:51.129Z","checked":false},{"id":"5cc3705d-1692-4739-9b4a-c0d515c798a6","brandName":"Audi","model":"X10","fuelType":"Diesel","registrationNumber":"MH12MG8864","geoFencing":"GeoFence 02","yearOfManufacture":"2018","color":null,"userId":null,"deviceId":"bc313a62-fdf9-4e66-8c22-a84c91f60aa4","fleetId":null,"isDeleted":0,"status":"Active","createdAt":"2018-04-03T11:24:37.169Z","updatedAt":"2018-04-03T11:24:37.169Z","checked":false},{"id":"879729fb-ff84-4db8-8115-84f492b06f33","brandName":"Audi","model":"X10","fuelType":"Diesel","registrationNumber":"MH12MG8832","geoFencing":"GeoFence 02","yearOfManufacture":"2018","color":null,"userId":null,"deviceId":"bc313a62-fdf9-4e66-8c22-a84c91f60aa4","fleetId":null,"isDeleted":0,"status":"Active","createdAt":"2018-04-03T10:04:52.328Z","updatedAt":"2018-04-03T10:04:52.328Z","checked":false}];
 
     selectedVehicleList=new MatTableDataSource();
     displayedColumns=[];
@@ -241,11 +241,11 @@ export class AddFleetComponent implements OnInit {
      */
     assignVehicle=function(){
         this.selectedOptions=this.getSelectedOptions();
-        this.selectedVehicleList=this.vehicleList
-                .filter(opt => opt.checked)
-                .map(opt => opt);
+        this.selectedVehicleList=new MatTableDataSource(this.vehicleList
+                .filter(opt => opt.checked==true)
+                .map(opt => opt));
         this.displayedColumns = ['#', 'vehicleModel', 'vehicleRegNo', 'Action'];
-        if(this.selectedVehicleList.length<=0){
+        if(this.selectedVehicleList.data.length<=0){
             this.toastr.error('Please select vehicle to assign');
             return;
         }
@@ -262,7 +262,7 @@ export class AddFleetComponent implements OnInit {
      */
     getSelectedOptions() { // right now: ['1','3']
         return this.vehicleList
-               // .filter(opt => opt.checked)
+                .filter(opt => opt.checked==true)
                 .map(opt => opt.id)
     }
 
@@ -275,9 +275,9 @@ export class AddFleetComponent implements OnInit {
     }
 
     removeFromTable=function(id){
-         this.selectedVehicleList=this.selectedVehicleList
+         this.selectedVehicleList=new MatTableDataSource(this.selectedVehicleList.data
                 .filter(opt => opt.id!=id)
-                .map(opt => opt);
+                .map(opt => opt));
          this.selectedOptions=this.selectedOptions
                 .filter(opt => opt!=id)
                 .map(opt => opt);

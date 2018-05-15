@@ -30,7 +30,7 @@ export class FleetDetailsComponent implements OnInit {
   selectedVehicleList=new MatTableDataSource();
   displayedColumns = ['#', 'vehicleModel', 'vehicleRegNo', 'OwnerName','connectedDongle'];
   modalRef: BsModalRef;
-
+  searchCriteria:any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @Output() someEvent = new EventEmitter();

@@ -38,7 +38,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
     currentUserInfo: any = {};
     currentRole = "";
     fleetList:any=[];
-
+    addForm=false;
     email = new FormControl('', [Validators.required, Validators.email]);
     name = new FormControl('', [Validators.required]);
     mobileNumber = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$'), Validators.minLength(10),Validators.maxLength(13)]));
