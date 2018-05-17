@@ -41,7 +41,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
     addForm=false;
     email = new FormControl('', [Validators.required, Validators.email]);
     name = new FormControl('', [Validators.required]);
-    mobileNumber = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$'), Validators.minLength(10),Validators.maxLength(13)]));
+    mobileNumber = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^([1-9][0-9]{9})$'), Validators.minLength(10),Validators.maxLength(10)]));
     tenantCompanyName = new FormControl('', [Validators.required]);
     roleName = new FormControl('', [Validators.required]);
     licenseNumber = new FormControl('',  Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z]{4,20}$')]));
@@ -69,7 +69,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
             if(this.mobileNumber.hasError('pattern'))
                 return 'Please enter valid Mobile Number'
             if(this.mobileNumber.hasError('maxlength'))
-                return 'Mobile Number should be at most 13 digits';
+                return 'Mobile Number should be at most 10 digits';
         }
         else if (field.toLowerCase() === 'tenantcompanyname') {
             return this.tenantCompanyName.hasError('required') ? 'You must select a value' : '';
