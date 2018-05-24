@@ -9,6 +9,13 @@
     display:none;
 }
 
+.left-align {
+    text-align: left;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
 
 ::ng-deep .mat-tab-header {
     display: none!important;

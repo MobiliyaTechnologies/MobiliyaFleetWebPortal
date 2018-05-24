@@ -27,8 +27,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   email = new FormControl('', [Validators.required, Validators.email]);
   getErrorMessage() {
-      return this.email.hasError('required') ? 'You must enter a value' :
-          this.email.hasError('email') ? 'Not a valid email' : '';
+      return this.email.hasError('required') ? 'Enter your email address' :
+          this.email.hasError('email') ? 'Please enter a valid email address' : '';
   }
   constructor(
       private router: Router,
@@ -83,7 +83,7 @@ export class ForgotPasswordComponent implements OnInit {
                       }
                       else if(resp && resp.length == 0){
                           this.loading=false;
-                          this.toastr.error("Email not found. Please try again.")
+                          this.toastr.error("The email id you entered did not match our records. Please double-check and try again.")
                       }
                   }, error => {
                       this.loading = false;

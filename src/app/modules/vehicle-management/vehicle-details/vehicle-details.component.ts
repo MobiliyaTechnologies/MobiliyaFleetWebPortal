@@ -36,6 +36,7 @@ export class VehicleDetailsComponent implements OnInit {
     selectedVehicle: any = {}
     latitude: number;
     longitude: number;
+    directionsManager: any;
     k = 0;
     selectedItemForClass: any = {};
     selectedVehicleData: any = {};
@@ -86,10 +87,6 @@ export class VehicleDetailsComponent implements OnInit {
 
         this.getVehicleInformation(this.selectedItem.registrationNumber);
 
-    }
-
-    ngAfterViewInit() {
-        
     }
 
     /*Function to get vehicle information of a particular vehicle using registration number*/
@@ -143,30 +140,26 @@ export class VehicleDetailsComponent implements OnInit {
 
     setPushpin = function (lat, lng) {
         var pushPin = { 'latitude': lat, 'longitude': lng };
-               
         var pin = new Microsoft.Maps.Pushpin(pushPin);
-      
         var backgroundColor = new Microsoft.Maps.Color(10, 0, 0, 0)
         var borderColor = new Microsoft.Maps.Color(150, 200, 0, 0);
         var circlePoints = new Array();
         var lat1 = (lat * Math.PI) / 180;
         var long1 = (lng * Math.PI) / 180;
-        //var d = radius / 3956;
         var d = 100 / 3956; 
         d = 100;
         var p2 = new Microsoft.Maps.Location(0, 0);
         for (var x = 0; x <= 360; x += 5) {
             var brng = x * Math.PI / 180;
-            console.log("brng", brng);
+            //console.log("brng", brng);
             p2.latitude = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(brng));
             p2.longitude = ((long1 + Math.atan2(Math.sin(brng) * Math.sin(d) * Math.cos(lat1), Math.cos(d) - Math.sin(lat1) * Math.sin(p2.latitude))) * 180) / Math.PI;
             p2.latitude = (p2.latitude * 180) / Math.PI;
-            console.log("p2", p2);
+            //console.log("p2", p2);
             circlePoints.push(p2);
         }
-          this.map.entities.push(pin);
+        this.map.entities.push(pin);
         this.map.setView({ center: pushPin });
-        console.log("Circle points", circlePoints);
         var polygon = new Microsoft.Maps.Polygon(circlePoints, { fillColor: backgroundColor, strokeColor: borderColor, strokeThickness: 0 });
         this.map.entities.push(polygon);
     }

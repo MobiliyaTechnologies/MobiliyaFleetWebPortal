@@ -37,12 +37,12 @@ export class LoginComponent implements OnInit {
     //password = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$')]));
     password = new FormControl('',  [Validators.required]);
     getErrorMessage() {
-        return this.email.hasError('required') ? 'You must enter a value' :
-            this.email.hasError('email') ? 'Not a valid email' : '';
+        return this.email.hasError('required') ? 'Enter your email address' :
+            this.email.hasError('email') ? 'Please enter a valid email address' : '';
     }
     passwordErrorMessage() {
         if(this.password.hasError('required'))
-            return 'You must enter a value';
+            return 'Password cannot be empty';
         if(this.password.hasError('pattern'))
             return 'Password should be minimum 8 character long and should contain any 3 of A-Z/a-z/0-9/Symbols.';
     }
@@ -157,7 +157,6 @@ export class LoginComponent implements OnInit {
     getUserDetails(id) {
         this.loading = true;
         return new Promise((resolve, reject) => {
-            //            this.loading = true;
             try {
                 this.restService.makeCall('Users', 'GET', '/users/' + id, {})
                     .subscribe(resp => {
@@ -230,7 +229,7 @@ export class LoginComponent implements OnInit {
                             
 
                         } else {
-                            this.toastr.error('Invalid credentials', 'Failure');
+                            this.toastr.error('The username and password you entered did not match our records. Please double-check and try again.', 'Failure');
                             // alert('Invalid credentials');
                             this.router.navigate(['']);
                         }

@@ -343,7 +343,12 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
 
     /* delete user */
     deleteUser = function (id) {
-        this.restService.makeCall('Users', 'DELETE', '/users/' + id, this.model)
+        let url="";
+        if(this.selectedItem.roleId===this.tenantRoleId)
+            url='/tenants/' + this.selectedItem.Tenant.id;
+        else
+            url= '/users/' + id
+        this.restService.makeCall('Users', 'DELETE',url, this.model)
             .subscribe(resp => {
                 if (resp && resp.body) {
                     this.loading = false;
@@ -541,17 +546,27 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                             this.toastr.success('User Information added successfully.');
                             //this.getUsers();
                             this.userList.push(resp.body.data);
-                            if(resp.body.data.id)
+                            if (resp.body.data.roleId==this.tenantRoleId){
+                                this.userList[this.userList.length-1].Tenant={};
+                                this.userList[this.userList.length-1].Tenant.id=resp.body.data.id;
+                                this.userList[this.userList.length-1].id=resp.body.data.userId;
+                            }
+                            else if(resp.body.data.id)
                                 this.userList[this.userList.length-1].userId=resp.body.data.id;
+                            //Setting default valus to 0
+                            this.userList[this.userList.length-1].fleetCount=0;
+                            this.userList[this.userList.length-1].vehicleCount=0;
                             this.formObj(this.userList[this.userList.length-1]);
-                            this.addUserStart()
+                            this.addForm = false;
+                            this.selectedItemForClass=this.userList[this.userList.length-1];
+                            this.selectedItem = this.userList[this.userList.length-1];
                         }
                         else if(resp && resp.length==0) {
                             this.addUserStart();
                         }
                     }, error => {
                         this.loading = false;
-                        this.toastr.error('Error deleting data');
+                        this.toastr.error('Error adding data');
                     });
             }).catch(() => {
                 this.toastr.error('Mandatory field are not filled', 'Validation Error');

@@ -32,8 +32,8 @@ export class SetNewPasswordComponent implements OnInit {
     confirmPassword = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$')]));
 
     getErrorMessage() {
-        return this.email.hasError('required') ? 'You must enter a value' :
-            this.email.hasError('email') ? 'Not a valid email' : '';
+        return this.email.hasError('required') ? 'Enter your email address' :
+            this.email.hasError('email') ? 'Please enter a valid email address' : '';
     }
     /**
      * Returns field specific error messages 
@@ -41,13 +41,13 @@ export class SetNewPasswordComponent implements OnInit {
     getFieldErrorMessage(field, fieldValue) {
         if (field.toLowerCase() === 'password') {
             if(this.password.hasError('required'))
-                return 'You must enter a value';
+                return 'Password cannot be empty';
             if(this.password.hasError('pattern'))
                 return 'Password should be minimum 8 character long and should contain any 3 of A-Z/a-z/0-9/Symbols.';
         }
         if (field.toLowerCase() === 'confirmpassword') {
             if(this.confirmPassword.hasError('required'))
-                return 'You must enter a value';
+                return 'Confirm Password cannot be empty';
             if(this.confirmPassword.hasError('pattern'))
                 return 'Password should be minimum 8 character long and should contain any 3 of A-Z/a-z/0-9/Symbols.';
         }
@@ -127,7 +127,7 @@ export class SetNewPasswordComponent implements OnInit {
             });
             }).catch(() => {
                 if (this.password.value != this.confirmPassword.value) 
-                    this.toastr.error('Your confirm password not matched', 'Validation Error');
+                    this.toastr.error('Your confirm password did not match with the password', 'Validation Error');
                 else
                     this.toastr.error('Mandatory field are not filled', 'Validation Error');
         });

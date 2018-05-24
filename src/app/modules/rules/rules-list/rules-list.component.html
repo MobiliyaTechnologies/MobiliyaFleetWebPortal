@@ -22,13 +22,13 @@
                                         <img class="cursorClass" src="./assets/images/filter.png" matTooltip="Filter Rule by Type">
                                     </div>
                                     <mat-menu #filter="matMenu">
-                                        <div class="font-bold">
+                                        <div class="font-bold" style="padding-left:8px;">
                                             Filter By
                                         </div>
-                                        <div class="cursorClass" (click)="filterRule({'ruleType':'All rules','id':-1})">
+                                        <div class="cursorClass" style="padding-left:8px;" (click)="filterRule({'ruleType':'All rules','id':-1})">
                                             All Rules
                                         </div>
-                                        <div class="cursorClass" *ngFor="let r of selectedFilterList" (click)="filterRule(r);">
+                                        <div class="cursorClass" *ngFor="let r of selectedFilterList" style="padding-left:8px;" (click)="filterRule(r);">
                                             {{r.ruleType}}
                                         </div>
                                     </mat-menu>

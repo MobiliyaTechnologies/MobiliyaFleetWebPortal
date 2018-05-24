@@ -4,17 +4,16 @@
         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6 rule_heading">
             New Rule
         </div>
-        <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2">
 
-        </div>
-        <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 padding_top_3">
-            <button mat-raised-button (click)="addRule();" class="mat-elevation-z4 theme-button common-btn-class" [disabled]="saveButton == false">
-                Save
+        <div class="col-sm-5 col-md-5 col-xl-5 col-lg-5 rule_heading" style="margin-left:5%">
+            <button mat-raised-button (click)="addRule(); " class="ml-10 float-right mat-elevation-z4 common-btn-class theme-button" [disabled]="saveButton == false">
+                Add
             </button>
-            <button mat-raised-button (click)="navigateToDetails();" class="mat-elevation-z4 common-btn-class">
+            <button mat-raised-button (click)="navigateToDetails();" class="float-right mat-elevation-z4 common-btn-class">
                 Cancel
             </button>
         </div>
+
     </div>
     <hr>
     <div class="padding-class">
@@ -136,7 +135,7 @@
                                     <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4">
                                         <div class="row">
                                             <mat-form-field>
-                                                <input matInput placeholder="Radius" [(ngModel)]="addRuleVariable.radius" name="radius" [formControl]="radius" required>
+                                                <input matInput placeholder="Radius(m)" [(ngModel)]="addRuleVariable.radius" name="radius" [formControl]="radius" required>
                                                 <mat-error *ngIf="radius.invalid">{{getErrorMessage('radius',addRuleVariable.radius)}}</mat-error>
                                             </mat-form-field>
                                         </div>
@@ -174,7 +173,7 @@
                             <div *ngIf="geoFenceChoice ==2">
                                 <label style="width:100%">
                                     <input type="file" name="upgradeFile" style="display: none;" id="upgradeFile" [(ngModel)]="upgradeFile" (click)='onFileClickUpload($event)'
-                                           (change)='onClickFile($event)' [formControl]="uploaderValidator" accept=".xls" required>
+                                           (change)='onClickFile($event)' [formControl]="uploaderValidator" accept=".xls,.xlsx" required>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
                                             <div class="row uploadStyling">
@@ -188,16 +187,16 @@
                                             <div class="row">
                                                 <br />
                                             </div>
-                                            <mat-icon matSuffix>{{'attach_file'}}</mat-icon>
+                                            <mat-icon matTooltip="Click To Upload a File" matSuffix>{{'attach_file'}}</mat-icon>
 
                                         </div>
                                     </div>
 
                                     <div class="row noteStyling">
-                                        (Note: Only xls files accepted)
+                                        (Note: Only .xls, .xlsx files accepted)
                                     </div>
                                     <div class="row formatStyling">
-                                        (Format: Columns to be entered as longitude, latitude, radius)
+                                        (Format: Columns to be entered as longitude, latitude, radius(m))
                                     </div>
 
 
@@ -355,6 +354,7 @@
                         <button mat-raised-button (click)="selectPrevious(matgroup)" *ngIf="step3!=1" class="mat-elevation-z4 common-btn-class" [disabled]="matgroup.selectedIndex == 0">
                             Previous
                         </button>
+
                     </div>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
 

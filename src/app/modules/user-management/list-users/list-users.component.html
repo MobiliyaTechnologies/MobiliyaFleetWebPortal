@@ -17,10 +17,10 @@
                                             <div class="font-bold">
                                                 Filter By
                                             </div>
-                                            <div class="cursorClass" (click)="filterUser({'roleName':'All users','roleId':-1})">
+                                            <div class="cursorClass" style="padding-left:8px;" (click)="filterUser({'roleName':'All users','roleId':-1})">
                                                 All Users
                                             </div>
-                                            <div class="cursorClass" *ngFor="let r of roles" (click)="filterUser(r);">
+                                            <div class="cursorClass" *ngFor="let r of roles" (click)="filterUser(r);" style="padding-left:8px;">
                                                 {{ r.roleName }}
                                             </div>
                                     </mat-menu>
@@ -86,7 +86,7 @@
                             <div class="col-sm-4" *ngIf="!editForm"></div>
                             <div class="col-sm-2" *ngIf="!editForm">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <img class="cursorClass" [ngClass]="(userList.length<=0? ['disabled'] : '')" src="/assets/images/edit.png" matTooltip="Edit User" (click)="editForm=true; startEdit();" />
                                     </div>
                                     <div class="col-sm-6">

@@ -2,6 +2,11 @@
     opacity:0.3;
     pointer-events:none;
 }
+
+.cursorClass {
+    cursor: pointer;
+}
+
 .username-class {
     float: right;
     margin-right:5%;
