@@ -73,10 +73,11 @@ export class RestService {
         return (error: any): Observable<T> => {
 
             // TODO: send the error to remote logging infrastructure
-            if(error && error.error && error.error.message)
-            this.toastr.error(error.error.message);
+            if (error && error.error && error.error.message)
+                this.toastr.error(error.error.message);
             else
-            this.toastr.error('something went wrong')
+                //this.toastr.error('Something went wrong')
+                //this.toastr.error('Something went terribly wrong. Please login again.');
             // TODO: better job of transforming error for user consumption
             this.log(`${operation} failed: ${error.message}`);
 

@@ -39,7 +39,8 @@ export class AddFleetComponent implements OnInit {
     displayedColumns=[];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));
+    name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_. -]{2,50}$')]));
+    //name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[\w\-\s]+$')]));
     owner = new FormControl('', [Validators.required]);
 
     modalRef: BsModalRef;

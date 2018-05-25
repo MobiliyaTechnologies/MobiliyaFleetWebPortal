@@ -44,7 +44,7 @@
                                                 <div class="circle-margin">
                                                     <div id="circle2" class="circle" name="circle">
                                                         <div class="circle-text">
-                                                            {{item.firstName.charAt(0).toUpperCase()}}{{item.lastName.charAt(0).toUpperCase()}}
+                                                            {{item.firstName.split(' ')[0].charAt(0).toUpperCase().trim()}}<span *ngIf="item.firstName.split(' ')[1]&&item.firstName.split(' ')[1].length>0">{{item.firstName.split(' ')[1].charAt(0).toUpperCase().trim()}}</span><span *ngIf="item.lastName&&item.lastName.length>0">{{item.lastName.charAt(0).toUpperCase()}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -74,7 +74,7 @@
                                     <div class="col-sm-2">
                                         <div id="circle2" class="circle2" name="circle2">
                                             <div class="circle-text" *ngIf="selectedItem.firstName">
-                                                {{selectedItem.firstName.charAt(0).toUpperCase()}}{{selectedItem.lastName.charAt(0).toUpperCase()}}
+                                                {{selectedItem.firstName.split(' ')[0].charAt(0).toUpperCase()}}<span *ngIf="selectedItem.firstName.split(' ')[1]&&selectedItem.firstName.split(' ')[1].length>0">{{selectedItem.firstName.split(' ')[1].charAt(0).toUpperCase()}}</span><span *ngIf="selectedItem.lastName&&selectedItem.lastName.length>0">{{selectedItem.lastName.charAt(0).toUpperCase()}}</span>
                                             </div>
                                         </div>
                                     </div>

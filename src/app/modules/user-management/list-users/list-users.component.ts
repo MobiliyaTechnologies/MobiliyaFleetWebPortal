@@ -111,7 +111,10 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
 
     formObj = function (selectedUser) {
         let self = this;
-        selectedUser.name = selectedUser.firstName + " " + selectedUser.lastName; 
+        if(selectedUser.firstName)
+        selectedUser.name = selectedUser.firstName;
+        if(selectedUser.lastName) 
+        selectedUser.name=selectedUser.name+" "+selectedUser.lastName;
         this.roles.forEach(function (item) {
             if (self.tenantRoleId === selectedUser.roleId) {
                 selectedUser.roleName = 'Tenant Admin';
@@ -131,7 +134,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
         
     }
 
-    /**
+    /*
      list Users Functions
      */
     /**
@@ -316,9 +319,9 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
         this.checkValidations("edit")
             .then(() => {
                 this.model = {};
-                let nameArray = this.selectedItem.name.split(' ');
-                this.model.firstName = nameArray[0].trim();
-                this.model.lastName = nameArray[1].trim();
+                //let nameArray = this.selectedItem.name.split(' ');
+                this.model.firstName = this.selectedItem.name;
+                //this.model.lastName = nameArray[1].trim();
                 this.model.mobileNumber = this.selectedItem.mobileNumber.trim();   
                 this.restService.makeCall('Users', 'PUT', '/users/'+this.selectedItem.id, this.model)
                     .subscribe(resp => {
@@ -500,9 +503,9 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
         this.checkValidations("add")
             .then(() => {
                 let addModel: any = {};
-                let tempNameArray = this.addUserModel.name.split(' ');
-                addModel.firstName = tempNameArray[0];
-                addModel.lastName = tempNameArray[1];
+                //let tempNameArray = this.addUserModel.name.split(' ');
+                addModel.firstName = this.addUserModel.name;
+                //addModel.lastName = tempNameArray[1];
                 addModel.email = this.addUserModel.email;
                 addModel.mobileNumber = this.addUserModel.mobileNumber;
                 addModel.roleId = this.addUserModel.roleId;
