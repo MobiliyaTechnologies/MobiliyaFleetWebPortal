@@ -10,10 +10,9 @@ export class SearchUserFilterPipe implements PipeTransform {
             if (!items) return [];
             if (!searchText) return items;
             searchText = searchText.toLowerCase();
-
+            
             return items.filter(it => {
-                    it.name=it.firstName+" "+it.lastName;
-                    return (it.firstName.toLowerCase().includes(searchText) || it.lastName.toLowerCase().includes(searchText) ||it.name.toLowerCase().includes(searchText));
+                    return (it.firstName.toLowerCase().includes(searchText));
             });
     }
 

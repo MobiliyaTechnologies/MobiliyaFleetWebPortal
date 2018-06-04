@@ -39,20 +39,24 @@ export class AddFleetComponent implements OnInit {
     displayedColumns=[];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_. -]{2,50}$')]));
-    //name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[\w\-\s]+$')]));
+    //name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));
+    name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z ]+$'), Validators.minLength(3), Validators.maxLength(30)]));
     owner = new FormControl('', [Validators.required]);
 
     modalRef: BsModalRef;
     getErrorMessage(field, fieldValue) {
         if (field.toLowerCase() === 'name') {
             if(this.name.hasError('required'))
-                return 'You must enter a value';
+                return 'You must enter a valid fleet name';
             if(this.name.hasError('pattern'))
-                return 'Please enter valid fleet name';
+                return 'Fleet Name must contain only alphabets, numbers and space';
+            if (this.name.hasError('minlength'))
+                return 'Fleet Name should be at least 3 characters';
+            if (this.name.hasError('maxlength'))
+                return 'Fleet Name should be at most 30 characters';
         }
         if (field.toLowerCase() === 'owner') {
-            return this.owner.hasError('required') ? 'You must select a value' : '';
+            return this.owner.hasError('required') ? 'You must select owner' : '';
         }
     }
 
@@ -141,7 +145,10 @@ export class AddFleetComponent implements OnInit {
      */
     formObj=function(userList){
         userList.forEach(function(item){
-            item.name=item.firstName+ ' '+item.lastName;
+            if(item.firstName)
+                item.name=item.firstName+ ' '+item.lastName;
+            if(item.lastName)
+                item.name=item.name+ ' '+item.lastName; 
         });
         this.userList=this.userList.filter(opt => (!opt.fleetId || opt.fleetId==null || opt.fleetId==""))
         .map(opt => opt);
@@ -231,7 +238,7 @@ export class AddFleetComponent implements OnInit {
                     });
             }).catch(() => {
                 this.loading = false;
-                this.toastr.error('Mandatory field are not filled', 'Validation Error');
+                //this.toastr.error('Mandatory field are not filled', 'Validation Error');
             });
 
 

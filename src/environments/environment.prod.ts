@@ -1,12 +1,10 @@
 export const environment = {
     production: true,
 
-
     SERVICE_URL: {
-          // ----------- Prod ----------------
-        USER: 'https://identity-service.azurewebsites.net',
-        FLEET: 'https://fleet-service.azurewebsites.net',
-        TRIP: 'https://trip-service.azurewebsites.net'
+        USER: 'https://mfleet-identity-service.azurewebsites.net',
+        FLEET: 'https://mfleet-fleet-service.azurewebsites.net',
+        TRIP: 'https://mfleet-trip-service.azurewebsites.net'
     },
 
     API_ENDPOINT: {
@@ -21,12 +19,22 @@ export const environment = {
         resetPassword: '/reset-password',
         devices: '/devices/',
         vehicles: '/vehicles/',
-        sim: '/sim/',
         drivers: '/driver/',
         deviceType: '/device-type/',
         deviceUpgrade: '/upgrade/',
         mileageReport: '/vehicleHistory/'
     },
+    REPORTS_ENDPOINTS: {
 
+        reportInitialURL: 'https://app.powerbi.com/reportEmbed?reportId=',
+        reportQueryParams : '&navContentPaneEnabled=false&filterPaneEnabled=false',
+        
+        //Prod
+       reportIds: {
+        mileageReportUrl:'58629aa5-2af4-46af-b8d9-49ae9a05d035',
+        speedReportUrl:'80a8d526-01a6-470c-a1bb-0620d7d4724a',
+        mileage:  '7e7dcdf9-e84a-4d52-a427-e1ea0a15aa90'
+       }
 
+    }
 };

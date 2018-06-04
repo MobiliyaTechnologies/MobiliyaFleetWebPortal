@@ -83,7 +83,7 @@ export class ForgotPasswordComponent implements OnInit {
                       }
                       else if(resp && resp.length == 0){
                           this.loading=false;
-                          this.toastr.error("The email id you entered did not match our records. Please double-check and try again.")
+                          this.toastr.error("The email id you entered did not match our records. Please verify and try again.")
                       }
                   }, error => {
                       this.loading = false;

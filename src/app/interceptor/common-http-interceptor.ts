@@ -12,7 +12,6 @@ import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class CommonHttpInterceptor implements HttpInterceptor {
-
     constructor(
         private globals: Globals,
         private toastr: ToastrService,
@@ -34,6 +33,7 @@ export class CommonHttpInterceptor implements HttpInterceptor {
                     this.toastr.clear();
                     this.toastr.error(this.rSM.resMsg[err.status][this.globals.lang],
                         this.rSM.genericsMsg.errorTitile[this.globals.lang]);
+                    
                     this.router.navigate(['login']);
                     this.toastr.clear();
                     return null;

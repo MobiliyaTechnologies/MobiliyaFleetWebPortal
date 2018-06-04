@@ -32,6 +32,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
     temp: any = {};
     roles :any = [];    
     selectedUserRole: any = {};
+    superadminRoleId:any;
     tenantRoleId: any;
     driverRoleId: any;
     fleetRoleId:any;
@@ -40,8 +41,8 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
     fleetList:any=[];
     addForm=false;
     email = new FormControl('', [Validators.required, Validators.email]);
-    name = new FormControl('', [Validators.required]);
-    mobileNumber = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^([1-9][0-9]{9})$'), Validators.minLength(10),Validators.maxLength(10)]));
+    name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z ]*$'), Validators.minLength(3), Validators.maxLength(100)]));
+    mobileNumber = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^([1-9][0-9]{9})$'), Validators.minLength(10), Validators.maxLength(10)]));
     tenantCompanyName = new FormControl('', [Validators.required]);
     roleName = new FormControl('', [Validators.required]);
     licenseNumber = new FormControl('',  Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z]{4,20}$')]));
@@ -54,16 +55,22 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
      */
     getErrorMessage(field, fieldValue) {
         if (field.toLowerCase() === 'email') {
-            return this.email.hasError('required') ? 'You must enter a value' :
-                this.email.hasError('email') ? 'Not a valid email' : '';
+            return this.email.hasError('required') ? 'Enter your email address' :
+                this.email.hasError('email') ? 'Please enter a valid email address' : '';
         }
         else if (field.toLowerCase()==='name') {
-            return this.name.hasError('required') ? 'You must enter a value' :
-                this.name.hasError('name') ? 'Not a valid name' : '';
+            if (this.name.hasError('required'))
+                return 'You must enter a valid name';
+            if (this.name.hasError('minlength'))
+                return 'Name should be at least 3 characters';
+            if (this.name.hasError('pattern'))
+                return 'Name should contains only alphabets and spaces'
+            if (this.name.hasError('maxlength'))
+                return 'Name should be at most 100 characters';
         }
         else if (field.toLowerCase() === 'mobilenumber'){
             if(this.mobileNumber.hasError('required'))
-                return 'You must enter a value';
+                return 'Enter your mobile number';
             if(this.mobileNumber.hasError('minlength'))
                 return 'Mobile Number should be at least 10 digits';
             if(this.mobileNumber.hasError('pattern'))
@@ -72,17 +79,17 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 return 'Mobile Number should be at most 10 digits';
         }
         else if (field.toLowerCase() === 'tenantcompanyname') {
-            return this.tenantCompanyName.hasError('required') ? 'You must select a value' : '';
+            return this.tenantCompanyName.hasError('required') ? 'You must select a company Name' : '';
         }
         else if (field.toLowerCase() === 'rolename') {
-            return this.roleName.hasError('required') ? 'You must select a value' : '';
+            return this.roleName.hasError('required') ? 'You must select a role' : '';
         }
         else if (field.toLowerCase() === 'tenantfleetname') {
-            return this.tenantFleetName.hasError('required') ? 'You must select a value' : '';
+            return this.tenantFleetName.hasError('required') ? 'You must select a fleet name' : '';
         }
         else if (field.toLowerCase() === 'licensenumber') {
             if(this.licenseNumber.hasError('required'))
-                return 'You must enter a value';
+                return 'Enter your licence number';
             if(this.licenseNumber.hasError('pattern'))
                 return 'Please enter valid License Number';
         }
@@ -163,6 +170,8 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 if (resp.body && resp.body.data) {
                     this.loading = false;
                     this.userList = resp.body.data;
+                    console.log("this.userList", this.userList);
+                    this.userList=this.userList.filter((item)=>item.roleId!=this.superadminRoleId);
                     if(this.userList && this.userList.length>0){
                         this.selectedItemForClass = this.userList[0];
                         this.selectedItem = this.userList[0];
@@ -204,6 +213,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 if (resp.body && resp.body.data) {
                     this.loading = false;
                     this.selectedItem = resp.body.data;
+                    console.log("this.selectedItem", this.selectedItem.roleId);
                     this.formObj(this.selectedItem);
                 }
             }, error => {
@@ -222,6 +232,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
         for (var i = this.roles.length - 1; i >= 0; --i) {
             this.roles[i].roleName=this.roles[i].roleName.charAt(0).toUpperCase()+this.roles[i].roleName.slice(1);
             if (this.roles[i].roleName.toLowerCase() == "super admin") {
+                this.superadminRoleId=this.roles[i].id;
                 this.roles.splice(i, 1);
             }
         }
@@ -265,6 +276,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                     this.loading = false;
                     this.roles = resp.body.data;
                     this.removeSuperAdminRole();
+                    this.removeTARole();
                     if (this.currentRole.toLowerCase() === 'tenant admin') {
                         this.removeTARole();
                         //get fleets of current tenant
@@ -338,7 +350,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                         this.toastr.error('Error saving data');
                     });
             }).catch(() => {
-                this.toastr.error('Mandatory field are not filled', 'Validation Error');
+                //this.toastr.error('Mandatory field are not filled', 'Validation Error');
             });
     }
 
@@ -468,7 +480,8 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
         return new Promise((resolve, reject) => {
             if (this.email.invalid || this.name.invalid
                 || this.mobileNumber.invalid || (operation.name === "add" && (this.tenantCompanyName.invalid || this.roleName.invalid)) 
-                || (this.driverRoleId==this.addUserModel.roleId && this.licenseNumber.invalid)
+                || (this.driverRoleId==this.addUserModel.roleId && this.licenseNumber.invalid )
+                || ((this.currentUserInfo.roleId===this.tenantRoleId ||this.currentUserInfo.roleId===this.superadminRoleId)&& this.addUserModel.roleId===this.driverRoleId  && this.tenantFleetName.invalid)
                 ) {
 
                 if (this.email.invalid) {
@@ -488,6 +501,9 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 }
                 if (this.licenseNumber.invalid && operation.name === "add") {
                     this.licenseNumber.markAsTouched();
+                }
+                if ((this.currentUserInfo.roleId===this.tenantRoleId ||this.currentUserInfo.roleId===this.superadminRoleId)&& this.addUserModel.roleId===this.driverRoleId  && this.tenantFleetName.invalid ) {
+                    this.tenantFleetName.markAsTouched();
                 }
                 reject('failure');
             } else {
@@ -540,6 +556,9 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 if(this.addUserModel.fleetId){
                     addModel.fleetId=this.addUserModel.fleetId;
                 }
+                if(this.addUserModel.vehicleId){
+                    addModel.vehicleId=this.addUserModel.vehicleId;
+                }
 
                 this.restService.makeCall('Users', 'POST', api, addModel)
                     .subscribe(resp => {
@@ -572,7 +591,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                         this.toastr.error('Error adding data');
                     });
             }).catch(() => {
-                this.toastr.error('Mandatory field are not filled', 'Validation Error');
+                //this.toastr.error('Mandatory field are not filled', 'Validation Error');
             });
     }
 

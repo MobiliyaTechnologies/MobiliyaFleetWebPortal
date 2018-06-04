@@ -8,7 +8,6 @@ import {ToastrService} from 'ngx-toastr';
 
 @Injectable()
 export class AuthguardGuard implements CanActivate {
-
     constructor(
         private router: Router,
         private globals: Globals,

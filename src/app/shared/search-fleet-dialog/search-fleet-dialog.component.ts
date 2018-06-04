@@ -37,7 +37,8 @@ export class SearchFleetDialogComponent implements OnInit {
     }
 
 
-    getFleetList() {           
+    getFleetList() {     
+        this.checkedFleetList = [];
         this.tenantId = this.data.tenantIdForFleetList;
         console.log("tenantId" + this.tenantId);
         var URL = '/' + this.tenantId + '/fleets';
@@ -46,28 +47,24 @@ export class SearchFleetDialogComponent implements OnInit {
                     .subscribe(resp => {
                         
                             if (resp.body && resp.body.data) {
-                                this.fleetList = resp.body.data;
-                                console.log("fleetList::result.body.data ", resp.body.data);
-                                
+                                this.fleetList = resp.body.data; 
                             } 
                     })         
      
     }
 
     getSelectedVehiclesOf = function (Id) {
-        
-
-        console.log("Id:" + Id);
-
         if (this.checkedFleetList.length != 0) {
             for (var i = 0; i < this.checkedFleetList.length; i++) {
                 if (this.checkedFleetList[i].fleetId == Id) {
+                    this.checkedFleetList.splice(i,1);
                     console.log("True!!")
                 }
                 else {
                     this.checkedFleetList.push({ fleetId: Id });
                 }
             }
+
         }
         else {
             this.checkedFleetList.push({ fleetId: Id });

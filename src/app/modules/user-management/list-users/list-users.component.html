@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="common-margin-top row">
-                        <input id="search" name="search" value="search" class="form-control search-box" placeholder="Search" [(ngModel)]="model.searchCriteria" style="text-transform: lowercase;">
+                        <input id="search" name="search" value="search" class="form-control search-box" placeholder="Search User" [(ngModel)]="model.searchCriteria">
                     </div>
                     <div class="row v-scroll-class" id="style-scroll">
                         <div class="col-sm-12">
@@ -89,7 +89,7 @@
                                     <div class="col-sm-4">
                                         <img class="cursorClass" [ngClass]="(userList.length<=0? ['disabled'] : '')" src="/assets/images/edit.png" matTooltip="Edit User" (click)="editForm=true; startEdit();" />
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" *ngIf="!(selectedItem.roleId == tenantRoleId)">
                                         <img class="cursorClass" [ngClass]="(userList.length<=0? ['disabled'] : '')" src="/assets/images/delete.png" matTooltip="Delete User" (click)="openModal(template1)" />
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4" >
+                                    <div class="col-sm-4" *ngIf="!(selectedItem.roleId===driverRoleId)">
                                         <div class="row">
                                             <div class="col-sm-12 field-label-class">
                                                 No. of Fleets
@@ -183,11 +183,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="padding-10" *ngIf="selectedItem.roleId===driverRoleId">
-                                <div class="row">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4" *ngIf="selectedItem.roleId===driverRoleId">
                                         <div class="row">
                                             <div class="col-sm-12 field-label-class">
                                                 License Number
@@ -201,6 +197,7 @@
                                     </div>
                                 </div>
                             </div>
+                                    
                         </div>
                         <!-- Edit form section-->
                         <div *ngIf="editForm">
@@ -252,7 +249,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4" *ngIf="selectedItem.fleetCount">
+                                    <div class="col-sm-4" *ngIf="selectedItem.fleetCount && !(selectedItem.roleId===driverRoleId)">
                                         <div class="row">
                                             <div class="col-sm-12 field-label-class">
                                                 No. of Fleets
@@ -320,7 +317,7 @@
                                             <div class="col-sm-12">
                                                 <mat-form-field class="login-input-text">
                                                     <input matInput placeholder="Email Id" [(ngModel)]="addUserModel.email" name="email" [formControl]="email"  required>
-                                                    <mat-error *ngIf="email.invalid">{{getErrorMessage('email',selectedItem.name)}}</mat-error>
+                                                    <mat-error *ngIf="email.invalid">{{getErrorMessage('email',selectedItem.email)}}</mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -331,10 +328,10 @@
                                                 <mat-form-field>
                                                     <mat-select [(ngModel)]="addUserModel.roleId" name="roleName" [formControl]="roleName" placeholder="Role Name" required>
                                                         <mat-option *ngFor="let r of roles" [value]="r.id" >
-                                                            {{ r.roleName }}
+                                                            {{r.roleName }}
                                                         </mat-option>
                                                     </mat-select>
-                                                    <mat-error *ngIf="roleName.invalid">{{getErrorMessage('roleName',"")}}</mat-error>
+                                                    <mat-error *ngIf="roleName.invalid">{{getErrorMessage('roleName',selectedItem.roleName)}}</mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>

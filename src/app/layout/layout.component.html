@@ -74,7 +74,7 @@
                     <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/devices.png" (click)="sideNavIcon('/dashboard/devices','devices'); selectedMenu = 'devices'" [ngClass]="(selectedMenu == 'devices'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')" />
                 </div>
                 <div class="">
-                    <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/devices','devices'); " [ngClass]="(selectedRoute == '/dashboard/devices'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Devices"| translate}}</p>
+                    <p class="text-align-center" style="text-align:center;" (click)="sideNavIcon('/dashboard/devices','devices'); " [ngClass]="(selectedRoute == '/dashboard/devices'? 'navbar-list-item-selected-style' : 'navbar-list-item-style')"> {{"Dongle"| translate}}</p>
                 </div>
             </div>
 
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <div *ngIf="userInfo && (userInfo.currentRole=='tenant admin' || userInfo && userInfo.currentRole=='super admin')  " class="" [ngClass]="(selectedMenu == 'reports'? 'selected-nav-item' : 'nav-item')" style="padding: 10px 30px; padding-top: 10px; width: 120px !important;">
+            <div *ngIf="userInfo && (userInfo.currentRole=='tenant admin' || userInfo && userInfo.currentRole=='super admin')  " class="" [ngClass]="(selectedMenu == 'reports'? 'selected-nav-item' : 'nav-item')" style="padding: 10px 30px; padding-top:25px; width: 120px !important;">
                     <div class="">
                         <img class="image-align-center" style="display: block; margin-left: auto; margin-right: auto;" src="/assets/images/reports.png" (click)="sideNavIcon('/dashboard/reports','reports');" [ngClass]="(selectedMenu == 'reports'? 'navbar-list-icon-selected-style' : 'navbar-list-icon-style')" />
                     </div>

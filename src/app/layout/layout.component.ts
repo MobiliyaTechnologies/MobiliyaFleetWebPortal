@@ -57,15 +57,19 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.mobileQuery = media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addListener(this._mobileQueryListener);
-
+        let url:any={};
+        if(sessionStorage.getItem('sessionConfiguration'))
+        url = JSON.parse(sessionStorage.getItem('sessionConfiguration'));
+        else
+        url=environment;
         //this.socket = io.connect("https://trip-service.azurewebsites.net/");
-        this.socket = io.connect(environment.SERVICE_URL.TRIP);
+        this.socket = io.connect(url.SERVICE_URL.TRIP);
     }
 
     ngOnInit() {
         try {
             this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            if (this.userInfo.firstName && this.userInfo.lastName)
+            if (this.userInfo.firstName || this.userInfo.lastName)
                 this.name = this.userInfo.firstName + ' ' + this.userInfo.lastName;
             if (localStorage.getItem('selectedMenu')){
                this.selectedMenu=localStorage.getItem('selectedMenu');

@@ -214,10 +214,10 @@ export class LoginComponent implements OnInit {
                     }
                 } catch (err) {
                 }
-                this.loginFormService.loginUser(loginModel)
-                    .subscribe(user => {
-
-                        this.user = user;
+                this.restService.makeCall('Users','POST','/login',loginModel)
+                .subscribe(resp => {
+                    if (resp.body && resp.body.data) {
+                        this.user = resp.body.data;
                         this.loading = false;
                         if (this.user && this.user.access_token) {
                             this.globals.token = this.user.access_token || '';
@@ -227,14 +227,19 @@ export class LoginComponent implements OnInit {
                             this.userid = tokenObject.user.id;
                             this.getUserDetails(this.userid).then().catch((err) => { })
                             
-
                         } else {
-                            this.toastr.error('The username and password you entered did not match our records. Please double-check and try again.', 'Failure');
+                            this.toastr.error('The username and password you entered did not match our records. Please verify and try again.', 'Failure');
                             // alert('Invalid credentials');
                             this.router.navigate(['']);
                         }
-
-                    });
+                    }
+                    else if(resp && !(resp.type==0)){
+                        this.loading = false;
+                    }
+                }, error => {
+                    this.loading = false;
+                    this.toastr.error('The username and password you entered did not match our records. Please verify and try again.', 'Failure');
+                });
             }).catch(() => {
                 this.toastr.error('Mandatory field are not filled', 'Validation Error');
             });

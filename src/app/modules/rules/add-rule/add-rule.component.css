@@ -9,6 +9,10 @@
     display:none;
 }
 
+.mat-raised-button:disabled {
+    color: rgba(229, 229, 229, 1);
+}
+
 .left-align {
     text-align: left;
 }

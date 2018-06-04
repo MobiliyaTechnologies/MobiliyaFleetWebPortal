@@ -2,9 +2,9 @@ export const environment = {
     production: true,
 
     SERVICE_URL: {
-        USER: 'https://identity-service.azurewebsites.net',
-        FLEET: 'https://fleet-service.azurewebsites.net',
-        TRIP: 'https://trip-service.azurewebsites.net'
+        USER: 'https://mfleet-identity-service.azurewebsites.net',
+        FLEET: 'https://mfleet-fleet-service.azurewebsites.net',
+        TRIP: 'https://mfleet-trip-service.azurewebsites.net'
     },
 
     API_ENDPOINT: {

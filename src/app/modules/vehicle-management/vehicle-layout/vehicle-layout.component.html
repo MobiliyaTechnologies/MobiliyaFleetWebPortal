@@ -26,7 +26,7 @@
 
                     <div class="common-margin-top row">
 
-                        <input id="search" name="search" class="form-control search-box" placeholder="Search Vehicles" [(ngModel)]="model.searchCriteria" style="text-transform: lowercase;">
+                        <input id="search" name="search" class="form-control search-box" placeholder="Search Vehicle" [(ngModel)]="model.searchCriteria">
                     </div>
 
                     <div class="row v-scroll-class" id="style-scroll">
@@ -59,7 +59,7 @@
 
                 </div>
             </div>
-            <div class="col-sm-9 col-md-9 col-xl-9 col-lg-9 color-9-class">
+            <div class="col-sm-9 col-md-9 col-xl-9 col-lg-9 color-9-class" style="overflow-y: scroll;height:110vh;">
                 <router-outlet id="containerWindow"></router-outlet>
             </div>
         </div>

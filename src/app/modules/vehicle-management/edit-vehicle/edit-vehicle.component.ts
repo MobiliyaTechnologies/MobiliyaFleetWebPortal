@@ -12,6 +12,7 @@ import { FormControl, Validators } from '@angular/forms';
 export class EditVehicleComponent implements OnInit {
     tenantId: any;
     currentUserInfo: any;
+    roleIdDriver: any;
     currentRole: any;
     public loading = false;
     deviceIdList: any = [];
@@ -24,9 +25,16 @@ export class EditVehicleComponent implements OnInit {
     deviceDetails: any;
     driverDetails: any;
     selectedvehicle: any = {};
+    roles: any = {};
     selectedVehicleToReturn: any = {};
-    yearList: any = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
+    //yearList: any = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
     AssignFleetList: any = [];
+    yearList: any = [{ "id": "0", "yearOfManufacture": "2020" }, { "id": "1", "yearOfManufacture": "2019" }, { "id": "2", "yearOfManufacture": "2018" }, { "id": "3", "yearOfManufacture": "2017" }, { "id": "4", "yearOfManufacture": "2016" },
+        { "id": "5", "yearOfManufacture": "2015" }, { "id": "6", "yearOfManufacture": "2014" }, { "id": "7", "yearOfManufacture": "2013" }, { "id": "8", "yearOfManufacture": "2012" }, { "id": "9", "yearOfManufacture": "2011" },
+        { "id": "0", "yearOfManufacture": "2010" }, { "id": "1", "yearOfManufacture": "2009" }, { "id": "2", "yearOfManufacture": "2008" }, { "id": "3", "yearOfManufacture": "2007" }, { "id": "4", "yearOfManufacture": "2006" },
+        { "id": "5", "yearOfManufacture": "2005" }, { "id": "6", "yearOfManufacture": "2004" }, { "id": "7", "yearOfManufacture": "2003" }, { "id": "8", "yearOfManufacture": "2002" }, { "id": "9", "yearOfManufacture": "2001" },
+        { "id": "0", "yearOfManufacture": "2000" }, { "id": "1", "yearOfManufacture": "1999" }, { "id": "2", "yearOfManufacture": "1998" }, { "id": "3", "yearOfManufacture": "1997" }, { "id": "4", "yearOfManufacture": "1996" }];
+
     fuelTypeList: any = [{ "id": "0", "fuelType": "Petrol" }, { "id": "1", "fuelType": "Diesel" }];
     vehicleId: any;
     registrationNumber = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[A-Z\\a-z\\d-_\\s]+$'), Validators.minLength(2), Validators.maxLength(16)]));
@@ -61,6 +69,7 @@ export class EditVehicleComponent implements OnInit {
 
     ngOnInit() {
         this.currentUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+        this.getRoles();
         this.getVehicleDetails(this.vehicleId);
         this.getDeviceList();
         this.getFleetList();
@@ -71,8 +80,7 @@ export class EditVehicleComponent implements OnInit {
     checkValidations() {
         return new Promise((resolve, reject) => {
             if (this.registrationNumber.invalid || this.brandName.invalid
-                || this.modelName.invalid || this.yearOfManufacture.invalid
-                || this.deviceId.invalid) {
+                || this.modelName.invalid) {
 
                 if (this.registrationNumber.invalid) {
                     this.registrationNumber.markAsTouched();
@@ -85,13 +93,6 @@ export class EditVehicleComponent implements OnInit {
                 if (this.modelName.invalid) {
                     this.modelName.markAsTouched();
                 }
-                if (this.yearOfManufacture.invalid) {
-                    this.yearOfManufacture.markAsTouched();
-                }
-                if (this.deviceId.invalid) {
-                    this.deviceId.markAsTouched();
-                }
-               
                 reject('failure');
             } else {
                 resolve('success');
@@ -99,6 +100,27 @@ export class EditVehicleComponent implements OnInit {
         });
     }
 
+    /*Function to get Driver Id*/
+    getRoles = function () {
+        this.loading = true;
+        this.restService.makeCall('Users', 'GET', '/roles', this.model)
+            .subscribe(resp => {
+                if (resp.body && resp.body.data) {
+                    this.loading = false;
+                    this.roles = resp.body.data;
+                    console.log("this.roles", this.roles);
+                    for (var j = 0; j < this.roles.length; j++) {
+                        if (this.roles[j].roleName == "driver") {
+                            this.roleIdDriver = this.roles[j].id;
+                        }
+                    }
+                    console.log("DRIVER ID", this.roleIdDriver);
+                }
+            }, error => {
+                this.loading = false;
+                this.toastr.error('Error getting list');
+            });
+    }
     /*Function to get Vehicle Details of the vehicle to be edited using vehicle Id*/
     getVehicleDetails = function (vehicleId) {
         this.loading = true;
@@ -174,7 +196,7 @@ export class EditVehicleComponent implements OnInit {
                     });
             }).catch(() => {
                 this.loading = false;
-                this.toastr.error('Mandatory fields are not filled', 'Validation Error');
+                //this.toastr.error('Mandatory fields are not filled', 'Validation Error');
             });
     }
 
@@ -186,7 +208,7 @@ export class EditVehicleComponent implements OnInit {
             if (this.registrationNumber.hasError('minlength'))
                 return 'Registration Number should be at least 4 characters';
             if (this.registrationNumber.hasError('pattern'))
-                return 'Registration Number should contains only alphabets, numbers and spaces'
+                return 'Registration Number should contain only alphabets, numbers and spaces'
             if (this.registrationNumber.hasError('maxlength'))
                 return 'Registration Number should be at most 16 characters';
         }
@@ -197,40 +219,43 @@ export class EditVehicleComponent implements OnInit {
             if (this.brandName.hasError('minlength'))
                 return 'Brand Name should be at least 4 characters';
             if (this.brandName.hasError('pattern'))
-                return 'Brand Name should contains only alphabets, numbers and spaces'
+                return 'Brand Name should contain only alphabets, numbers and spaces'
             if (this.brandName.hasError('maxlength'))
                 return 'Brand Name should be at most 16 characters';
         }
 
         if (field.toLowerCase() === 'modelname') {
             if (this.modelName.hasError('required'))
-                return 'You must enter a valid model Name';
+                return 'You must enter a valid Model Name';
             if (this.modelName.hasError('minlength'))
                 return 'Model Name should be at least 4 characters';
             if (this.modelName.hasError('pattern'))
-                return 'Model Name should contains only alphabets, numbers and spaces'
+                return 'Model Name should contain only alphabets, numbers and spaces'
             if (this.modelName.hasError('maxlength'))
                 return 'Model Name should be at most 16 characters';
         }
 
         if (field.toLowerCase() === 'yearofmanufacture') {
-            return this.yearOfManufacture.hasError('required') ? 'You must enter a valid value' : '';
+            if (this.yearOfManufacture.hasError('required'))
+                return 'You must select a year';
         }
 
-        if (field.toLowerCase() === 'deviceid') {
-            return this.deviceId.hasError('required') ? 'You must enter a valid value' : '';
+        if (field.toLowerCase() === 'fueltype') {
+            if (this.fuelType.hasError('required'))
+                return 'You must select fuel type';
         }
 
         if (field.toLowerCase() === 'color') {
-            if (this.color.hasError('required'))
-                return 'You must enter a valid color';
+            //if (this.color.hasError('required'))
+            //    return 'You must enter a valid color';
             if (this.color.hasError('minlength'))
                 return 'Color should be at least 3 characters';
             if (this.color.hasError('pattern'))
-                return 'Color should contains only alphabets and spaces'
+                return 'Color should contain only alphabets and spaces'
             if (this.color.hasError('maxlength'))
                 return 'Color should be at most 16 characters';
         }
+
     }
 
     /*Function to get list of fleets*/
@@ -264,7 +289,7 @@ export class EditVehicleComponent implements OnInit {
     getUserList = function (fleetId) {
         this.loading = true;
         this.model = {};
-        this.restService.makeCall('Users', 'GET', '/users?isDriverAssign=0&&roleId=9047c820-dd45-4ccf-9a39-876934faf08a&&fleetId=' + fleetId, this.model)
+        this.restService.makeCall('Users', 'GET', '/users?isDriverAssign=0&&roleId=' + this.roleIdDriver+'&&fleetId=' + fleetId, this.model)
             .subscribe(resp => {
                 if (resp && resp.body) {
                     this.loading = false;
@@ -333,7 +358,7 @@ export class EditVehicleComponent implements OnInit {
                         this.enableAddDevice = true;
                     }
                     else {
-                        this.toastr.error('No Devices Available');
+                        this.toastr.error('No Dongles Available');
                     }
 
                 }

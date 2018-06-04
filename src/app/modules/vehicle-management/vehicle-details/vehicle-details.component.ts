@@ -99,9 +99,13 @@ export class VehicleDetailsComponent implements OnInit {
                 if (resp.body && resp.body.data) {
                     this.loading = false;
                     this.selectedItem = resp.body.data[0];
-                    this.deviceName = this.selectedItem.Device.deviceName;
                     this.getUserDetails(this.selectedItem.userId);
                     this.getVehicleHistory(this.selectedItem.id);
+                    if (this.selectedItem.Device) {
+                        this.deviceName = this.selectedItem.Device.deviceName;
+                    }
+     
+                   
 
                 } else {
                     this.loading = false;

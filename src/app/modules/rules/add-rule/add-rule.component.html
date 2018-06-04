@@ -142,7 +142,7 @@
 
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" style="margin-top: 3%;">
                                     <div class="col-md-4 col-sm-4 col-xs-4 col-xl-4" *ngIf="this.currentRole != 'fleet admin'">
                                         <div class="row">
                                             <mat-form-field>
@@ -351,14 +351,14 @@
             <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
-                        <button mat-raised-button (click)="selectPrevious(matgroup)" *ngIf="step3!=1" class="mat-elevation-z4 common-btn-class" [disabled]="matgroup.selectedIndex == 0">
+                        <button mat-raised-button (click)="selectPrevious(matgroup)" *ngIf="step3!=1" class="mat-elevation-z4 common-btn-class theme-button" [disabled]="matgroup.selectedIndex == 0">
                             Previous
                         </button>
 
                     </div>
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
 
-                        <button mat-raised-button (click)="selectNext(matgroup)" *ngIf="step3==0" class="mat-elevation-z4 common-btn-class" [disabled]="radioBtnValue == 0 || addRuleVariable.rulename==null || latlngrad == false">
+                        <button mat-raised-button (click)="selectNext(matgroup)" *ngIf="step3==0" class="mat-elevation-z4 common-btn-class theme-button" [disabled]="radioBtnValue == 0 || addRuleVariable.rulename==null || latlngrad == false">
                             Next
                         </button>
 

@@ -24,44 +24,44 @@ export class AddDeviceComponent implements OnInit {
     currentUserInfo: any = {};
     currentRole = "";
     addDeviceModel: any = {};
-    
+    //dongleTypeList: any = [{ "id": "0", "dongleType": "OBD II" }, { "id": "1", "dongleType": "J1939" }];
+    dongleTypeList: any = ["OBD II","J1939"];
+
     adapterId = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));
     serialNo = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));
-    dongleType = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));
+    dongleType = new FormControl('', Validators.required);
     hardwareVersion = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^(([0-9]{1,4})?(\.[0-9]{1,4})?(\.[0-9]{1,4})){1,15}$')]));
     firmwareVersion = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^(([0-9]{1,4})?(\.[0-9]{1,4})?(\.[0-9]{1,4})){1,15}$')]));
 
     getErrorMessage(field, fieldValue) {
         if (field.toLowerCase() === 'adapterid') {
             if(this.adapterId.hasError('required'))
-                return 'You must enter a value';
+                return 'You must enter a valid device Id';
             if(this.adapterId.hasError('pattern'))
-                return 'Please enter valid device Id';
+                return 'Device Id must contain only numbers, alphabets, hyphen(-), underscore(_) and dot(.)';
         }
         if (field.toLowerCase() === 'serialno') {
             if(this.serialNo.hasError('required'))
-                return 'You must enter a value';
+                return 'You must enter a valid serial number';
             if(this.serialNo.hasError('pattern'))
-                return 'Please enter valid serial number';
+                return 'Serial No. must contain only numbers, alphabets, hyphen(-), underscore(_) and dot(.)';
         }
         if (field.toLowerCase() === 'dongletype') {
             if(this.dongleType.hasError('required'))
-                return 'You must enter a value';
-            if(this.dongleType.hasError('pattern'))
-                return 'Please enter valid device type';
+                return 'You must select a valid dongle type';
         }
         if (field.toLowerCase() === 'hardwareversion') {
             if(this.hardwareVersion.hasError('required'))
-                return 'You must enter a value';
+                return 'You must enter valid hardware version';
             if(this.hardwareVersion.hasError('pattern'))
-                return 'Please enter valid version';
+                return 'Hardware Version must contain only numbers and dot(.)';
         }
 
         else if (field.toLowerCase() === 'firmwareversion') {
             if(this.firmwareVersion.hasError('required'))
-                return 'You must enter a value';
+                return 'You must enter valid firmware version';
             if(this.firmwareVersion.hasError('pattern'))
-                return 'Please enter valid version';
+                return 'Firmware Version must contain only numbers and dot(.)';
         }
     }
 
@@ -78,10 +78,7 @@ export class AddDeviceComponent implements OnInit {
         this.currentUserInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.currentRole = this.currentUserInfo.currentRole;
     }
-    ngAfterViewInit() {
-        
 
-    }
     /**
      * Stores metadata and sets initial values before add Device action
      */
@@ -145,7 +142,8 @@ export class AddDeviceComponent implements OnInit {
                         if (resp && resp.body && resp.body.data) {
                             this.loading = false;
                             this.toastr.success('Device Information added successfully.');
-                            this.router.navigate(['dashboard/devices']);
+                            localStorage.setItem('selectedItem',resp.body.data.id);
+                            this.router.navigate(['dashboard/devices/details/'+resp.body.data.id]);
                         }
                         else if (resp && resp.length == 0) {
                             this.loading = false;
@@ -158,7 +156,7 @@ export class AddDeviceComponent implements OnInit {
                     });
             }).catch(() => {
                 this.loading = false;
-                this.toastr.error('Mandatory field are not filled', 'Validation Error');
+                //this.toastr.error('Mandatory field are not filled', 'Validation Error');
             });
 
 

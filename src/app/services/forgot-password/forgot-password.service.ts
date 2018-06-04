@@ -10,10 +10,10 @@ import * as $ from 'jquery';
 import { Globals } from '../../shared/globals';
 
 /** SERVICE_URL from environment */
-const SERVICE_URL = environment.SERVICE_URL;
+var SERVICE_URL:any = {};
 
 /** API_ENDPOINT from environment */
-const API_ENDPOINT = environment.API_ENDPOINT;
+var API_ENDPOINT:any = {};
 
 /** UserManagementService httpOptions */
 const httpOptions = {
@@ -27,7 +27,14 @@ export class ForgotPasswordService {
 
     constructor(
         private http: HttpClient,
-        private globals: Globals) { }
+        private globals: Globals) { 
+            var environment=JSON.parse(sessionStorage.getItem('sessionConfiguration'));
+            if(environment){
+                SERVICE_URL = environment.SERVICE_URL;
+                /** API_ENDPOINT from environment */
+                API_ENDPOINT = environment.API_ENDPOINT;
+            }
+        }
 
     /** GET user from the server */
 

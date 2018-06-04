@@ -23,28 +23,42 @@ export class EditDeviceComponent implements OnInit {
     selectedItem: any = {};
     currentUserInfo: any = {};
     currentRole = "";
-
-    adapterId = new FormControl('', [Validators.required]);
-    serialNo = new FormControl('', [Validators.required]);
-    dongleType = new FormControl('', [Validators.required]);
-    hardwareVersion = new FormControl('', [Validators.required]);
-    firmwareVersion = new FormControl('', [Validators.required]);
+    dongleTypeList: any = [{ "id": "0", "dongleType": "OBD II" }, { "id": "1", "dongleType": "J1939" }];
+    adapterId = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));
+    serialNo = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));
+    dongleType = new FormControl('', Validators.required);
+    hardwareVersion = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^(([0-9]{1,4})?(\.[0-9]{1,4})?(\.[0-9]{1,4})){1,15}$')]));
+    firmwareVersion = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^(([0-9]{1,4})?(\.[0-9]{1,4})?(\.[0-9]{1,4})){1,15}$')]));
 
     getErrorMessage(field, fieldValue) {
         if (field.toLowerCase() === 'adapterid') {
-            return this.adapterId.hasError('required') ? 'You must select a value' : '';
+            if (this.adapterId.hasError('required'))
+                return 'You must enter a valid device Id';
+            if (this.adapterId.hasError('pattern'))
+                return 'Device Id must contain only numbers, alphabets, hyphen(-), underscore(_) and dot(.)';
         }
         if (field.toLowerCase() === 'serialno') {
-            return this.serialNo.hasError('required') ? 'You must select a value' : '';
+            if (this.serialNo.hasError('required'))
+                return 'You must enter a valid serial number';
+            if (this.serialNo.hasError('pattern'))
+                return 'Serial No. must contain only numbers, alphabets, hyphen(-), underscore(_) and dot(.)';
         }
         if (field.toLowerCase() === 'dongletype') {
-            return this.dongleType.hasError('required') ? 'You must select a value' : '';
+            if (this.dongleType.hasError('required'))
+                return 'You must select a valid dongle type';
         }
         if (field.toLowerCase() === 'hardwareversion') {
-            return this.hardwareVersion.hasError('required') ? 'You must select a value' : '';
+            if (this.hardwareVersion.hasError('required'))
+                return 'You must enter valid hardware version';
+            if (this.hardwareVersion.hasError('pattern'))
+                return 'Hardware Version must contain only numbers and dot(.)';
         }
+
         else if (field.toLowerCase() === 'firmwareversion') {
-            return this.firmwareVersion.hasError('required') ? 'You must select a value' : '';
+            if (this.firmwareVersion.hasError('required'))
+                return 'You must enter valid firmware version';
+            if (this.firmwareVersion.hasError('pattern'))
+                return 'Firmware Version must contain only numbers and dot(.)';
         }
     }
 
@@ -118,10 +132,10 @@ export class EditDeviceComponent implements OnInit {
                 if (this.dongleType.invalid) {
                     this.dongleType.markAsTouched();
                 }
-                if (this.hardwareVersion.invalid ) {
+                if (this.hardwareVersion.invalid) {
                     this.hardwareVersion.markAsTouched();
                 }
-                if (this.firmwareVersion.invalid ) {
+                if (this.firmwareVersion.invalid) {
                     this.firmwareVersion.markAsTouched();
                 }
                 reject('failure');
@@ -142,7 +156,7 @@ export class EditDeviceComponent implements OnInit {
                     .subscribe(resp => {
                         if (resp.body && resp.body.data) {
                             this.loading = false;
-                            this.toastr.success('Device Information updated successfully.');
+                            this.toastr.success('Dongle Information updated successfully.');
                             this.router.navigate(['dashboard/devices/details/'+this.selectedItem.id]);
                         }
                     }, error => {
@@ -151,7 +165,7 @@ export class EditDeviceComponent implements OnInit {
                     });
             }).catch(() => {
                 this.loading = false;
-                this.toastr.error('Mandatory field are not filled', 'Validation Error');
+                //this.toastr.error('Mandatory field are not filled', 'Validation Error');
             });
     }
 

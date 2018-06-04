@@ -5,16 +5,13 @@ import { merge } from 'rxjs/observable/merge';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { catchError, map, tap, startWith, switchMap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import * as $ from 'jquery';
 import { Globals } from '../../shared/globals';
 import { ToastrService } from 'ngx-toastr';
 /** SERVICE_URL from environment */
-const SERVICE_URL = environment.SERVICE_URL;
-
-/** API_ENDPOINT from environment */
-const API_ENDPOINT = environment.API_ENDPOINT;
-
+var environment:any={};
+var SERVICE_URL:any={};
+var API_ENDPOINT:any={};
 /** UserManagementService httpOptions */
 const httpOptions = {
     headers: new HttpHeaders(
@@ -28,11 +25,19 @@ export class RestService {
     constructor(
         private http: HttpClient,
         private globals: Globals,
-        private toastr: ToastrService,) { }
+        private toastr: ToastrService,) { 
+            
+        }
 
     /** GET user from the server */
 
     makeCall(serviceName, method, api, reqObj: any): Observable<any> {
+        environment=JSON.parse(sessionStorage.getItem('sessionConfiguration'));
+        if(environment){
+                SERVICE_URL = environment.SERVICE_URL;
+                /** API_ENDPOINT from environment */
+                API_ENDPOINT = environment.API_ENDPOINT;
+        }
         if (serviceName.toLowerCase() === 'users') {
             api = SERVICE_URL.USER + api;
         }
@@ -73,8 +78,11 @@ export class RestService {
         return (error: any): Observable<T> => {
 
             // TODO: send the error to remote logging infrastructure
-            if (error && error.error && error.error.message)
-                this.toastr.error(error.error.message);
+            if (error && error.error && error.error.message) {
+                console.log("error", error.error.error.errors[0]);
+                this.toastr.error(error.error.error.errors[0].message);
+            }
+                
             else
                 //this.toastr.error('Something went wrong')
                 //this.toastr.error('Something went terribly wrong. Please login again.');
