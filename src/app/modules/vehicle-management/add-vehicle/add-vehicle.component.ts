@@ -15,6 +15,7 @@ export class AddVehicleComponent implements OnInit {
     model: any;
     roleIdDriver: any;
     tenantId: any;
+    newRegNum: any;
     enableAddVehicle = false;
     enableAddFleet = false;
     enableAddDevice = false;
@@ -106,11 +107,10 @@ export class AddVehicleComponent implements OnInit {
                             this.roleIdDriver = this.roles[j].id;
                         }
                     }
-                    console.log("DRIVER ID", this.roleIdDriver);
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
     }
 
@@ -137,7 +137,6 @@ export class AddVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -164,7 +163,6 @@ export class AddVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -191,7 +189,6 @@ export class AddVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -218,7 +215,6 @@ export class AddVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -231,7 +227,8 @@ export class AddVehicleComponent implements OnInit {
                 addModel.model = this.addVehicleModel.modelName;
                 addModel.yearOfManufacture = this.addVehicleModel.yearOfManufacture;
                 addModel.fuelType = this.addVehicleModel.fuelType;
-                addModel.registrationNumber = this.addVehicleModel.registrationNumber;
+                this.newRegNum = this.addVehicleModel.registrationNumber.replace(/[^A-Z0-9]/ig, "");
+                addModel.registrationNumber = this.newRegNum;
                 addModel.deviceId = this.addVehicleModel.deviceId;
                 addModel.color = this.addVehicleModel.color;
 
@@ -264,11 +261,12 @@ export class AddVehicleComponent implements OnInit {
                             this.router.navigate(['dashboard/vehicle']);
                         }
                         else if (resp && resp.length == 0) {
-                            this.toastr.error('Vehicle not added successfully');
+                            //this.toastr.error('Vehicle not added successfully');
+                            this.loading = false;
                         }
                     }, error => {
                         this.loading = false;
-                        this.toastr.error('Error adding data');
+                        //this.toastr.error('Error adding data');
                     });
             }).catch(() => {
                 this.loading = false;

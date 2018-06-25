@@ -94,7 +94,7 @@
 
                                 <ng-container matColumnDef="#">
                                 <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
-                                <mat-cell *matCellDef="let item"> {{selectedVehicleList.indexOf(item) + 1 }}  </mat-cell>
+                                <mat-cell *matCellDef="let item"> {{selectedVehicleList.data.indexOf(item) + 1 }}  </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="vehicleModel">

@@ -84,7 +84,7 @@ export class FleetLayoutComponent implements OnInit {
 
           }, error => {
               this.loading = false;
-              this.toastr.error('Error getting list');
+              //this.toastr.error('Error getting list');
           });
   }
 
@@ -149,7 +149,7 @@ export class FleetLayoutComponent implements OnInit {
 
           }, error => {
               this.loading = false;
-              this.toastr.error('Error getting list');
+              //this.toastr.error('Error getting list');
           });
   }
 

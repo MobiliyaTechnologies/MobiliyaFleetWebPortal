@@ -89,6 +89,12 @@ export class ReportsComponent implements OnInit {
             if(item.createdAt.split("T")[0] == tempDate.split("T")[0]){
                 self.reportData.push(item);
             }
+            //replacing NaN values by NA
+            for (var prop in item) {
+                if(item[prop] == 'NaN'){
+                    item[prop]="NA";
+                }
+            }
         })
         tempDate=new Date(tempDate)
         tempDate.setDate( tempDate.getDate()+ 1 );
@@ -127,7 +133,7 @@ export class ReportsComponent implements OnInit {
             }
         }, error => {
             this.loading = false;
-            this.toastr.error('Error getting list');
+            //this.toastr.error('Error getting list');
         });
   }
 
@@ -151,7 +157,7 @@ export class ReportsComponent implements OnInit {
             }
         }, error => {
             this.loading = false;
-            this.toastr.error('Error getting list');
+            //this.toastr.error('Error getting list');
         });
   }
 
@@ -166,7 +172,7 @@ export class ReportsComponent implements OnInit {
             }
         }, error => {
             this.loading = false;
-            this.toastr.error('Error getting list');
+            //this.toastr.error('Error getting list');
         });
   }
 
@@ -183,7 +189,7 @@ export class ReportsComponent implements OnInit {
             }
         }, error => {
             this.loading = false;
-            this.toastr.error('Error getting list');
+            //this.toastr.error('Error getting list');
         });
   }
 
@@ -201,7 +207,7 @@ export class ReportsComponent implements OnInit {
               }
           }, error => {
               self.loading = false;
-              self.toastr.error('Error getting list');
+              //self.toastr.error('Error getting list');
               reject(error);
           });
     });
@@ -324,11 +330,11 @@ export class ReportsComponent implements OnInit {
     this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
     this.selectedParamGraph=paramName;
     if(paramName=='mileage')
-        this.graphChange('Average_Mileage_Date_Slicer');
+        this.graphChange('mileage');
     if(paramName=='speed')
-        this.graphChange('Average_Speed_Date_Slicer');
+        this.graphChange('speed');
     if(paramName=="rpm")
-        this.graphChange('Average_RPM_Date_Slicer');
+        this.graphChange('rpm');
   }   
 
   getGraphData=function(paramName,calcReq){ 

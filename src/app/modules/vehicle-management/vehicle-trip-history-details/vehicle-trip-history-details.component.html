@@ -1,4 +1,4 @@
-<div class="row common-margin-top">
+<div class="row common-margin-top scroll-class">
 
     <div class="row tripName boldClass">
         {{tripDetails.tripName}}
@@ -16,16 +16,30 @@
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
                     Start Location
                 </div>
-                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{tripDetails.startLocation}}
+                <div class="ellipsisStyle col-md-12 col-sm-12 col-lg-12 col-xl-12" *ngIf="tripDetails.startLocation; else showNA" matTooltip="{{tripDetails.startLocation}}">
+                    <!-- <div *ngIf="tripDetails.startLocation.split("#")[1]"> -->
+                        {{tripDetails.startLocation.split("#")[1]}}
+                    <!-- </div> -->
+                    <!-- <ng-template>
+                        <div class="ellipsisStyle col-md-12 col-sm-12 col-lg-12 col-xl-12" #notFound>
+                            Location name not found
+                        </div>
+                    </ng-template> -->
                 </div>
+                <ng-template>
+                    <div class="ellipsisStyle col-md-12 col-sm-12 col-lg-12 col-xl-12" #showNA>
+                        NA
+                    </div>
+                </ng-template>
             </div>
-            <div class="">
+            <div class="marginSecond">
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
                     End Location
                 </div>
-                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{tripDetails.endLocation}}
+                <div class="ellipsisStyle col-md-12 col-sm-12 col-lg-12 col-xl-12" *ngIf="tripDetails.endLocation; else showNA" matTooltip="{{tripDetails.startLocation}}">
+                    <!-- <div *ngIf="tripDetails.endLocation.split("#")[1]"> -->
+                        {{tripDetails.endLocation.split("#")[1]}}
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
@@ -35,7 +49,7 @@
                     Start Date/Time
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{tripDetails.startTime}}
+                    {{tripDetails.startTime | date:'dd-MM-yyyy HH:mm a z':'+0900'}}
                 </div>
             </div>
             <div class="marginSecond">
@@ -43,25 +57,25 @@
                     End Date/Time
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{tripDetails.endTime}}
+                    {{tripDetails.endTime | date:'dd-MM-yyyy HH:mm a z':'+0900'}}
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-sm-3 col-xl-3 col-lg-3 width_100 box_styling">
             <div class="">
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
-                    Start Odometer
+                    Distance Travelled
                 </div>
-                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{tripDetailsOfVehicleZero.Odometer}}
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12"  *ngIf="tripDetails.milesDriven; else showNA">
+                    {{tripDetails.milesDriven}}&nbsp;miles
                 </div>
             </div>
             <div class="marginSecond">
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
-                    End Odometer
+                    Duration
                 </div>
-                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{endOdometer}}
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12" *ngIf="tripDetails.tripDuration; else showNA">
+                    {{ tripDetails.tripDuration.split(':')[0] + ' Hrs ' + tripDetails.tripDuration.split(':')[1] +' Mins '+tripDetails.tripDuration.split(':')[2] +' Secs '  }}
                 </div>
             </div>
         </div>
@@ -78,7 +92,8 @@
                         <mat-expansion-panel-header>
                             Engine Faults
                         </mat-expansion-panel-header>
-                        <div class="row yellow-box">
+
+                        <div class="row yellow-box" *ngIf="!((FaultSPN == 0 && FaultDescription ==0) || FaultSPN)">
 
                             <div class="col-md-1 col-lg-1 col-sm-1 col-xl-1">
                                 <img src="./assets/images/alert.png" class="alert-icon">
@@ -92,10 +107,12 @@
                             <div class="col-md-8 col-lg-8 col-sm-8 col-xl-8">
                                 {{FaultDescription}}
                             </div>
-
-
-
                         </div>
+
+                        <div class="row noFaultFound" *ngIf="FaultSPN == 0">
+                            No Faults Found.
+                        </div>
+
                     </mat-expansion-panel>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
@@ -187,7 +204,14 @@
                                     <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{tripDetailsOfVehicleZero.EngineVIN}}</div>
                                 </div>
                             </div>
-
+                            <div class="col-md-3 col-lg-3 col-sm-3 col-xl-3">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 color-grey style-data-name">Dongle Connected</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">{{isConnected}}</div>
+                                </div>
+                            </div>
 
                         </div>
 

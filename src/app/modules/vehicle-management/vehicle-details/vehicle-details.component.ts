@@ -113,7 +113,7 @@ export class VehicleDetailsComponent implements OnInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting vehicle info');
+                this.toastr.error('Error getting vehicle information');
             })
 
     }
@@ -174,7 +174,7 @@ export class VehicleDetailsComponent implements OnInit {
 
         this.tenantId = this.currentUserInfo.Tenant.id;
         var URL = '/users/' + userId;
-        if (userId != null) {
+        if (userId) {
             this.restService.makeCall('Users', 'GET', '/users/' + userId, this.model)
                 .subscribe(resp => {
                     if (resp.body && resp.body.data) {
@@ -186,7 +186,7 @@ export class VehicleDetailsComponent implements OnInit {
                     }
                 }, error => {
                     this.loading = false;
-                    this.toastr.error('Error getting list');
+                    //this.toastr.error('Error getting list');
                 });
 
         }

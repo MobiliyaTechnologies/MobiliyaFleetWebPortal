@@ -50,6 +50,7 @@ export class AddRuleComponent implements OnInit {
     vN: any;
     step3 = 0;
     file: any;
+    fileType: any;
     multipleGeofenceFleet: any = [];
     fleetValueList: any = [];
     vehicleValueList: any = [];
@@ -68,6 +69,7 @@ export class AddRuleComponent implements OnInit {
     AssignVehicleList: any = {};
     data: AOA = [[1, 2], [3, 4]];
     multipleGeofence: any = [];
+    hide=true;
     public loading = false;
     constructor(
         private router: Router,
@@ -81,23 +83,15 @@ export class AddRuleComponent implements OnInit {
         this.currentRole = this.currentUserInfo.currentRole;
         this.Id = this.currentUserInfo.id;
         this.getFleetList();
-        //var _that = this;
-        //setTimeout(() => {
-        //    _that.map = new Microsoft.Maps.Map(_that.myMap.nativeElement, {
-        //        credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
-        //    });
-        //}, 1000);
-        //this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
-        //    credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
-        //});
     }
 
     ngAfterViewInit() {
         var _that = this;
         setTimeout(() => {
-            _that.map = new Microsoft.Maps.Map(_that.myMap.nativeElement, {
-                credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
-            });
+            if(_that.myMap && _that.myMap.nativeElement)
+                _that.map = new Microsoft.Maps.Map(_that.myMap.nativeElement, {
+                    credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
+                });
         }, 1000);
     }
 
@@ -211,31 +205,8 @@ export class AddRuleComponent implements OnInit {
         var pin = new Microsoft.Maps.Pushpin(pushPin, {
             icon: '../../../assets/images/stop1.png'
         });
-
-        //var backgroundColor = new Microsoft.Maps.Color(10, 0, 0, 0)
-        //var borderColor = new Microsoft.Maps.Color(150, 200, 0, 0);
-        ////Earth's mean radius in KM is 6371km.
-        //var circlePoints = new Array();
-        //var lat1 = (lat * Math.PI) / 180;
-        //var long1 = (lng * Math.PI) / 180;
-        ////var d = radius / 3956;
-        //var d = 100 / 3956;
-        //d = 100;
-        //var p2 = new Microsoft.Maps.Location(0, 0);
-        //for (var x = 0; x <= 360; x += 5) {
-        //    var brng = x * Math.PI / 180;
-        //    console.log("brng", brng);
-        //    p2.latitude = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(brng));
-        //    p2.longitude = ((long1 + Math.atan2(Math.sin(brng) * Math.sin(d) * Math.cos(lat1), Math.cos(d) - Math.sin(lat1) * Math.sin(p2.latitude))) * 180) / Math.PI;
-        //    p2.latitude = (p2.latitude * 180) / Math.PI;
-        //    console.log("p2", p2);
-        //    circlePoints.push(p2);
-        //}
         this.map.entities.push(pin);
         this.map.setView({ center: pushPin });
-        //console.log("Circle points", circlePoints);
-        //var polygon = new Microsoft.Maps.Polygon(circlePoints, { fillColor: backgroundColor, strokeColor: borderColor, strokeThickness: 0 });
-        //this.map.entities.push(polygon);
     }
 
     /*Function to navigate to the next step*/
@@ -263,19 +234,21 @@ export class AddRuleComponent implements OnInit {
 
                 this.checkValidations()
                     .then(() => {
+                        this.step3 = 1;
                         this.lat = parseFloat(this.addRuleVariable.latitude);
                         this.lng = parseFloat(this.addRuleVariable.longitude);
-                        this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
-                            credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
-                        });
-                        this.setPushpin(this.lat, this.lng);  
+                        if(this.myMap && this.myMap.nativeElement){
+                            this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
+                                credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
+                            });
+                            this.setPushpin(this.lat, this.lng);  
+                        }
                         this.rad = parseFloat(this.addRuleVariable.radius);
                         this.latlngrad = true;
                         el.selectedIndex += 1;
                         this.saveButton = true;
-                        this.step3 = 1;
-
-                    }).catch(() => {
+                        
+                    }).catch((Ex) => {
                         this.loading = false;
                         this.toastr.error('Mandatory fields are not correctly filled', 'Validation Error');
                     });
@@ -310,7 +283,7 @@ export class AddRuleComponent implements OnInit {
                 });
         }
 
-        else if (this.setSpeedValue == 0 && this.radioBtnValue == 1 && this.speedLimitMustBeSet == 0) {
+        else if ((this.setSpeedValue == 0 || this.setSpeedValue == 1) && this.radioBtnValue == 1 && this.speedLimitMustBeSet == 0) {
 
             this.checkValidationsForRuleName()
                 .then(() => {
@@ -353,7 +326,7 @@ export class AddRuleComponent implements OnInit {
                     if (resp.body && resp.body.data) {
                         this.loading = false;
                         this.selecteditem = resp.body.data;
-                        this.vN = this.selecteditem.brandName;
+                        this.vN = this.selecteditem.registrationNumber;
 
                     } else {
                         this.loading = false;
@@ -390,39 +363,43 @@ export class AddRuleComponent implements OnInit {
 
     /*Function to show the progress of file upload*/
     onClickFile(event) {
-        this.showProgress = true;
-        const elem = document.getElementById('bar');
-        let width = 1;
-        this.file_name = event.target.files[0] ? event.target.files[0].name : '';
-        this.size = event.target.files[0] ? event.target.files[0].size : 0;
-        this.file = event.target.files[0];
-        const target: DataTransfer = <DataTransfer>(event.target);
-        if (target.files.length !== 1) throw new Error('Cannot use multiple files');
-        const reader: FileReader = new FileReader();
-        reader.onload = (e: any) => {
-            const bstr: string = e.target.result;
-            const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
-            const wsname: string = wb.SheetNames[0];
-            const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-            this.data = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
-            for (var i = 1; i < this.data.length; i++) {
-                this.lat = this.data[i][1];
-                this.lng = this.data[i][0];
-                this.rad = this.data[i][2];
-                this.multipleGeofence.push({ "latitude": this.lat, "longitude": this.lng, "radius": this.rad, "vehicleId":"" });
-            }
-        };
-        reader.readAsBinaryString(target.files[0]);
-
-        const id = setInterval(frame, 10);
-        function frame() {
-            if (width >= 100) {
-                clearInterval(id);
-            } else {
-                width++;
-                elem.style.width = width + '%';
-            }
+        this.fileType = event.target.files[0].type;
+        if (this.fileType == "application/vnd.ms-excel" || this.fileType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+            this.showProgress = true;
+            const elem = document.getElementById('bar');
+            let width = 1;
+            this.file_name = event.target.files[0] ? event.target.files[0].name : '';
+         
+            console.log(event.target.files[0].type);
+            console.log("File Type", this.fileType);
+            //application/vnd.ms-excel (.xls)
+            //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+            this.size = event.target.files[0] ? event.target.files[0].size : 0;
+            this.file = event.target.files[0];
+            const target: DataTransfer = <DataTransfer>(event.target);
+            if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+            const reader: FileReader = new FileReader();
+            reader.onload = (e: any) => {
+                const bstr: string = e.target.result;
+                const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+                const wsname: string = wb.SheetNames[0];
+                const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+                this.data = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
+                for (var i = 1; i < this.data.length; i++) {
+                    this.lat = this.data[i][1];
+                    this.lng = this.data[i][0];
+                    this.rad = this.data[i][2];
+                    this.multipleGeofence.push({ "latitude": this.lat, "longitude": this.lng, "radius": this.rad, "vehicleId": "" });
+                }
+            };
+            reader.readAsBinaryString(target.files[0]);
         }
+        else {
+            this.toastr.error("Only .xls, .xlsx, .csv files accepted");
+      
+        }
+            
+       
     }
 
     /*Function to get the Fleet List*/
@@ -445,7 +422,6 @@ export class AddRuleComponent implements OnInit {
 
                 }, error => {
                     this.loading = false;
-                    this.toastr.error('Error deleting data');
                 });
         }
         else {
@@ -461,7 +437,6 @@ export class AddRuleComponent implements OnInit {
 
                 }, error => {
                     this.loading = false;
-                    this.toastr.error('Error deleting data');
                 });
         }
 
@@ -491,7 +466,6 @@ export class AddRuleComponent implements OnInit {
 
                 }, error => {
                     this.loading = false;
-                    this.toastr.error('Error deleting data');
                 });
         }
         else {
@@ -512,7 +486,6 @@ export class AddRuleComponent implements OnInit {
 
                 }, error => {
                     this.loading = false;
-                    this.toastr.error('Error deleting data');
                 });
         }
        
@@ -561,7 +534,6 @@ export class AddRuleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
 
     }
@@ -588,7 +560,6 @@ export class AddRuleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -637,7 +608,6 @@ export class AddRuleComponent implements OnInit {
 
                     }, error => {
                         this.loading = false;
-                        this.toastr.error('Error deleting data');
                     });
 
             }).catch(() => {

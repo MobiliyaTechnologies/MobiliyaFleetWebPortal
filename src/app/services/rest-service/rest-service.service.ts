@@ -78,9 +78,27 @@ export class RestService {
         return (error: any): Observable<T> => {
 
             // TODO: send the error to remote logging infrastructure
+//
+//            if (error && error.error && error.error.message && !error.error.error.errors) {
+//                console.log("error", error.error.message);
+//                this.toastr.error(error.error.message);
+//            }
+
+//            else if (error && error.error && error.error.error.errors[0].message) {
+//                console.log("error", error.error.message);
+//                this.toastr.error(error.error.error.errors[0].message);
+//=======
             if (error && error.error && error.error.message) {
-                console.log("error", error.error.error.errors[0]);
-                this.toastr.error(error.error.error.errors[0].message);
+                if (error && error.error && error.error.message) {
+                    console.log("error", error.error.message);
+                    this.toastr.error(error.error.message);
+                }
+                else{
+                    console.log("error", error.error.error.errors[0]);
+                    this.toastr.error(error.error.error.errors[0].message);
+                }
+                
+
             }
                 
             else

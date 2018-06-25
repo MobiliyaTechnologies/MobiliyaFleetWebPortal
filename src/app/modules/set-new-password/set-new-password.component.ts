@@ -123,7 +123,6 @@ export class SetNewPasswordComponent implements OnInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
             }).catch(() => {
                 if (this.password.value != this.confirmPassword.value) 

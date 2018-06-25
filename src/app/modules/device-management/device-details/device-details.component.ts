@@ -75,7 +75,7 @@ export class DeviceDetailsComponent implements OnInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting user info');
+                this.toastr.error('Error getting dongle info');
             })
     }
 
@@ -92,7 +92,7 @@ export class DeviceDetailsComponent implements OnInit {
             .subscribe(resp => {
                 if (resp && resp.body) {
                     this.loading = false;
-                    this.toastr.success('Device Information deleted successfully.');
+                    this.toastr.success('Dongle Information deleted successfully.');
                     this.router.navigate(['/dashboard/devices'])
                 }
                 else if(resp && resp.length == 0){
@@ -102,7 +102,7 @@ export class DeviceDetailsComponent implements OnInit {
                 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
+                this.toastr.error('Error deleting dongle information');
             });
     }
     //delete device Model

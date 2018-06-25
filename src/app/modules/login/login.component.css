@@ -5,8 +5,8 @@
     /*left: 939px;*/
     height: 14px;
     width: 74px;
-    font-family: 'Montserrat';
-    font-size: 20px;
+    font-size: 26px;
+    font-weight:500;
     color: rgba(53, 53, 53, 1);
     line-height: 24px;
     text-transform: uppercase;
@@ -22,9 +22,17 @@
     /*background-image:url('./assets/images/login-background.png') ;*/
 
 }
-.login-input-text{
+
+.forget-password {
+    font-weight: 500;
+    font-size:16px;
+}
+
+
+.login-input-text {
     width: 100% !important;
     margin-top: 10px;
+    font-weight: 500;
 }
 
 .login-box-container{
@@ -65,13 +73,13 @@
 
 
 
-.sign-in-button-text{
-    font-family: 'Montserrat';
+.sign-in-button-text {
     font-size: 16px;
     color: rgba(255, 255, 255, 1);
     text-align: center;
     line-height: 24px;
     text-transform: uppercase;
+    font-weight: 500;
 }
 
 .login-logo{

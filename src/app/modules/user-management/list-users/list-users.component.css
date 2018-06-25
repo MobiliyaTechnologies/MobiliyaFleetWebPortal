@@ -3,19 +3,27 @@
 }
 .color-9-class {
     background-color: rgba(236, 239, 238, 1);
-} 
-    
+}
+
+.logoClass {
+    color: rgba(69, 69, 83, 1);
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 4px;
+}
     
 .selected-user-class {
     background-image: -webkit-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
     background-image: -moz-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
     background-image: -o-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
     background-image: linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
+    color:#fff;
 }
 .common-user-class {
     background: #FFFFFF;
 }
-.title-text {
+.user-circle-width{
+    min-width: 20%;
 }
 .padding-10{
     padding:10px;
@@ -37,7 +45,7 @@ input#search:focus {
 }
 
 .v-scroll-class{
-    height: 76vh;
+    height: 75vh;
     overflow: auto;
 }
 
@@ -54,11 +62,20 @@ input#search:focus {
     margin: 10px;
 }
 
-.circle-text{
-    position:relative;
-    text-align:center;
-    padding-top:20%;
+.circle-text {
+    position: relative;
+    text-align: center;
+    padding-top: 20%;
+    color: #000 !important;
 }
+
+.circle-text1 {
+    position: relative;
+    text-align: center;
+    padding-top: 20%;
+    color: #fff !important;
+}
+
 
 #circle2 {
     width: 40px;
@@ -92,14 +109,9 @@ input#search:focus {
     background-image: linear-gradient(45deg, rgba(87, 124, 252, 1) 0%, rgba(147, 93, 251, 1) 100%);
     color: #ffffff;
 }
-.user-name-padding {
-    position: relative;
-    padding-top: 4%;
-}
 
 .field-label-class {
     font-size: 12px;
-    color: rgba(0,0,0,.54);
 }
 .role-name-class {
     margin-top: -5px;
@@ -175,3 +187,4 @@ input#search:focus {
 .ml-10{
     margin-left: 10px;
 }
+

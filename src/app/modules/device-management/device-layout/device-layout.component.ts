@@ -85,7 +85,7 @@ export class DeviceLayoutComponent implements OnInit {
                     this.loading = false;
                     this.deviceList = resp.body.data;
                     if(!(this.deviceList && this.deviceList[0])){
-                        this.toastr.error("No devices available");
+                        this.toastr.error("No dongles available");
                     }
                     else{
                         if (this.router.url === '/dashboard/devices') {
@@ -99,7 +99,7 @@ export class DeviceLayoutComponent implements OnInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
     }
     

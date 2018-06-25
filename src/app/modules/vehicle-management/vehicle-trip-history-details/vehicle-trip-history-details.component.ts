@@ -17,6 +17,7 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
     public icon = "../../../assets/images/stop1.png"
     tripId: any;
     tenantId: any;
+    isConnected : any;
     vehicleId: any;
     incrementBy: number;
     latitudeValue: any;
@@ -59,6 +60,7 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
     longitude: any;
     tripDetailsLength: number;
     model: any;
+    duration:any;
     constructor(
         private restService: RestService,
         public dialogRef: MatDialogRef<SearchFleetDialogComponent>,
@@ -94,16 +96,30 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
             .subscribe(resp => {
                 if (resp.body && resp.body.data) {
                     this.tripDetails = resp.body.data;
-                    this.tripCommonId = this.tripDetails.commonId;
                     console.log("this.tripDetails", this.tripDetails);
+                    this.tripCommonId = this.tripDetails.commonId;
+                    console.log("this.tripDetails common id ", this.tripDetails.commonId);
                     this.vehicleId = this.tripDetails.vehicleId;
-                    if (this.tripDetails.locationDetails.length != 0 && this.tripDetails.locationDetails.length>2) {
-                        this.latitude = parseFloat(this.tripDetails.locationDetails[0].latitude);
-                        this.longitude = parseFloat(this.tripDetails.locationDetails[0].longitude);
-                        this.getCoordinates(this.tripDetails);
+                    /*Adding first and last element endpoints in tripdetails.locationDetails array to be dipslayed on maps*/
+                    if(this.tripDetails){
+                        if( this.tripDetails.startLocation && this.tripDetails.endLocation){
+                            let startLocation={"latitude":"","longitude":""};
+                            let endLocation={"latitude":"","longitude":""};
+                            let temp=this.tripDetails.startLocation.split("#")[0];
+                            startLocation.latitude=temp.split(",")[0];
+                            startLocation.longitude=temp.split(",")[1];
+                            temp=this.tripDetails.endLocation.split("#")[0];
+                            endLocation.latitude=temp.split(",")[0];
+                            endLocation.longitude=temp.split(",")[1];
+                            this.tripDetails.locationDetails.unshift(startLocation);
+                            this.tripDetails.locationDetails.push(endLocation);
+                        }
+                        if (this.tripDetails.locationDetails.length != 0 && this.tripDetails.locationDetails.length >= 2) {
+                            this.latitude = parseFloat(this.tripDetails.locationDetails[0].latitude);
+                            this.longitude = parseFloat(this.tripDetails.locationDetails[0].longitude);
+                            this.getCoordinates(this.tripDetails);
+                        }
                     }
-                   
-                    
                     
                     this.getVehicleTripHistoryDetails(this.vehicleId);
 
@@ -122,10 +138,11 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
         this.tripId = this.data.selectedTripForDetailsId;
         this.tenantId = this.data.tenantIdDetails;
         this.model = {};
-        var URL = '/' + this.tenantId + '/vehicleHistory?vehicleId=' + vehicleId + '&order=asc&tripId=' + this.tripCommonId + '&limit=0';
+        var URL = '/' + this.tenantId + '/vehicleHistory?vehicleId=' + vehicleId + '&order=asc&commonId=' + this.tripCommonId + '&limit=0';
         this.tripDetailsOfVehicleZero.EngineSerialNo = "NA";
         this.tripDetailsOfVehicleZero.EngineVIN = "NA";
         this.tripDetailsOfVehicleZero.Odometer = "NA";
+        this.isConnected = "no"
        
         this.restService.makeCall('trip', 'GET', URL, this.model)
             .subscribe(resp => {
@@ -133,6 +150,12 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
                     this.tripDetailsOfVehicle = resp.body.data;
                     console.log("this.tripDetailsOfVehicle", this.tripDetailsOfVehicle);
                     this.tripDetailsOfVehicleZero = this.tripDetailsOfVehicle[0].data;
+                    if (this.tripDetailsOfVehicleZero.isConnected == false) {
+                        this.isConnected = "no";
+                    }
+                    else {
+                        this.isConnected = "yes";
+                    }
                     this.FaultSPN = this.tripDetailsOfVehicleZero.FaultSPN;
                     this.FaultDescription = this.tripDetailsOfVehicleZero.FaultDescription;
                     this.vehicleDataToBeDisplayed(this.tripDetailsOfVehicle);
@@ -237,8 +260,9 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
     }
 
     /*Function to get the co-ordinates of longitude and latitude to plot a polyline*/
-    getCoordinates = function(tripDetails) {
-        if (tripDetails.locationDetails && tripDetails && tripDetails.locationDetails != 0) {
+    getCoordinates = function (tripDetails) {
+        this.coordinates = [];
+        if (tripDetails.locationDetails && tripDetails && tripDetails.locationDetails.length != 0) {
             for (var i = 0; i < tripDetails.locationDetails.length; i++) {
                 this.latitudeValue = parseFloat(tripDetails.locationDetails[i].latitude);
                 this.longitudeValue = parseFloat(tripDetails.locationDetails[i].longitude);
@@ -247,7 +271,6 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
                 }
                 this.coordinates.push({ "latitude": parseFloat(tripDetails.locationDetails[i].latitude), "longitude": parseFloat(tripDetails.locationDetails[i].longitude) });
             }
-            console.log("this.map", this.map);
             var line = new Microsoft.Maps.Polyline(this.coordinates, {
                 strokeColor: 'black',
                 strokeThickness: 3 

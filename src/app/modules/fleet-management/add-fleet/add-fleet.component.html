@@ -79,7 +79,7 @@
                         
                         <div class="col-sm-4" *ngIf="selectedVehicleList.data.length>0">
                             <div class="common-margin-top">
-                                <input id="search" name="search" value="search" class="form-control search-box">
+                                <input id="search" name="search" value="search" class="form-control search-box" placeholder="Search" [(ngModel)]="searchCriteria" style="text-transform: lowercase;">
                             </div>
                         </div>
                     </div>

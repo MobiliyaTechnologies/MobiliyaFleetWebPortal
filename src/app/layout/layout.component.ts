@@ -59,9 +59,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.mobileQuery.addListener(this._mobileQueryListener);
         let url:any={};
         if(sessionStorage.getItem('sessionConfiguration'))
-        url = JSON.parse(sessionStorage.getItem('sessionConfiguration'));
+            url = JSON.parse(sessionStorage.getItem('sessionConfiguration'));
         else
-        url=environment;
+            url=environment;
         //this.socket = io.connect("https://trip-service.azurewebsites.net/");
         this.socket = io.connect(url.SERVICE_URL.TRIP);
     }

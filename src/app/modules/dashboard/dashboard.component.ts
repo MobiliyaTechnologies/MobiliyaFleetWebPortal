@@ -105,7 +105,7 @@ getRoles = function () {
             }
         }, error => {
             this.loading = false;
-            this.toastr.error('Error getting list');
+            //this.toastr.error('Error getting list');
         });
 }
 /**
@@ -142,7 +142,7 @@ getRoles = function () {
             }
         }, error => {
             this.loading = false;
-            this.toastr.error('Error getting list');
+            //this.toastr.error('Error getting list');
         });
   }
 
@@ -174,7 +174,7 @@ getRoles = function () {
             }
         }, error => {
             this.loading = false;
-            this.toastr.error('Error getting list');
+            //this.toastr.error('Error getting list');
         });
   }
 
@@ -193,7 +193,7 @@ getRoles = function () {
                 }
           }, error => {
               this.loading = false;
-              this.toastr.error('Error getting list');
+              //this.toastr.error('Error getting list');
           });
   }
 

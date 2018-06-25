@@ -109,7 +109,7 @@ export class EditDeviceComponent implements OnInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting user info');
+                this.toastr.error('Error getting dongle info');
             })
     }
 

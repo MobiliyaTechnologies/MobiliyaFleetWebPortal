@@ -3,7 +3,7 @@
     <div class="row padding-bottom">
         <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 ">
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 margin-top-5 title-text">
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 margin-top-5 title-text" style="text-transform: uppercase;">
                     {{selectedItem.registrationNumber}}
                 </div>
             </div>
@@ -31,14 +31,7 @@
         </div>
     </div>
 
-
-    <!--<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="2">
-        <div>
-            <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
-        </div>
-    </agm-map>-->
-
-    <div id='myMap' #myMap style='width: 64.5vw; height: 65vh; margin-left: 1%; position: relative;'></div>
+    <div id='myMap' #myMap style='width: 62.5vw; height: 65vh; margin-left: 1%; position: relative;'></div>
 
     <div class="row row-padding-top-left">
         <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 font-size-22 boldClass">
@@ -54,7 +47,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 ellipsisStyle boldClass style-data-value" matTooltip="{{userDetails.firstName}} {{userDetails.lastName}}">
                     {{userDetails.firstName}}  {{userDetails.lastName}}
                 </div>
             </div>
@@ -66,7 +59,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 ellipsisStyle boldClass style-data-value" matTooltip="{{userDetails.email}}">
                     {{userDetails.email}}
                 </div>
             </div>
@@ -78,7 +71,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 boldClass style-data-value">
+                <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12 ellipsisStyle boldClass style-data-value">
                     {{companyName}}
                 </div>
             </div>
@@ -225,7 +218,7 @@
                     <mat-expansion-panel-header>
                         Engine Faults
                     </mat-expansion-panel-header>
-                    <div class="row yellow-box">
+                    <div class="row yellow-box" *ngIf="!((selectedVehicleData.FaultSPN == 0 && selectedVehicleData.FaultDescription ==0) || selectedVehicleData)">
 
                         <div class="col-md-1 col-lg-1 col-sm-1 col-xl-1">
                             <img src="./assets/images/alert.png" class="alert-icon">
@@ -243,6 +236,11 @@
 
 
                     </div>
+
+                    <div class="row noFaultFound" *ngIf="selectedVehicleData.FaultSPN == 0">
+                            No Faults Found.
+                    </div>
+
                 </mat-expansion-panel>
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>

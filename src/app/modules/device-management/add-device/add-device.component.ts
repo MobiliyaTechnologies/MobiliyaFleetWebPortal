@@ -36,9 +36,9 @@ export class AddDeviceComponent implements OnInit {
     getErrorMessage(field, fieldValue) {
         if (field.toLowerCase() === 'adapterid') {
             if(this.adapterId.hasError('required'))
-                return 'You must enter a valid device Id';
+                return 'You must enter a valid dongle Id';
             if(this.adapterId.hasError('pattern'))
-                return 'Device Id must contain only numbers, alphabets, hyphen(-), underscore(_) and dot(.)';
+                return 'Dongle Id must contain only numbers, alphabets, hyphen(-), underscore(_) and dot(.)';
         }
         if (field.toLowerCase() === 'serialno') {
             if(this.serialNo.hasError('required'))
@@ -141,7 +141,7 @@ export class AddDeviceComponent implements OnInit {
                     .subscribe(resp => {
                         if (resp && resp.body && resp.body.data) {
                             this.loading = false;
-                            this.toastr.success('Device Information added successfully.');
+                            this.toastr.success('Dongle Information added successfully.');
                             localStorage.setItem('selectedItem',resp.body.data.id);
                             this.router.navigate(['dashboard/devices/details/'+resp.body.data.id]);
                         }
@@ -152,7 +152,7 @@ export class AddDeviceComponent implements OnInit {
                         }
                     }, error => {
                         this.loading = false;
-                        this.toastr.error('Error adding device');
+                        //this.toastr.error('Error adding device');
                     });
             }).catch(() => {
                 this.loading = false;

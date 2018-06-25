@@ -1,7 +1,18 @@
 .width_100 {
-    width: 100%;
+    width: 77vw;
 }
 
+.noFaultFound {
+    margin-left: 0px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.ellipsisStyle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .tripName {
     font-size: 18px;
@@ -9,8 +20,12 @@
     margin-bottom: 1%;
 }
 
+.mat-expansion-panel-header {
+    height:36px!important;
+}
+
 .marginSecond {
-    margin-top:16%;
+    margin-top: 6%;
 }
 
 
@@ -241,4 +256,8 @@ hr {
 #map {
     width: 100%;
     height: 400px
+}
+.scroll-class{
+    max-height: 90vh;
+    overflow: auto;
 }

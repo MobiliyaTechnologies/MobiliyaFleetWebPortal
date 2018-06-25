@@ -2,9 +2,9 @@
     "production": true,
 
     "SERVICE_URL": {
-        "USER": "https://identity-30-5.azurewebsites.net",
-        "FLEET": "https://fleet-30-5.azurewebsites.net",
-        "TRIP": "https://trip-30-5.azurewebsites.net"
+        "USER": "https://mobiliya-identity-service.azurewebsites.net",
+        "FLEET": "https://mobiliya-fleet-service.azurewebsites.net",
+        "TRIP": "https://mobiliya-trip-service.azurewebsites.net"
     },
 
     "API_ENDPOINT": {

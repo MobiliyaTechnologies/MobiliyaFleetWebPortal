@@ -87,7 +87,6 @@ export class ForgotPasswordComponent implements OnInit {
                       }
                   }, error => {
                       this.loading = false;
-                      this.toastr.error('Error deleting data');
                   });
           }).catch(() => {
               this.toastr.error('Mandatory field are not filled', 'Validation Error');

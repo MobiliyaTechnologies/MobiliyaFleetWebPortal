@@ -66,7 +66,7 @@ export class EditFleetComponent implements OnInit {
             this.getAssociatedVehicles(this.selectedItem.id);
           }
           else
-            this.toastr.error('Error getting fleet information, Please try agian');
+            this.toastr.error('Error getting fleet information, Please try again');
       });
   }
 
@@ -76,7 +76,7 @@ export class EditFleetComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-      this.selectedVehicleList.paginator = this.paginator;
+      
   }
 
   /**
@@ -118,6 +118,7 @@ export class EditFleetComponent implements OnInit {
                 if (resp.body && resp.body.data) {
                     this.loading = false;
                     this.selectedVehicleList = new MatTableDataSource(resp.body.data);
+                    this.selectedVehicleList.paginator = this.paginator;
                     this.setDeviceAndDriverName(this.selectedVehicleList.data);
                 }
             }, error => {
@@ -169,7 +170,7 @@ export class EditFleetComponent implements OnInit {
               }
           }, error => {
               this.loading = false;
-              this.toastr.error('Error getting fleet info');
+              this.toastr.error('Error getting fleet information');
           })
   }
 
@@ -241,7 +242,7 @@ export class EditFleetComponent implements OnInit {
               }
           }, error => {
               this.loading = false;
-              this.toastr.error('Error getting fleet info');
+              this.toastr.error('Error getting fleet information');
           })
   }
 

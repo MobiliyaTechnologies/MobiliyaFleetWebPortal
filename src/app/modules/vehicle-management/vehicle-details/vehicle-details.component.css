@@ -2,6 +2,18 @@
     background-color: #F7FAF9;
 }
 
+.ellipsisStyle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.noFaultFound {
+    margin-left: 0px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
 .height-class {
     min-height: 100vh;
 }

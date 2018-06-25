@@ -3,44 +3,44 @@
   <ngx-loading [show]="loading"></ngx-loading>
   <div class="padding-40">
         <div class="row mt-20">
-            <div class="col-sm-2" *ngIf="currentUserInfo.currentRole.toLowerCase()=='super admin'">
-        <mat-form-field class="login-input-text">
-            <mat-select [(ngModel)]="selectReportModel.tenantId" (change)="onTenantChange();" name="tenantId" placeholder="Select Tenant" required>
-                <mat-option *ngFor="let item of tenantList" [value]="item.tenantId">
-                    {{ item.firstName }}&nbsp;{{item.lastName}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <label class="mat-error custom-error" *ngIf="!tenantList ||  tenantList.length<=0">No tenant available</label> 
-        </div>
-        <div class="col-sm-2" *ngIf="currentUserInfo.currentRole.toLowerCase()=='super admin'||currentUserInfo.currentRole.toLowerCase()=='tenant admin' ">
-            <mat-form-field class="login-input-text">
-                <mat-select [(ngModel)]="selectReportModel.fleetId" (change)="onFleetChange(selectReportModel.fleetId);"  name="fleetId" placeholder="Select Fleet" required>
-                    <mat-option *ngFor="let item of fleetList" [value]="item.id">
-                        {{ item.fleetName }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <label class="mat-error custom-error" *ngIf="!fleetList ||  fleetList.length<=0">No fleet available</label> 
-        </div>
-        <div class="col-sm-2" *ngIf="currentUserInfo.currentRole.toLowerCase()!='driver' ">
-            <mat-form-field class="login-input-text">
-                <mat-select [(ngModel)]="selectReportModel.vehicleId" (change)="onVehicleChange(selectReportModel.vehicleId);" name="vehicleId" placeholder="Select Vehicle" required>
-                    <mat-option *ngFor="let item of vehicleList" [value]="item.id">
-                        {{item.brandName}}&nbsp;{{item.model}}({{item.registrationNumber}})
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <label class="mat-error custom-error" *ngIf="!vehicleList ||  vehicleList.length<=0">No vehicle available</label> 
-        </div>
-        <div class="col-sm-4" >
-        </div>
-        <div class="col-sm-2">
-            <mat-form-field class="login-input-text">
-                <input matInput type="text" bsDaterangepicker  placeholder="Select Range" name="dateRange" (bsValueChange)="onValueChange($event)" [minDate]="minDate"
-                [maxDate]="maxDate" [(ngModel)]="bsRangeValue" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" required>
-            </mat-form-field>
-        </div>
+            <div class="col-sm-3 col-md-3 col-lg-3" *ngIf="currentUserInfo.currentRole.toLowerCase()=='super admin'">
+                <mat-form-field class="login-input-text">
+                    <mat-select [(ngModel)]="selectReportModel.tenantId" (change)="onTenantChange();" name="tenantId" placeholder="Select Tenant" required>
+                        <mat-option *ngFor="let item of tenantList" [value]="item.tenantId">
+                            {{ item.firstName }}&nbsp;{{item.lastName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <label class="mat-error custom-error" *ngIf="!tenantList ||  tenantList.length<=0">No tenant available</label> 
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3" *ngIf="currentUserInfo.currentRole.toLowerCase()=='super admin'||currentUserInfo.currentRole.toLowerCase()=='tenant admin' ">
+                <mat-form-field class="login-input-text">
+                    <mat-select [(ngModel)]="selectReportModel.fleetId" (change)="onFleetChange(selectReportModel.fleetId);"  name="fleetId" placeholder="Select Fleet" required>
+                        <mat-option *ngFor="let item of fleetList" [value]="item.id">
+                            {{ item.fleetName }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <label class="mat-error custom-error" *ngIf="!fleetList ||  fleetList.length<=0">No fleet available</label> 
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3" *ngIf="currentUserInfo.currentRole.toLowerCase()!='driver' ">
+                <mat-form-field class="login-input-text">
+                    <mat-select [(ngModel)]="selectReportModel.vehicleId" (change)="onVehicleChange(selectReportModel.vehicleId);" name="vehicleId" placeholder="Select Vehicle" required>
+                        <mat-option *ngFor="let item of vehicleList" [value]="item.id">
+                            {{item.brandName}}&nbsp;{{item.model}}({{item.registrationNumber}})
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <label class="mat-error custom-error" *ngIf="!vehicleList ||  vehicleList.length<=0">No vehicle available</label> 
+            </div>
+            <div [ngClass]="{ 'col-sm-3 col-md-3 col-lg-3':!(currentUserInfo.currentRole.toLowerCase()=='super admin')}" >
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <mat-form-field class="login-input-text">
+                    <input matInput type="text" bsDaterangepicker  placeholder="Select Range" name="dateRange" (bsValueChange)="onValueChange($event)" [minDate]="minDate"
+                    [maxDate]="maxDate" [(ngModel)]="bsRangeValue" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" required>
+                </mat-form-field>
+            </div>
         </div>
 
         <div class="row mt-20">

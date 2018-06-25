@@ -6,13 +6,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class VehicleSearchFilterPipe implements PipeTransform {
 
-    transform(items: any[], searchText: string): any[] {
+    transform(items: any, searchText: string): any[] {
         if (!items) return [];
         if (!searchText) return items;
         searchText = searchText.toLowerCase();
         if(items){
-            if(items['data'])
-                return items['data'].filter(it => {
+            if(items.data)
+                return items.data.filter(it => {
                     return (it.registrationNumber.toLowerCase().includes(searchText));
                 });
             else

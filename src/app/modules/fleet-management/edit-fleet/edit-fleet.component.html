@@ -87,7 +87,7 @@
                 <div class="row mt-15">
                     <div class="col-sm-12">
                         <div class="example-container mat-elevation-z8">
-                            <mat-table #table [dataSource]="selectedVehicleList.data | vehicleFleetSearch: searchCriteria">
+                            <mat-table #table [dataSource]="selectedVehicleList | vehicleFleetSearch: searchCriteria">
                                 <span *ngIf="!selectedVehicleList"> No Data Available</span>
                                 <!--- Note that these columns can be defined in any order.
                                     The actual rendered columns are set as a property on the row definition" -->

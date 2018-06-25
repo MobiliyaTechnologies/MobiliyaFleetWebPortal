@@ -65,7 +65,10 @@ export class RulesListComponent implements OnInit {
             .subscribe(resp => {
                 if (resp.body && resp.body.data) {
                     this.loading = false;
-                    this.rulesList = resp.body.data;                
+                    this.rulesList = resp.body.data;  
+                    if (!(this.rulesList && this.rulesList[0])) {
+                        this.toastr.error("No rules available");
+                    }
                     if (this.router.url === '/dashboard/rules') {
                         this.selectedItem = this.rulesList[0];
                         if (this.selectedItem && this.selectedItem._id) {
@@ -79,7 +82,7 @@ export class RulesListComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
 
             });
     }

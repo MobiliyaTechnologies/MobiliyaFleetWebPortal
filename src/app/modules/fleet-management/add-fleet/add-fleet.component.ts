@@ -37,8 +37,14 @@ export class AddFleetComponent implements OnInit {
 
     selectedVehicleList=new MatTableDataSource();
     displayedColumns=[];
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-
+    private paginator: MatPaginator;
+    @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+        this.paginator = mp;
+        this.setDataSourceAttributes();
+    }
+    setDataSourceAttributes() {
+        this.selectedVehicleList.paginator = this.paginator;
+    }
     //name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));
     name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z ]+$'), Validators.minLength(3), Validators.maxLength(30)]));
     owner = new FormControl('', [Validators.required]);
@@ -108,7 +114,7 @@ export class AddFleetComponent implements OnInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
     }
     
@@ -234,7 +240,6 @@ export class AddFleetComponent implements OnInit {
                         }
                     }, error => {
                         this.loading = false;
-                        this.toastr.error('Error deleting data');
                     });
             }).catch(() => {
                 this.loading = false;
@@ -252,6 +257,7 @@ export class AddFleetComponent implements OnInit {
         this.selectedVehicleList=new MatTableDataSource(this.vehicleList
                 .filter(opt => opt.checked==true)
                 .map(opt => opt));
+        this.selectedVehicleList.paginator = this.paginator;
         this.displayedColumns = ['#', 'vehicleModel', 'vehicleRegNo', 'Action'];
         if(this.selectedVehicleList.data.length<=0){
             this.toastr.error('Please select vehicle to assign');

@@ -3,6 +3,7 @@
 
 body{
     background-color: #E9EDF0;
+    /* font-family: Montserrat !important; */
 }
 .mat-header-cell{
     font-weight: bold;
@@ -598,4 +599,31 @@ body{
     width: 1%;
     height: 30px;
     background-color:#188ED4;
+}
+
+h4{
+    font-size:16px !important;
+    font-weight: 600 !important;
+}
+h5{
+    font-size: 12px !important;
+}
+
+@media screen and (max-width: 900px) {
+    .user-name-padding {
+        position: relative;
+        padding-top: 4%;
+    }
+}
+@media screen and (min-width:900px) and (max-width: 1699px) {
+    .user-name-padding {
+        position: relative;
+        padding-top: 3%;
+    }
+}
+@media screen and (min-width:1699px) {
+    .user-name-padding {
+        position: relative;
+        padding-top: 2%;
+    }
 }

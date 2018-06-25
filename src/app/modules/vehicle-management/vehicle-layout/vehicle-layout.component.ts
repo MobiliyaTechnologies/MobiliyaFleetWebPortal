@@ -107,7 +107,7 @@ export class VehicleLayoutComponent implements OnInit {
 
                 }, error => {
                     this.loading = false;
-                    this.toastr.error('Error getting list');
+                    //this.toastr.error('Error getting list');
 
                 });
         }
@@ -126,16 +126,25 @@ export class VehicleLayoutComponent implements OnInit {
                         }
 
                         if (this.router.url === '/dashboard/vehicle') {
-                            this.selectedItem = this.vehicleList[0];
-                            if (this.selectedItem && this.selectedItem.id) {
-                                this.displayNoVehicles = true;
-                                this.navigateToDetails(this.selectedItem.registrationNumber);
+                            var isUUID;
+                            var regex = /[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}/i;
+                            isUUID = regex.exec(localStorage.getItem('selectedItem'));
+                            console.log("isuuid", isUUID);
+                            if (localStorage.getItem('selectedItem') == null || isUUID != null) {
+                                this.selectedItem = this.vehicleList[0];
+                                if (this.selectedItem && this.selectedItem.id) {
+                                    this.displayNoVehicles = true;
+                                    this.navigateToDetails(this.selectedItem.registrationNumber);
+                                }
+                                else {
+                                    this.displayNoVehicles = false;
+                                }
                             }
                             else {
-                                this.displayNoVehicles = false;
+                                this.navigateToDetails(localStorage.getItem('selectedItem'));
                             }
-
                         }
+                        
                     } else {
                         this.loading = true;
 
@@ -143,7 +152,7 @@ export class VehicleLayoutComponent implements OnInit {
 
                 }, error => {
                     this.loading = false;
-                    this.toastr.error('Error getting list');
+                    //this.toastr.error('Error getting list');
 
                 });
         }
@@ -201,16 +210,16 @@ export class VehicleLayoutComponent implements OnInit {
                         }
                 }, error => {
                     this.loading = false;
-                    this.toastr.error('Error getting list');
+                    //this.toastr.error('Error getting list');
                 });
     }
     /*Function to open select the fleet dialog*/
     openDialog(): void {
         let dialogRef = this.dialogFilter.open(SearchFleetDialogComponent, {
             width: '250px',
-            data: { tenantIdForFleetList: this.tenantId },
+            data: { tenantIdForFleetList: this.tenantId }
         });
-
+        dialogRef.disableClose = true;
         dialogRef.afterClosed().subscribe(result => {
             this.checkedFleetList = result;
             console.log("Checked fleet list ", this.checkedFleetList);

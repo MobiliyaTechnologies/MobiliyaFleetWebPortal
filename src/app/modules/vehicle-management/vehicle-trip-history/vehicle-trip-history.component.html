@@ -13,14 +13,14 @@
                     Start Location
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{item.startLocation}}
+                    {{item.startLocation.split("#")[1]}}
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
                     End Location
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{item.endLocation}}
+                    {{item.endLocation.split("#")[1]}}
                 </div>
 
             </div>
@@ -30,14 +30,14 @@
                     Start Date/Time
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{item.startTime}}
+                    {{item.startTime | date:'dd-MM-yyyy HH:mm a z':'+0900' }}
                 </div>
                 <br>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 boldClass">
                     End Date/Time
                 </div>
                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                    {{item.endTime}}
+                    {{item.endTime | date:'dd-MM-yyyy HH:mm a z':'+0900'}}
                 </div>
 
             </div>

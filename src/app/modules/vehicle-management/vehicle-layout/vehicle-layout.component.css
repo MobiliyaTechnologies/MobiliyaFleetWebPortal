@@ -2,13 +2,20 @@
     background-color: #F7FAF9;
 }
 
+.logoClass {
+    color: rgba(69, 69, 83, 1);
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
 .cursorClass {
     cursor: pointer;
 }
 
-.height-class {
+/* .height-class {
     min-height: 100vh;
-}
+} */
 
 #myMap {
     width: 64.5vw;
@@ -91,7 +98,7 @@ input#search {
 }
 
 .v-scroll-class {
-    height: 100vh;
+    height: 75vh;
     overflow: auto;
 }
 
@@ -115,16 +122,11 @@ input#search {
 
 .user-name-padding {
     position: relative;
-    padding-top: 4%;
+    padding: 4% 0%;;
 }
 
 .field-label-class {
     font-size: 12px;
-    color: rgba(0,0,0,.54);
-}
-
-.role-name-class {
-    margin-top: -15px;
 }
 
 .common-margin-top {

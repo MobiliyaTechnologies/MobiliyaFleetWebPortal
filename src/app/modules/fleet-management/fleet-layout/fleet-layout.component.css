@@ -21,7 +21,7 @@
 }
 
 .v-scroll-class {
-    height: 76vh;
+    height: 75vh;
     overflow: auto;
 }
 
@@ -66,6 +66,7 @@
 
 
 .selected-user-class {
+    color:#fff;
     background-image: -webkit-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
     background-image: -moz-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);
     background-image: -o-linear-gradient(45deg, rgba(255, 127, 113, 1) 0%, rgba(255, 163, 90, 1) 100%);

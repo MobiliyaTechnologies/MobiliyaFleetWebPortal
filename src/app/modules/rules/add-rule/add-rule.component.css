@@ -36,7 +36,7 @@
 .MicrosoftMap {
     position: relative;
     width: 48vw!important;
-    height: 100vh;
+    height: 90vh;
 }
 
 .theme-button {
@@ -132,7 +132,6 @@ hr {
 .user-details-view {
     margin-top: 16px;
     background: #ffffff;
-    min-height: 85vh;
 }
 
 .padding-class {
@@ -197,4 +196,11 @@ mat-slider {
     flex: auto;
     min-width: 0;
     width: auto !important;
+}
+
+.d-none { 
+    display: none!important;
+}
+.display{
+    display: block;
 }

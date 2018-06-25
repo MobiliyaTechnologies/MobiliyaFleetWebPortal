@@ -32,7 +32,8 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
     temp: any = {};
     roles :any = [];    
     selectedUserRole: any = {};
-    superadminRoleId:any;
+    superadminRoleId: any;
+    vehicleInformation: any;
     tenantRoleId: any;
     driverRoleId: any;
     fleetRoleId:any;
@@ -40,7 +41,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
     currentRole = "";
     fleetList:any=[];
     addForm=false;
-    email = new FormControl('', [Validators.required, Validators.email]);
+    email = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$')]));
     name = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z ]*$'), Validators.minLength(3), Validators.maxLength(100)]));
     mobileNumber = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^([1-9][0-9]{9})$'), Validators.minLength(10), Validators.maxLength(10)]));
     tenantCompanyName = new FormControl('', [Validators.required]);
@@ -55,8 +56,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
      */
     getErrorMessage(field, fieldValue) {
         if (field.toLowerCase() === 'email') {
-            return this.email.hasError('required') ? 'Enter your email address' :
-                this.email.hasError('email') ? 'Please enter a valid email address' : '';
+            return this.email.hasError('required') ? 'Enter your email address' :'Please enter a valid email address';
         }
         else if (field.toLowerCase()==='name') {
             if (this.name.hasError('required'))
@@ -89,7 +89,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
         }
         else if (field.toLowerCase() === 'licensenumber') {
             if(this.licenseNumber.hasError('required'))
-                return 'Enter your licence number';
+                return 'Enter your license number';
             if(this.licenseNumber.hasError('pattern'))
                 return 'Please enter valid License Number';
         }
@@ -186,7 +186,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
     }
 
@@ -213,7 +213,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 if (resp.body && resp.body.data) {
                     this.loading = false;
                     this.selectedItem = resp.body.data;
-                    console.log("this.selectedItem", this.selectedItem.roleId);
+                    this.redirectToVehicleInformation(this.selectedItem.id);
                     this.formObj(this.selectedItem);
                 }
             }, error => {
@@ -291,7 +291,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
     }
 
@@ -333,7 +333,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 this.model = {};
                 //let nameArray = this.selectedItem.name.split(' ');
                 this.model.firstName = this.selectedItem.name;
-                //this.model.lastName = nameArray[1].trim();
+                //this.model.lastName = nameArray[1].trim(); 
                 this.model.mobileNumber = this.selectedItem.mobileNumber.trim();   
                 this.restService.makeCall('Users', 'PUT', '/users/'+this.selectedItem.id, this.model)
                     .subscribe(resp => {
@@ -368,11 +368,12 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 if (resp && resp.body) {
                     this.loading = false;
                     this.toastr.success('User Information deleted successfully.');
+                    this.selectedItem={};
                     this.getUsers();
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
+                this.toastr.error('Error deleting user');
             });
     }
 
@@ -394,7 +395,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
     }
 
@@ -412,7 +413,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
     }
 
@@ -465,6 +466,7 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
         this.roleName.reset();
         this.tenantCompanyName.reset();
         this.name.reset();
+        this.licenseNumber.reset();
         if (this.addFormComp && this.addFormComp.form) {
             this.addFormComp.form.markAsPristine();
             this.addFormComp['form']._pristine = true;
@@ -493,13 +495,13 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 if (this.mobileNumber.invalid) {
                     this.mobileNumber.markAsTouched();
                 }
-                if (this.tenantCompanyName.invalid && operation.name === "add") {
+                if (this.tenantCompanyName.invalid && operation=== "add") {
                     this.tenantCompanyName.markAsTouched();
                 }
-                if (this.roleName.invalid && operation.name === "add") {
+                if (this.roleName.invalid && operation=== "add") {
                     this.roleName.markAsTouched();
                 }
-                if (this.licenseNumber.invalid && operation.name === "add") {
+                if (this.licenseNumber.invalid && operation === "add" && this.driverRoleId==this.addUserModel.roleId) {
                     this.licenseNumber.markAsTouched();
                 }
                 if ((this.currentUserInfo.roleId===this.tenantRoleId ||this.currentUserInfo.roleId===this.superadminRoleId)&& this.addUserModel.roleId===this.driverRoleId  && this.tenantFleetName.invalid ) {
@@ -611,12 +613,45 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
     }
 
     cancelAdd = function () {
         this.addForm = false;
+    }
+
+    redirectToVehicleInformation = function (id) {
+        this.model = "";
+        this.vehicleInformation = "";
+        this.registrationNumberToBeRedirectedTo = "";
+        console.log("id",id);
+        this.restService.makeCall('Fleets', 'GET', '/' + this.currentUserInfo.Tenant.id + '/vehicles' + '?userId=' + id, this.model)
+            .subscribe(resp => {
+                if (resp.body && resp.body.data) {
+                    this.loading = false;
+                    this.vehicleInformation = resp.body.data;
+                    if (this.vehicleInformation[0].registrationNumber != null) {
+                        this.registrationNumberToBeRedirectedTo = this.vehicleInformation[0].registrationNumber;
+                    }
+                    console.log("this.vehicleInformation", this.vehicleInformation[0].registrationNumber);
+                }
+            }, error => {
+                this.loading = false;
+                //this.toastr.error('Error getting list');
+            });
+
+       
+    }
+
+    redirectToVehicleRegistrationNumber = function () {
+        if (this.selectedItem.roleId === this.driverRoleId) {
+            localStorage.setItem('selectedItem', this.registrationNumberToBeRedirectedTo);
+            console.log("List users, localstorage", localStorage.getItem('selectedItem'))
+            this.router.navigate(['dashboard/vehicle']);
+        }
+        
+        //this.router.navigate(['/dashboard/vehicle/details/' + this.registrationNumberToBeRedirectedTo]);
     }
     
 }

@@ -5,14 +5,15 @@ import { RestService } from '../../../services/rest-service/rest-service.service
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-edit-vehicle',
-  templateUrl: './edit-vehicle.component.html',
-  styleUrls: ['./edit-vehicle.component.css']
+    selector: 'app-edit-vehicle',
+    templateUrl: './edit-vehicle.component.html',
+    styleUrls: ['./edit-vehicle.component.css']
 })
 export class EditVehicleComponent implements OnInit {
     tenantId: any;
     currentUserInfo: any;
     roleIdDriver: any;
+    modelUnassignDriver: any = {};
     currentRole: any;
     public loading = false;
     deviceIdList: any = [];
@@ -27,13 +28,14 @@ export class EditVehicleComponent implements OnInit {
     selectedvehicle: any = {};
     roles: any = {};
     selectedVehicleToReturn: any = {};
+    unAssignDriverObject = { "id": "0", "firstName": "-" };
     //yearList: any = [2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
     AssignFleetList: any = [];
     yearList: any = [{ "id": "0", "yearOfManufacture": "2020" }, { "id": "1", "yearOfManufacture": "2019" }, { "id": "2", "yearOfManufacture": "2018" }, { "id": "3", "yearOfManufacture": "2017" }, { "id": "4", "yearOfManufacture": "2016" },
-        { "id": "5", "yearOfManufacture": "2015" }, { "id": "6", "yearOfManufacture": "2014" }, { "id": "7", "yearOfManufacture": "2013" }, { "id": "8", "yearOfManufacture": "2012" }, { "id": "9", "yearOfManufacture": "2011" },
-        { "id": "0", "yearOfManufacture": "2010" }, { "id": "1", "yearOfManufacture": "2009" }, { "id": "2", "yearOfManufacture": "2008" }, { "id": "3", "yearOfManufacture": "2007" }, { "id": "4", "yearOfManufacture": "2006" },
-        { "id": "5", "yearOfManufacture": "2005" }, { "id": "6", "yearOfManufacture": "2004" }, { "id": "7", "yearOfManufacture": "2003" }, { "id": "8", "yearOfManufacture": "2002" }, { "id": "9", "yearOfManufacture": "2001" },
-        { "id": "0", "yearOfManufacture": "2000" }, { "id": "1", "yearOfManufacture": "1999" }, { "id": "2", "yearOfManufacture": "1998" }, { "id": "3", "yearOfManufacture": "1997" }, { "id": "4", "yearOfManufacture": "1996" }];
+    { "id": "5", "yearOfManufacture": "2015" }, { "id": "6", "yearOfManufacture": "2014" }, { "id": "7", "yearOfManufacture": "2013" }, { "id": "8", "yearOfManufacture": "2012" }, { "id": "9", "yearOfManufacture": "2011" },
+    { "id": "0", "yearOfManufacture": "2010" }, { "id": "1", "yearOfManufacture": "2009" }, { "id": "2", "yearOfManufacture": "2008" }, { "id": "3", "yearOfManufacture": "2007" }, { "id": "4", "yearOfManufacture": "2006" },
+    { "id": "5", "yearOfManufacture": "2005" }, { "id": "6", "yearOfManufacture": "2004" }, { "id": "7", "yearOfManufacture": "2003" }, { "id": "8", "yearOfManufacture": "2002" }, { "id": "9", "yearOfManufacture": "2001" },
+    { "id": "0", "yearOfManufacture": "2000" }, { "id": "1", "yearOfManufacture": "1999" }, { "id": "2", "yearOfManufacture": "1998" }, { "id": "3", "yearOfManufacture": "1997" }, { "id": "4", "yearOfManufacture": "1996" }];
 
     fuelTypeList: any = [{ "id": "0", "fuelType": "Petrol" }, { "id": "1", "fuelType": "Diesel" }];
     vehicleId: any;
@@ -41,7 +43,7 @@ export class EditVehicleComponent implements OnInit {
     brandName = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[A-Z\\a-z\\d-_\\s]+$'), Validators.minLength(2), Validators.maxLength(16)]));
     modelName = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[A-Z\\a-z\\d-_\\s]+$'), Validators.minLength(2), Validators.maxLength(16)]));
     deviceId = new FormControl('', [Validators.required]);
-    geoFencing = new FormControl  ('', [Validators.required]);
+    geoFencing = new FormControl('', [Validators.required]);
     yearOfManufacture = new FormControl('', [Validators.required]);
     fuelType = new FormControl('', [Validators.required]);
     fleetName = new FormControl('', [Validators.required]);
@@ -61,7 +63,7 @@ export class EditVehicleComponent implements OnInit {
         this.tenantId = this.currentUserInfo.Tenant.id;
         this.route.params.subscribe(params => {
             this.vehicleId = params['id'];
-            
+
         });
 
     }
@@ -70,13 +72,9 @@ export class EditVehicleComponent implements OnInit {
     ngOnInit() {
         this.currentUserInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.getRoles();
-        this.getVehicleDetails(this.vehicleId);
-        this.getDeviceList();
-        this.getFleetList();
-        this.getRulesList();
-  }
+    }
 
-   /*Function to check validations*/
+    /*Function to check validations*/
     checkValidations() {
         return new Promise((resolve, reject) => {
             if (this.registrationNumber.invalid || this.brandName.invalid
@@ -114,12 +112,18 @@ export class EditVehicleComponent implements OnInit {
                             this.roleIdDriver = this.roles[j].id;
                         }
                     }
-                    console.log("DRIVER ID", this.roleIdDriver);
+                    this.getOtherDetails()
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
             });
+    }
+    getOtherDetails=function(){
+        this.getVehicleDetails(this.vehicleId);
+        this.getDeviceList();
+        this.getFleetList();
+        this.getRulesList();
     }
     /*Function to get Vehicle Details of the vehicle to be edited using vehicle Id*/
     getVehicleDetails = function (vehicleId) {
@@ -136,24 +140,24 @@ export class EditVehicleComponent implements OnInit {
                     this.selectedVehicleToReturn.model = this.selectedvehicle.model;
                     if (this.selectedvehicle.color != null) {
                         this.selectedVehicleToReturn.color = this.selectedvehicle.color;
-                    } 
+                    }
 
                     if (this.selectedvehicle.yearOfManufacture != null) {
                         this.selectedVehicleToReturn.yearOfManufacture = this.selectedvehicle.yearOfManufacture;
                     }
-                   
+
                     this.selectedVehicleToReturn.fuelType = this.selectedvehicle.fuelType;
                     this.selectedVehicleToReturn.registrationNumber = this.selectedvehicle.registrationNumber;
                     if (this.selectedvehicle.deviceId != null) {
                         this.selectedVehicleToReturn.deviceId = this.selectedvehicle.deviceId;
                         this.getDeviceDetails(this.selectedvehicle.deviceId);
-                    } 
+                    }
 
                     if (this.selectedvehicle.fleetId != null) {
-                            this.selectedVehicleToReturn.fleetId = this.selectedvehicle.fleetId;
-                            this.getUserList(this.selectedVehicleToReturn.fleetId);
+                        this.selectedVehicleToReturn.fleetId = this.selectedvehicle.fleetId;
+                        this.getUserList(this.selectedVehicleToReturn.fleetId);
                     }
-                  
+
                     if (this.selectedvehicle.userId != null) {
                         this.selectedVehicleToReturn.userId = this.selectedvehicle.userId;
                         this.getDriverDetails(this.selectedvehicle.userId);
@@ -167,7 +171,7 @@ export class EditVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting vehicle info');
+                this.toastr.error('Error getting vehicle information');
 
             })
 
@@ -177,23 +181,47 @@ export class EditVehicleComponent implements OnInit {
     /*Function to save Vehicle Details after editing*/
     saveVehicleDetails = function () {
         this.loading = true;
-        if (this.selectedvehicle.userId == this.selectedVehicleToReturn.userId) {
-            delete this.selectedVehicleToReturn.userId;     
+        this.selectedVehicleToReturn.registrationNumber = this.selectedVehicleToReturn.registrationNumber.replace(/[^A-Z0-9]/ig, "");
+        // //Check if driver is same then delete remove flag and userId else set remove flag to true 
+        // if (this.selectedvehicle.userId == this.selectedVehicleToReturn.userId) {
+        //     delete this.selectedVehicleToReturn.userId;
+        //     delete this.selectedVehicleToReturn.isRemoveDriver;
+        // }
+        // else{
+        //     this.selectedVehicleToReturn.isRemoveDriver=true;
+        // }
+        // //Check if device is same then delete remove flag and deviceId else set remove flag to true
+        // if(this.selectedvehicle.deviceId==this.selectedVehicleToReturn.deviceId){
+        //     delete this.selectedVehicleToReturn.deviceId;
+        //     delete this.selectedVehicleToReturn.isRemoveDevice;
+        // }
+        // else{
+        //     this.selectedVehicleToReturn.isRemoveDevice=true;
+        // }
+        if (this.selectedVehicleToReturn.userId == "0") {
+            this.selectedVehicleToReturn.isRemoveDriver=true;
+            delete this.selectedVehicleToReturn.userId;
         }
+        else{
+            delete this.selectedVehicleToReturn.isRemoveDriver;
+        }
+        delete this.selectedVehicleToReturn.isRemoveDevice;
+        //User/Driver remained same
         this.checkValidations()
             .then(() => {
-                this.restService.makeCall('Fleets', 'PUT', '/' + this.tenantId + '/vehicles/' + this.vehicleId, this.selectedVehicleToReturn)
-                    .subscribe(resp => {
-
-                        if (resp.body && resp.body.data) {
-                            this.loading = false;
-                            this.toastr.success('Vehicle Information updated successfully.');
-                            this.router.navigate(['dashboard/vehicle']);
-                        }
-                    }, error => {
+                this.restService.makeCall('fleets', 'PUT', '/' + this.tenantId + '/vehicles/' + this.vehicleId, this.selectedVehicleToReturn)
+                .subscribe(resp => {
+                    if (resp.body && resp.body.data) {
                         this.loading = false;
-                        this.toastr.error('Error saving data');
-                    });
+                        this.toastr.success('Vehicle Information updated successfully.');
+                        this.router.navigate(['dashboard/vehicle']);
+                    }
+                    else if(resp && (resp.length==0)){
+                        this.loading = false;
+                    }
+                }, error => {
+                    this.loading = false;
+                });
             }).catch(() => {
                 this.loading = false;
                 //this.toastr.error('Mandatory fields are not filled', 'Validation Error');
@@ -281,7 +309,6 @@ export class EditVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -289,13 +316,14 @@ export class EditVehicleComponent implements OnInit {
     getUserList = function (fleetId) {
         this.loading = true;
         this.model = {};
-        this.restService.makeCall('Users', 'GET', '/users?isDriverAssign=0&&roleId=' + this.roleIdDriver+'&&fleetId=' + fleetId, this.model)
+        this.restService.makeCall('Users', 'GET', '/users?isDriverAssign=0&&roleId=' + this.roleIdDriver + '&&fleetId=' + fleetId, this.model)
             .subscribe(resp => {
                 if (resp && resp.body) {
                     this.loading = false;
                     this.AssignDriverList = resp.body.data;
                     if (this.AssignDriverList.length != 0) {
                         this.enableAddVehicle = true;
+                        this.AssignDriverList.unshift(this.unAssignDriverObject);
                     }
                     else {
                         this.toastr.error('No Unassigned Driver Available');
@@ -307,7 +335,6 @@ export class EditVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -327,7 +354,7 @@ export class EditVehicleComponent implements OnInit {
                     else {
                         this.toastr.error('No GeoFence Rule Available');
                     }
-                   
+
                 }
                 else {
                     this.loading = false;
@@ -335,7 +362,6 @@ export class EditVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -368,11 +394,10 @@ export class EditVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
-     /*Function to get details of allocated Device and add to the unassigned devices*/
+    /*Function to get details of allocated Device and add to the unassigned devices*/
     getDeviceDetails = function (deviceId) {
         this.loading = true;
         this.tenantId = this.currentUserInfo.Tenant.id;
@@ -390,7 +415,6 @@ export class EditVehicleComponent implements OnInit {
 
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error deleting data');
             });
     }
 
@@ -398,24 +422,27 @@ export class EditVehicleComponent implements OnInit {
     getDriverDetails = function (userId) {
         this.loading = true;
         this.model = {};
-        this.restService.makeCall('Users', 'GET', '/users/' + userId, this.model)
-            .subscribe(resp => {
-                if (resp && resp.body) {
-                    this.loading = false;
-                    this.driverDetails = resp.body.data;
-                    this.AssignDriverList.push(this.driverDetails);
-                }
-                else {
-                    this.loading = false;
-                }
+        if (userId) {
+            this.restService.makeCall('Users', 'GET', '/users/' + userId, this.model)
+                .subscribe(resp => {
+                    if (resp && resp.body) {
+                        this.loading = false;
+                        this.driverDetails = resp.body.data;
+                        console.log("this.driverDetails", this.driverDetails);
+                        this.AssignDriverList.push(this.driverDetails);
+                    }
+                    else {
+                        this.loading = false;
+                    }
 
-            }, error => {
-                this.loading = false;
-                this.toastr.error('Error deleting data');
-            });
+                }, error => {
+                    this.loading = false;
+                });
+        }
+
     }
 
-   /*Function to change the list of drivers as per fleet selected*/
+    /*Function to change the list of drivers as per fleet selected*/
     onFleetChange = function (fleetId) {
         this.selectedVehicleToReturn.fleetId = fleetId;
         this.getUserList(this.selectedVehicleToReturn.fleetId);

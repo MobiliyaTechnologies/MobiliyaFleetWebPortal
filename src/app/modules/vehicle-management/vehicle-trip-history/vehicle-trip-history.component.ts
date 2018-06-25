@@ -51,6 +51,7 @@ export class VehicleTripHistoryComponent implements OnInit {
                     this.loading = false;
                     this.noTrip = false;
                     this.tripList = resp.body.data;
+                    console.log("this.triplist", this.tripList);
                     this.selectedTrip = this.tripList[0].commonId;
                     this.selectedTripForColourChange = this.tripList[0].commonId;
                 }
@@ -60,7 +61,7 @@ export class VehicleTripHistoryComponent implements OnInit {
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting list');
+                //this.toastr.error('Error getting list');
 
             });
 
@@ -69,10 +70,11 @@ export class VehicleTripHistoryComponent implements OnInit {
      /*Function to navigate to the details dialog of a particular trip*/
     openTripDetailsDialog(commonId): void {
         this.selectedTripForColourChange = commonId;
+        console.log("common Id", commonId);
         let dialogRef = this.dialogDetails.open(VehicleTripHistoryDetailsComponent, {
             width: '1800px',
             data: {
-                selectedTripForDetailsId: this.selectedTrip,
+                selectedTripForDetailsId: commonId,
                 tenantIdDetails: this.tenantId
             },
         });

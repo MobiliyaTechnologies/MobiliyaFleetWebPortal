@@ -68,7 +68,7 @@ export class FleetDetailsComponent implements OnInit {
 
   }
   ngAfterViewInit() {
-      this.selectedVehicleList.paginator = this.paginator;
+     
   }
 
 
@@ -114,12 +114,13 @@ setDeviceAndDriverName(vehicleList){
 
                 if (resp.body && resp.body.data) {
                     this.loading = false;
-                    this.selectedVehicleList = resp.body.data;
-                    this.setDeviceAndDriverName(this.selectedVehicleList);
+                    this.selectedVehicleList = new MatTableDataSource(resp.body.data);
+                    this.selectedVehicleList.paginator = this.paginator;
+                    this.setDeviceAndDriverName(this.selectedVehicleList.data);
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting user info');
+                this.toastr.error('Error getting user information');
             })
   }  
 
@@ -138,7 +139,7 @@ setDeviceAndDriverName(vehicleList){
             }
         }, error => {
             this.loading = false;
-            this.toastr.error('Error getting fleet owner info');
+            this.toastr.error('Error getting fleet owner information');
         })
   }  
 
@@ -158,7 +159,7 @@ setDeviceAndDriverName(vehicleList){
                 }
             }, error => {
                 this.loading = false;
-                this.toastr.error('Error getting fleet info');
+                this.toastr.error('Error getting fleet information');
             })
   }
 
@@ -186,7 +187,6 @@ setDeviceAndDriverName(vehicleList){
 
           }, error => {
               this.loading = false;
-              this.toastr.error('Error deleting data');
           });
   }
   /*delete fleet ends*/
