@@ -106,7 +106,6 @@ export class EditVehicleComponent implements OnInit {
                 if (resp.body && resp.body.data) {
                     this.loading = false;
                     this.roles = resp.body.data;
-                    console.log("this.roles", this.roles);
                     for (var j = 0; j < this.roles.length; j++) {
                         if (this.roles[j].roleName == "driver") {
                             this.roleIdDriver = this.roles[j].id;
@@ -182,22 +181,7 @@ export class EditVehicleComponent implements OnInit {
     saveVehicleDetails = function () {
         this.loading = true;
         this.selectedVehicleToReturn.registrationNumber = this.selectedVehicleToReturn.registrationNumber.replace(/[^A-Z0-9]/ig, "");
-        // //Check if driver is same then delete remove flag and userId else set remove flag to true 
-        // if (this.selectedvehicle.userId == this.selectedVehicleToReturn.userId) {
-        //     delete this.selectedVehicleToReturn.userId;
-        //     delete this.selectedVehicleToReturn.isRemoveDriver;
-        // }
-        // else{
-        //     this.selectedVehicleToReturn.isRemoveDriver=true;
-        // }
-        // //Check if device is same then delete remove flag and deviceId else set remove flag to true
-        // if(this.selectedvehicle.deviceId==this.selectedVehicleToReturn.deviceId){
-        //     delete this.selectedVehicleToReturn.deviceId;
-        //     delete this.selectedVehicleToReturn.isRemoveDevice;
-        // }
-        // else{
-        //     this.selectedVehicleToReturn.isRemoveDevice=true;
-        // }
+        
         if (this.selectedVehicleToReturn.userId == "0") {
             this.selectedVehicleToReturn.isRemoveDriver=true;
             delete this.selectedVehicleToReturn.userId;
@@ -428,7 +412,6 @@ export class EditVehicleComponent implements OnInit {
                     if (resp && resp.body) {
                         this.loading = false;
                         this.driverDetails = resp.body.data;
-                        console.log("this.driverDetails", this.driverDetails);
                         this.AssignDriverList.push(this.driverDetails);
                     }
                     else {

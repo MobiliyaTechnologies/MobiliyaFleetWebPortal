@@ -170,7 +170,6 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                 if (resp.body && resp.body.data) {
                     this.loading = false;
                     this.userList = resp.body.data;
-                    console.log("this.userList", this.userList);
                     this.userList=this.userList.filter((item)=>item.roleId!=this.superadminRoleId);
                     if(this.userList && this.userList.length>0){
                         this.selectedItemForClass = this.userList[0];
@@ -625,7 +624,6 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
         this.model = "";
         this.vehicleInformation = "";
         this.registrationNumberToBeRedirectedTo = "";
-        console.log("id",id);
         this.restService.makeCall('Fleets', 'GET', '/' + this.currentUserInfo.Tenant.id + '/vehicles' + '?userId=' + id, this.model)
             .subscribe(resp => {
                 if (resp.body && resp.body.data) {
@@ -634,7 +632,6 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
                     if (this.vehicleInformation[0].registrationNumber != null) {
                         this.registrationNumberToBeRedirectedTo = this.vehicleInformation[0].registrationNumber;
                     }
-                    console.log("this.vehicleInformation", this.vehicleInformation[0].registrationNumber);
                 }
             }, error => {
                 this.loading = false;
@@ -647,7 +644,6 @@ export class ListUsersComponent implements OnInit, AfterViewInit {
     redirectToVehicleRegistrationNumber = function () {
         if (this.selectedItem.roleId === this.driverRoleId) {
             localStorage.setItem('selectedItem', this.registrationNumberToBeRedirectedTo);
-            console.log("List users, localstorage", localStorage.getItem('selectedItem'))
             this.router.navigate(['dashboard/vehicle']);
         }
         

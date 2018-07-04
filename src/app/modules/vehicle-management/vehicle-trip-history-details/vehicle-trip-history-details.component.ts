@@ -27,18 +27,15 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
     FaultDescription = "";
     dpfAshLoad = 0;
     vehicleSpeed = 0;
-    engineIntakeManifoldTemp = 0;
+    EngineIntakeManifoldPressure = 0;
     oilTemp = 0;
     dpfInletTemp = 0;
     dpfSootLoad = 0;
-    pctLoad = 0;
-    pctTorque = 0;
     dpfOutletTemp = 0;
     ambientTemp = 0;
     engineCrankcasePressure = 0;
     scrOutletNox = 0;
     scrInletNox = 0;
-    oilPressure = 0;
     endOdometer = "";
     dpfPressureDifferential = 0;
     totalNoOfPassiveRegenerations = 0;
@@ -96,9 +93,7 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
             .subscribe(resp => {
                 if (resp.body && resp.body.data) {
                     this.tripDetails = resp.body.data;
-                    console.log("this.tripDetails", this.tripDetails);
                     this.tripCommonId = this.tripDetails.commonId;
-                    console.log("this.tripDetails common id ", this.tripDetails.commonId);
                     this.vehicleId = this.tripDetails.vehicleId;
                     /*Adding first and last element endpoints in tripdetails.locationDetails array to be dipslayed on maps*/
                     if(this.tripDetails){
@@ -148,7 +143,6 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
             .subscribe(resp => {
                 if (resp.body && resp.body.data) {
                     this.tripDetailsOfVehicle = resp.body.data;
-                    console.log("this.tripDetailsOfVehicle", this.tripDetailsOfVehicle);
                     this.tripDetailsOfVehicleZero = this.tripDetailsOfVehicle[0].data;
                     if (this.tripDetailsOfVehicleZero.isConnected == false) {
                         this.isConnected = "no";
@@ -156,8 +150,10 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
                     else {
                         this.isConnected = "yes";
                     }
-                    this.FaultSPN = this.tripDetailsOfVehicleZero.FaultSPN;
-                    this.FaultDescription = this.tripDetailsOfVehicleZero.FaultDescription;
+                    if(this.tripDetailsOfVehicleZero && this.tripDetailsOfVehicleZero.FaultSPN)
+                        this.FaultSPN = this.tripDetailsOfVehicleZero.FaultSPN;
+                    if(this.tripDetailsOfVehicleZero && this.tripDetailsOfVehicleZero.FaultDescription)
+                        this.FaultDescription = this.tripDetailsOfVehicleZero.FaultDescription;
                     this.vehicleDataToBeDisplayed(this.tripDetailsOfVehicle);
 
                 } else {
@@ -186,72 +182,59 @@ export class VehicleTripHistoryDetailsComponent implements OnInit {
         for (var i = 0; i < this.tripDetailsLength; i += this.incrementBy) {
 
             if (tripDetailsOfVehicle[i] && tripDetailsOfVehicle[i].data) {
-                if (tripDetailsOfVehicle[i].data.RPM != -1 && tripDetailsOfVehicle[i].data.RPM !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.RPM != -1 && tripDetailsOfVehicle[i].data.RPM !== 'NA' && tripDetailsOfVehicle[i].data.RPM !== 'NaN') {
                     this.rpm += tripDetailsOfVehicle[i].data.RPM;
                 }
                 if (tripDetailsOfVehicle[i].data.Speed != -1 && tripDetailsOfVehicle[i].data.Speed !== 'NA') {
                     this.vehicleSpeed += tripDetailsOfVehicle[i].data.Speed;
                 }
-                if (tripDetailsOfVehicle[i].data.PctLoad != -1 && tripDetailsOfVehicle[i].data.PctLoad !== 'NA') {
-                    this.pctLoad += tripDetailsOfVehicle[i].data.PctLoad;
-                }
-                if (tripDetailsOfVehicle[i].data.PctTorque != -1 && tripDetailsOfVehicle[i].data.PctTorque !== 'NA') {
-                    this.pctTorque += tripDetailsOfVehicle[i].data.PctTorque;
-                }
-                if (tripDetailsOfVehicle[i].data.EngineCrankcasePressure != -1 && tripDetailsOfVehicle[i].data.EngineCrankcasePressure !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.EngineCrankcasePressure != -1 && tripDetailsOfVehicle[i].data.EngineCrankcasePressure != 'NA' && tripDetailsOfVehicle[i].data.EngineCrankcasePressure != 'NaN' ) {
                     this.engineCrankcasePressure += tripDetailsOfVehicle[i].data.EngineCrankcasePressure;
                 }
-                if (tripDetailsOfVehicle[i].data.EngineIntakeManifoldTemp != -1 && tripDetailsOfVehicle[i].data.EngineIntakeManifoldTemp !== 'NA') {
-                    this.engineIntakeManifoldTemp += tripDetailsOfVehicle[i].data.EngineIntakeManifoldTemp;
+                if (tripDetailsOfVehicle[i].data.EngineIntakeManifoldPressure != -1 && tripDetailsOfVehicle[i].data.EngineIntakeManifoldPressure != 'NA' && tripDetailsOfVehicle[i].data.EngineIntakeManifoldPressure != 'NaN') {
+                    this.EngineIntakeManifoldPressure += tripDetailsOfVehicle[i].data.EngineIntakeManifoldPressure;
                 }
-                if (tripDetailsOfVehicle[i].data.OilTemp != -1 && tripDetailsOfVehicle[i].data.OilTemp !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.OilTemp != -1 && tripDetailsOfVehicle[i].data.OilTemp != 'NA' && tripDetailsOfVehicle[i].data.OilTemp != 'NaN') {
                     this.oilTemp += tripDetailsOfVehicle[i].data.OilTemp;
                 }
-                if (tripDetailsOfVehicle[i].data.AirIntakeTemperature != -1 && tripDetailsOfVehicle[i].data.AirIntakeTemperature !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.AirIntakeTemperature && tripDetailsOfVehicle[i].data.AirIntakeTemperature != -1 && tripDetailsOfVehicle[i].data.AirIntakeTemperature != 'NA'  && tripDetailsOfVehicle[i].data.AirIntakeTemperature != 'NaN') {
                     this.airIntakeTemperature += tripDetailsOfVehicle[i].data.AirIntakeTemperature;
                 }
-                if (tripDetailsOfVehicle[i].data.AmbientTemp != -1 && tripDetailsOfVehicle[i].data.AmbientTemp !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.AmbientTemp != -1 && tripDetailsOfVehicle[i].data.AmbientTemp != 'NA' && tripDetailsOfVehicle[i].data.AmbientTemp != 'NaN') {
                     this.ambientTemp += tripDetailsOfVehicle[i].data.AmbientTemp;
                 }
-                if (tripDetailsOfVehicle[i].data.OilPressure != -1 && tripDetailsOfVehicle[i].data.OilPressure !== 'NA') {
-                    this.oilPressure += tripDetailsOfVehicle[i].data.OilPressure;
-                }
-                if (tripDetailsOfVehicle[i].data.BarometricPressure != -1 && tripDetailsOfVehicle[i].data.BarometricPressure !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.BarometricPressure != -1 && tripDetailsOfVehicle[i].data.BarometricPressure != 'NA' && tripDetailsOfVehicle[i].data.BarometricPressure != 'NaN') {
                     this.barometricPressure += tripDetailsOfVehicle[i].data.BarometricPressure;
                 }
-                if (tripDetailsOfVehicle[i].data.TotalNoOfActiveRegenerations != -1 && tripDetailsOfVehicle[i].data.TotalNoOfActiveRegenerations !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.TotalNoOfActiveRegenerations != -1 && tripDetailsOfVehicle[i].data.TotalNoOfActiveRegenerations != 'NA' && tripDetailsOfVehicle[i].data.TotalNoOfActiveRegenerations != 'NaN') {
                     this.totalNoOfActiveRegenerations += tripDetailsOfVehicle[i].data.TotalNoOfActiveRegenerations;
                 }
-                if (tripDetailsOfVehicle[i].data.TotalNoOfPassiveRegenerations != -1 && tripDetailsOfVehicle[i].data.TotalNoOfPassiveRegenerations !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.TotalNoOfPassiveRegenerations != -1 && tripDetailsOfVehicle[i].data.TotalNoOfPassiveRegenerations != 'NA' && tripDetailsOfVehicle[i].data.TotalNoOfPassiveRegenerations != 'NaN') {
                     this.totalNoOfPassiveRegenerations += tripDetailsOfVehicle[i].data.TotalNoOfPassiveRegenerations;
                 }
-                if (tripDetailsOfVehicle[i].data.SCRInletNox != -1 && tripDetailsOfVehicle[i].data.SCRInletNox !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.SCRInletNox != -1 && tripDetailsOfVehicle[i].data.SCRInletNox != 'NA' && tripDetailsOfVehicle[i].data.SCRInletNox != 'NaN') {
                     this.scrInletNox += tripDetailsOfVehicle[i].data.SCRInletNox;
                 }
-                if (tripDetailsOfVehicle[i].data.SCROutletNox != -1 && tripDetailsOfVehicle[i].data.SCROutletNox !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.SCROutletNox != -1 && tripDetailsOfVehicle[i].data.SCROutletNox != 'NA' && tripDetailsOfVehicle[i].data.SCROutletNox != 'NaN') {
                     this.scrOutletNox += tripDetailsOfVehicle[i].data.SCROutletNox;
                 }
-                if (tripDetailsOfVehicle[i].data.DPFPressureDifferential != -1 && tripDetailsOfVehicle[i].data.DPFPressureDifferential !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.DPFPressureDifferential != -1 && tripDetailsOfVehicle[i].data.DPFPressureDifferential != 'NA' && tripDetailsOfVehicle[i].data.DPFPressureDifferential != 'NaN') {
                     this.dpfPressureDifferential += tripDetailsOfVehicle[i].data.DPFPressureDifferential;
                 }
-                if (tripDetailsOfVehicle[i].data.DPFSootLoad != -1 && tripDetailsOfVehicle[i].data.DPFSootLoad !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.DPFSootLoad != -1 && tripDetailsOfVehicle[i].data.DPFSootLoad != 'NA' && tripDetailsOfVehicle[i].data.DPFSootLoad != 'NaN') {
                     this.dpfSootLoad += tripDetailsOfVehicle[i].data.DPFSootLoad;
                 }
-                if (tripDetailsOfVehicle[i].data.DPFOutletTemp != -1 && tripDetailsOfVehicle[i].data.DPFOutletTemp !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.DPFOutletTemp != -1 && tripDetailsOfVehicle[i].data.DPFOutletTemp != 'NA' && tripDetailsOfVehicle[i].data.DPFOutletTemp != 'NaN') {
                     this.dpfOutletTemp += tripDetailsOfVehicle[i].data.DPFOutletTemp;
                 }
-                if (tripDetailsOfVehicle[i].data.DPFInletTemp != -1 && tripDetailsOfVehicle[i].data.DPFInletTemp !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.DPFInletTemp != -1 && tripDetailsOfVehicle[i].data.DPFInletTemp != 'NA' && tripDetailsOfVehicle[i].data.DPFInletTemp != 'NaN') {
                     this.dpfInletTemp += tripDetailsOfVehicle[i].data.DPFInletTemp;
                 }
-                if (tripDetailsOfVehicle[i].data.DPFAshLoad != -1 && tripDetailsOfVehicle[i].data.DPFAshLoad !== 'NA') {
+                if (tripDetailsOfVehicle[i].data.DPFAshLoad != -1 && tripDetailsOfVehicle[i].data.DPFAshLoad != 'NA' && tripDetailsOfVehicle[i].data.DPFAshLoad != 'NaN') {
                     this.dpfAshLoad += tripDetailsOfVehicle[i].data.DPFAshLoad;
                 }
 
             }
-
-
-
-
         }
         this.rpm = Math.floor(this.rpm / 10);
         this.vehicleSpeed = Math.floor(this.vehicleSpeed / 10);

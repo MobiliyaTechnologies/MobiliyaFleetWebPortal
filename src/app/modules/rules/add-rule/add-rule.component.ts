@@ -79,7 +79,6 @@ export class AddRuleComponent implements OnInit {
 
     ngOnInit() {
         this.currentUserInfo = JSON.parse(localStorage.getItem('userInfo'));
-        console.log("this.currentUserInfo", this.currentUserInfo);
         this.currentRole = this.currentUserInfo.currentRole;
         this.Id = this.currentUserInfo.id;
         this.getFleetList();
@@ -370,8 +369,6 @@ export class AddRuleComponent implements OnInit {
             let width = 1;
             this.file_name = event.target.files[0] ? event.target.files[0].name : '';
          
-            console.log(event.target.files[0].type);
-            console.log("File Type", this.fileType);
             //application/vnd.ms-excel (.xls)
             //application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
             this.size = event.target.files[0] ? event.target.files[0].size : 0;
@@ -413,7 +410,6 @@ export class AddRuleComponent implements OnInit {
                     if (resp && resp.body) {
                         this.loading = false;
                         this.AssignFleetList = resp.body.data;
-                        console.log("this.AssignFleetList", this.AssignFleetList);
                         this.getVehicleList(this.currentUserInfo.fleetId);
                     }
                     else {

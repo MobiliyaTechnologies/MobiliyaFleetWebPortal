@@ -19,7 +19,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
   
 export class VehicleDetailsComponent implements OnInit {
-   
+    
     @ViewChild('myMap') myMap;
     map: any;
     currentRole: any;
@@ -61,13 +61,13 @@ export class VehicleDetailsComponent implements OnInit {
         private dialogDetails: MatDialog,
         private modalService: BsModalService
     ) {
+        
         this.currentUserInfo = JSON.parse(localStorage.getItem('userInfo'));
        
         this.currentRole = this.currentUserInfo.currentRole;
         this.route.params.subscribe(params => {
             this.selectedItem.registrationNumber = params['id'];
         });
-
 
         this.router.routeReuseStrategy.shouldReuseRoute = function () {
             return false;
@@ -84,9 +84,7 @@ export class VehicleDetailsComponent implements OnInit {
         this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
             credentials: 'AiEsUmLefI71UtYUSlMa1svuDHQbAWnWi-nqwzvhpZmqUI1YN6651ntoRQWEsZCc'
         });
-
         this.getVehicleInformation(this.selectedItem.registrationNumber);
-
     }
 
     /*Function to get vehicle information of a particular vehicle using registration number*/
@@ -104,9 +102,6 @@ export class VehicleDetailsComponent implements OnInit {
                     if (this.selectedItem.Device) {
                         this.deviceName = this.selectedItem.Device.deviceName;
                     }
-     
-                   
-
                 } else {
                     this.loading = false;
 
@@ -130,6 +125,12 @@ export class VehicleDetailsComponent implements OnInit {
                     this.loading = false;
                     this.selectedVehicle = resp.body.data[0];
                     this.selectedVehicleData = this.selectedVehicle.data;
+                    for (var prop in this.selectedVehicleData) {
+                        if(prop!="FaultSPN" && prop!="FaultDescription")
+                        if(this.selectedVehicleData[prop] == 'NaN' || this.selectedVehicleData[prop]=="NA" ||  this.selectedVehicleData[prop]==-1 ){
+                            this.selectedVehicleData[prop]=0;
+                        }
+                    }
                     this.longitude = parseFloat(this.selectedVehicleData.Longitude);
                     this.latitude = parseFloat(this.selectedVehicleData.Latitude);
                     this.setPushpin(this.latitude, this.longitude);  
@@ -155,11 +156,9 @@ export class VehicleDetailsComponent implements OnInit {
         var p2 = new Microsoft.Maps.Location(0, 0);
         for (var x = 0; x <= 360; x += 5) {
             var brng = x * Math.PI / 180;
-            //console.log("brng", brng);
             p2.latitude = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(brng));
             p2.longitude = ((long1 + Math.atan2(Math.sin(brng) * Math.sin(d) * Math.cos(lat1), Math.cos(d) - Math.sin(lat1) * Math.sin(p2.latitude))) * 180) / Math.PI;
             p2.latitude = (p2.latitude * 180) / Math.PI;
-            //console.log("p2", p2);
             circlePoints.push(p2);
         }
         this.map.entities.push(pin);

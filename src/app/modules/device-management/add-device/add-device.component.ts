@@ -24,7 +24,6 @@ export class AddDeviceComponent implements OnInit {
     currentUserInfo: any = {};
     currentRole = "";
     addDeviceModel: any = {};
-    //dongleTypeList: any = [{ "id": "0", "dongleType": "OBD II" }, { "id": "1", "dongleType": "J1939" }];
     dongleTypeList: any = ["OBD II","J1939"];
 
     adapterId = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9a-zA-Z_.-]{2,50}$')]));

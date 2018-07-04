@@ -129,7 +129,6 @@ export class VehicleLayoutComponent implements OnInit {
                             var isUUID;
                             var regex = /[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}/i;
                             isUUID = regex.exec(localStorage.getItem('selectedItem'));
-                            console.log("isuuid", isUUID);
                             if (localStorage.getItem('selectedItem') == null || isUUID != null) {
                                 this.selectedItem = this.vehicleList[0];
                                 if (this.selectedItem && this.selectedItem.id) {
@@ -171,7 +170,6 @@ export class VehicleLayoutComponent implements OnInit {
             let filter = "";
             this.tenantId = this.currentUserInfo.Tenant.id;
             var URL = '/' + this.tenantId + '/vehicles';
-            console.log(URL);
             this.restService.makeCall('fleets', 'GET', URL, this.model)
                 .subscribe(resp => {
                     if (resp.body && resp.body.data) {
@@ -222,7 +220,6 @@ export class VehicleLayoutComponent implements OnInit {
         dialogRef.disableClose = true;
         dialogRef.afterClosed().subscribe(result => {
             this.checkedFleetList = result;
-            console.log("Checked fleet list ", this.checkedFleetList);
             this.isFleetSelected = true;
             this.getVehiclesAfterFleetSelection(this.checkedFleetList, this.isFleetSelected);
         });

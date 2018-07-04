@@ -6,11 +6,6 @@
             <div class="font-bold add-user-label">{{selectedItem.fleetName}}</div>
         </div>
         <div class="col-sm-3"></div>
-        <!-- <div class="col-sm-3 mt-10">
-            <button mat-raised-button (click)="cancelEdit();" class="mat-elevation-z4 common-btn-class">
-                Cancel
-            </button>
-        </div> -->
     </div>
 
     <mat-divider></mat-divider>
@@ -143,11 +138,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="row mt-15">
-                    <div class="col-sm-4">
-                        <span (click)="openModal(template)" class="modelLabel">+ Assign Vehicle</span>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -184,36 +174,3 @@
       <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
     </div>
 </ng-template>
-
-<!-- Modal -->
-<!--<ng-template #template>
-  <div class="modal-header">
-        <h4 class="modal-title">Move selected vehicles to</h4>
-        <button type="button" class="close" (click)="modalRef.hide()">&times;</button>
-  </div>
-  <div class="modal-body">
-       <div class="row">
-          <div class="col-sm-12">
-            <div class="common-margin-top">
-                <input id="search" name="search" value="search" class="form-control search-box" placeholder="Search" [(ngModel)]="searchCriteria" style="text-transform: lowercase;">
-            </div>
-          </div>
-      </div>
-    <div class="row common-margin-top common-user-block" *ngFor="let option of fleetList | searchFleetFilter:searchCriteria" >
-            <div class="col-sm-12">
-                <hr>
-                <div>
-                    <input type="radio"
-                        name="options"
-                        value="{{option.id}}"
-                        />{{option.fleetName}}
-                </div>
-            
-            </div>
-        </div>
-  </div>
-  <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
-      <button type="button" class="btn btn-default" (click)="modalRef.hide();assignFleet();" >Assign</button>
-    </div>
-</ng-template>-->
